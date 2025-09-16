@@ -1,0 +1,124 @@
+{
+  "name": "Default Executive Report",
+  "description": "Template padrão para relatórios executivos PDF",
+  "version": "1.0.0",
+  "orientation": "portrait",
+  "page_size": "A4",
+  "margins": {
+    "top": 20,
+    "bottom": 20,
+    "left": 15,
+    "right": 15
+  },
+  "font_family": "Arial",
+  "font_size": 10,
+  "header_height": 35,
+  "footer_height": 25,
+  "colors": {
+    "primary": "#FF002D",
+    "secondary": "#091A30",
+    "text": "#333333",
+    "text_light": "#666666",
+    "background": "#FFFFFF",
+    "table_header": "#F8F9FA",
+    "table_alt": "#FCFCFC",
+    "border": "#DDDDDD",
+    "success": "#28A745",
+    "warning": "#FFC107",
+    "danger": "#DC3545"
+  },
+  "sections": {
+    "cover": {
+      "enabled": true,
+      "logo": true,
+      "stats_summary": true,
+      "company_branding": true
+    },
+    "executive_summary": {
+      "enabled": true,
+      "highlights": true,
+      "recommendations": true,
+      "max_highlights": 5
+    },
+    "table_of_contents": {
+      "enabled": true,
+      "page_numbers": true
+    },
+    "charts": {
+      "enabled": true,
+      "charts_per_page": 2,
+      "high_resolution": true,
+      "include_descriptions": true
+    },
+    "detailed_analysis": {
+      "enabled": true,
+      "performance_table": true,
+      "trends_analysis": true
+    },
+    "di_breakdown": {
+      "enabled": true,
+      "max_dis_per_page": 3,
+      "include_values_table": true,
+      "show_taxes_breakdown": true
+    },
+    "tax_analysis": {
+      "enabled": true,
+      "by_type": true,
+      "by_agreement": true,
+      "efficiency_metrics": true
+    },
+    "expense_analysis": {
+      "enabled": true,
+      "by_category": true,
+      "operational_metrics": true
+    },
+    "recommendations": {
+      "enabled": true,
+      "strategic": true,
+      "operational": true,
+      "compliance": true
+    },
+    "appendices": {
+      "enabled": true,
+      "methodology": true,
+      "glossary": true,
+      "technical_notes": true
+    }
+  },
+  "formatting": {
+    "title_sizes": {
+      "main": 24,
+      "section": 16,
+      "subsection": 12
+    },
+    "table_formatting": {
+      "zebra_striping": true,
+      "border_style": "thin",
+      "header_bold": true
+    },
+    "number_formats": {
+      "currency": "R$ #,##0.00",
+      "percentage": "0.00%",
+      "decimal": "#,##0.00",
+      "integer": "#,##0"
+    }
+  },
+  "watermark": {
+    "enabled": false,
+    "text": "CONFIDENCIAL",
+    "opacity": 0.1,
+    "font_size": 48,
+    "angle": 45
+  },
+  "digital_signature": {
+    "enabled": false,
+    "certificate_path": "",
+    "position": "bottom_right"
+  },
+  "custom_fields": {
+    "company_name": "Sistema ETL DI's",
+    "powered_by": "Expertzy Technology",
+    "confidentiality_notice": "Documento confidencial - Uso restrito ao destinatário",
+    "contact_info": "suporte@expertzy.com"
+  }
+}

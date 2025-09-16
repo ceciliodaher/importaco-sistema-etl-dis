@@ -93,6 +93,48 @@ php -S localhost:8000 -t sistema/
 # Acessar http://localhost/importaco-sistema/sistema/
 ```
 
+## 🤖 Serena MCP - Integração para Desenvolvimento
+
+### Configuração Serena MCP
+O projeto utiliza **Serena MCP** para desenvolvimento assistido por IA com capacidades semânticas avançadas:
+
+```bash
+# Instalar e iniciar Serena MCP
+uvx --from git+https://github.com/oraios/serena serena start-mcp-server
+
+# Para uso específico neste projeto (recomendado)
+uvx --from git+https://github.com/oraios/serena serena start-mcp-server --project /Users/ceciliodaher/Documents/git/importaco-sistema --context ide-assistant
+
+# Verificar status
+uvx --from git+https://github.com/oraios/serena serena status
+```
+
+### Funcionalidades Serena no Projeto
+- **Análise Semântica**: Navegação inteligente no código PHP/JS/SQL
+- **Symbol-Level Editing**: Edição precisa por símbolos/funções
+- **Multi-Language Support**: PHP, JavaScript, MySQL, HTML/CSS
+- **IDE-Like Features**: Refactoring, find references, go-to-definition
+- **Project Memory**: Serena "lembra" da estrutura e padrões do projeto
+
+### Configuração .serena/
+```bash
+# Arquivos gerados automaticamente (adicionar ao .gitignore)
+.serena/
+├── serena_config.yml    # Configurações globais
+├── project.yml          # Configurações específicas do projeto
+└── memories/            # Memórias do projeto (tecnologias, padrões)
+```
+
+### Subagentes Especializados Disponíveis
+O projeto está configurado para usar subagentes especializados via Serena MCP:
+
+- **frontend-developer**: Interface dashboard + componentes React-like
+- **javascript-developer**: Lógica cliente + APIs + drag'n'drop
+- **ui-ux-designer**: Design profissional padrão Expertzy + UX
+- **database-optimizer**: Queries otimizadas + performance MySQL
+- **php-developer**: Backend PHP + APIs REST
+- **api-documenter**: Documentação OpenAPI + endpoints
+
 ### Comandos MySQL
 ```bash
 # Instalar banco completo (automático)

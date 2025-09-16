@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+================================================================================
+FIXTURE XML - DI BRASILEIRA PARA TESTES
+XML de Declaração de Importação sintética baseada em formato real SISCOMEX
+================================================================================
+-->
+<declaracaoImportacao>
+    <numero>24BR00001234567</numero>
+    <dataRegistro>2024-01-15</dataRegistro>
+    <numeroProcesso>12345678901234567890</numeroProcesso>
+    <tipoDeclaracao>IMPORTACAO</tipoDeclaracao>
+    <canalParametrizacao>VERDE</canalParametrizacao>
+    
+    <importador>
+        <nome>Equiplex Industrial Ltda</nome>
+        <cnpj>12.345.678/0001-90</cnpj>
+        <endereco>
+            <logradouro>Rua das Indústrias, 1000</logradouro>
+            <municipio>São Paulo</municipio>
+            <uf>SP</uf>
+            <cep>01234-567</cep>
+        </endereco>
+    </importador>
+    
+    <exportador>
+        <nome>Tech Corp International Ltd</nome>
+        <endereco>
+            <pais>US</pais>
+            <cidade>San Francisco</cidade>
+        </endereco>
+    </exportador>
+    
+    <informacoesGerais>
+        <paisOrigem>US</paisOrigemPais>
+        <paisProcedencia>US</paisProcedencia>
+        <viaTransporte>MARITIMA</viaTransporte>
+        <urf>717600</urf> <!-- Santos/SP -->
+        <localDesembaraco>SANTOS</localDesembaraco>
+        <dataChegada>2024-01-10</dataChegada>
+        <dataDesembaraco>2024-01-15</dataDesembaraco>
+    </informacoesGerais>
+    
+    <moedas>
+        <moeda codigo="USD" taxa="5.00000" />
+        <moeda codigo="BRL" taxa="1.00000" />
+    </moedas>
+    
+    <adicoes>
+        <adicao numero="1">
+            <mercadoria>
+                <ncm>85371000</ncm>
+                <descricao>Equipamentos eletrônicos de controle</descricao>
+                <unidadeEstatistica>UN</unidadeEstatistica>
+                <quantidadeEstatistica>10.000</quantidadeEstatistica>
+                <pesoLiquidoTotal>100.500</pesoLiquidoTotal>
+                <valor moeda="USD">000000002500000</valor> <!-- 25000.00 em formato SISCOMEX -->
+                <vmle>000000012500000</vmle> <!-- Valor em reais -->
+                <paisOrigem>US</paisOrigem>
+            </mercadoria>
+            
+            <condicaoVenda>
+                <incoterm>FOB</incoterm>
+                <localEntrega>LONG BEACH</localEntrega>
+                <valorFrete moeda="USD">000000000150000</valorFrete> <!-- 1500.00 -->
+                <valorSeguro moeda="USD">000000000075000</valorSeguro> <!-- 750.00 -->
+            </condicaoVenda>
+            
+            <impostos>
+                <imposto tipo="II">
+                    <aliquota>14.00</aliquota>
+                    <valor>000000000350000</valor> <!-- 3500.00 -->
+                    <baseCalculo>000000002500000</baseCalculo>
+                </imposto>
+                <imposto tipo="IPI">
+                    <aliquota>15.00</aliquota>
+                    <valor>000000000412500</valor> <!-- 4125.00 (incidencia sobre valor + II) -->
+                    <baseCalculo>000000002850000</baseCalculo>
+                </imposto>
+                <imposto tipo="PIS">
+                    <aliquota>1.65</aliquota>
+                    <valor>000000000046875</valor> <!-- 468.75 -->
+                    <baseCalculo>000000002850000</baseCalculo>
+                </imposto>
+                <imposto tipo="COFINS">
+                    <aliquota>7.60</aliquota>
+                    <valor>000000000216600</valor> <!-- 2166.00 -->
+                    <baseCalculo>000000002850000</baseCalculo>
+                </imposto>
+                <imposto tipo="ICMS">
+                    <aliquota>18.00</aliquota>
+                    <valor>000000000612000</valor> <!-- 6120.00 -->
+                    <baseCalculo>000000003400000</baseCalculo> <!-- Base com todos impostos -->
+                    <estado>SP</estado>
+                </imposto>
+            </impostos>
+            
+            <despesas>
+                <despesa tipo="FRETE_INTERNO">
+                    <valor>000000000050000</valor> <!-- 500.00 -->
+                    <moeda>BRL</moeda>
+                </despesa>
+                <despesa tipo="ARMAZENAGEM">
+                    <valor>000000000025000</valor> <!-- 250.00 -->
+                    <moeda>BRL</moeda>
+                </despesa>
+            </despesas>
+        </adicao>
+        
+        <adicao numero="2">
+            <mercadoria>
+                <ncm>84281000</ncm>
+                <descricao>Elevadores e monta-cargas</descricao>
+                <unidadeEstatistica>UN</unidadeEstatistica>
+                <quantidadeEstatistica>2.000</quantidadeEstatistica>
+                <pesoLiquidoTotal>500.750</pesoLiquidoTotal>
+                <valor moeda="USD">000000001500000</valor> <!-- 15000.00 -->
+                <vmle>000000007500000</vmle> <!-- Valor em reais -->
+                <paisOrigem>US</paisOrigem>
+            </mercadoria>
+            
+            <condicaoVenda>
+                <incoterm>CIF</incoterm>
+                <localEntrega>SANTOS</localEntrega>
+                <valorFrete moeda="USD">000000000080000</valorFrete> <!-- 800.00 -->
+                <valorSeguro moeda="USD">000000000040000</valorSeguro> <!-- 400.00 -->
+            </condicaoVenda>
+            
+            <impostos>
+                <imposto tipo="II">
+                    <aliquota>10.00</aliquota>
+                    <valor>000000000150000</valor> <!-- 1500.00 -->
+                    <baseCalculo>000000001500000</baseCalculo>
+                </imposto>
+                <imposto tipo="IPI">
+                    <aliquota>12.00</aliquota>
+                    <valor>000000000198000</valor> <!-- 1980.00 -->
+                    <baseCalculo>000000001650000</baseCalculo>
+                </imposto>
+                <imposto tipo="PIS">
+                    <aliquota>1.65</aliquota>
+                    <valor>000000000027225</valor> <!-- 272.25 -->
+                    <baseCalculo>000000001650000</baseCalculo>
+                </imposto>
+                <imposto tipo="COFINS">
+                    <aliquota>7.60</aliquota>
+                    <valor>000000000125400</valor> <!-- 1254.00 -->
+                    <baseCalculo>000000001650000</baseCalculo>
+                </imposto>
+                <imposto tipo="ICMS">
+                    <aliquota>18.00</aliquota>
+                    <valor>000000000334800</valor> <!-- 3348.00 -->
+                    <baseCalculo>000000001860000</baseCalculo>
+                    <estado>SP</estado>
+                </imposto>
+            </impostos>
+        </adicao>
+    </adicoes>
+    
+    <totalizadores>
+        <valorTotalMercadorias moeda="USD">000000004000000</valorTotalMercadorias> <!-- 40000.00 -->
+        <valorTotalMercadoriasBRL>000000020000000</valorTotalMercadoriasBRL> <!-- 200000.00 -->
+        <valorTotalImpostosII>000000000500000</valorTotalImpostosII> <!-- 5000.00 -->
+        <valorTotalImpostosIPI>000000000610500</valorTotalImpostosIPI> <!-- 6105.00 -->
+        <valorTotalImpostosPIS>000000000074100</valorTotalImpostosPIS> <!-- 741.00 -->
+        <valorTotalImpostosCOFINS>000000000342000</valorTotalImpostosCOFINS> <!-- 3420.00 -->
+        <valorTotalImpostosICMS>000000000946800</valorTotalImpostosICMS> <!-- 9468.00 -->
+        <valorTotalImpostos>000000002473400</valorTotalImpostos> <!-- 24734.00 -->
+        <valorTotalGeral>000000022473400</valorTotalGeral> <!-- 224734.00 -->
+    </totalizadores>
+    
+    <documentos>
+        <documento tipo="INVOICE">
+            <numero>INV-2024-001</numero>
+            <data>2024-01-05</data>
+            <valor moeda="USD">000000004000000</valor>
+        </documento>
+        <documento tipo="PACKING_LIST">
+            <numero>PL-2024-001</numero>
+            <data>2024-01-05</data>
+        </documento>
+        <documento tipo="BL">
+            <numero>MSKU1234567890</numero>
+            <data>2024-01-08</data>
+        </documento>
+    </documentos>
+    
+    <observacoes>
+        <observacao>Equipamentos eletrônicos para uso industrial</observacao>
+        <observacao>Importação com benefício fiscal RECAP</observacao>
+    </observacoes>
+    
+    <controleAduaneiro>
+        <situacao>DESEMBARACADA</situacao>
+        <dataDesembaraco>2024-01-15T14:30:00</dataDesembaraco>
+        <funcionarioResponsavel>João Silva - Mat. 12345</funcionarioResponsavel>
+    </controleAduaneiro>
+</declaracaoImportacao>

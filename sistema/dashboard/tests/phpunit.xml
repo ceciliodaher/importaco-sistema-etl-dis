@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
+         bootstrap="bootstrap.php"
+         cacheResultFile=".phpunit.result.cache"
+         executionOrder="depends,defects"
+         forceCoversAnnotation="false"
+         beStrictAboutCoversAnnotation="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutTodoAnnotatedTests="true"
+         convertDeprecationsToExceptions="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         verbose="true"
+         colors="true"
+         testdox="true">
+    
+    <!-- Test Suites -->
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>Unit</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory>Integration</directory>
+        </testsuite>
+        <testsuite name="Performance">
+            <directory>Performance</directory>
+        </testsuite>
+        <testsuite name="Security">
+            <directory>Security</directory>
+        </testsuite>
+    </testsuites>
+
+    <!-- Coverage Configuration -->
+    <coverage cacheDirectory=".phpunit.cache/code-coverage"
+              processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">../api</directory>
+            <directory suffix=".php">../components</directory>
+        </include>
+        <exclude>
+            <directory>fixtures</directory>
+            <directory>reports</directory>
+            <file>../api/tests/performance_test.php</file>
+        </exclude>
+        <report>
+            <html outputDirectory="reports/coverage/html" lowUpperBound="50" highLowerBound="95"/>
+            <clover outputFile="reports/coverage/clover.xml"/>
+            <text outputFile="reports/coverage/coverage.txt" showUncoveredFiles="false" showOnlySummary="true"/>
+        </report>
+    </coverage>
+
+    <!-- Logging -->
+    <logging>
+        <junit outputFile="reports/junit.xml"/>
+        <testdoxHtml outputFile="reports/testdox.html"/>
+        <testdoxText outputFile="reports/testdox.txt"/>
+    </logging>
+
+    <!-- PHP Configuration -->
+    <php>
+        <!-- Test Environment Variables -->
+        <env name="APP_ENV" value="testing"/>
+        <env name="DB_HOST" value="localhost"/>
+        <env name="DB_PORT" value="3307"/>
+        <env name="DB_NAME" value="importaco_etl_dis_test"/>
+        <env name="DB_USER" value="root"/>
+        <env name="DB_PASS" value="ServBay.dev"/>
+        <env name="CACHE_DRIVER" value="array"/>
+        <env name="REDIS_HOST" value="127.0.0.1"/>
+        <env name="REDIS_PORT" value="6379"/>
+        
+        <!-- Test Configuration -->
+        <const name="PHPUNIT_TESTSUITE" value="true"/>
+        <const name="SUPPRESS_ERROR_REPORTING" value="false"/>
+        
+        <!-- PHP Settings -->
+        <ini name="memory_limit" value="512M"/>
+        <ini name="max_execution_time" value="300"/>
+        <ini name="display_errors" value="1"/>
+        <ini name="error_reporting" value="E_ALL"/>
+    </php>
+
+    <!-- Extensions -->
+    <extensions>
+        <!-- Code Coverage Extensions if available -->
+    </extensions>
+</phpunit>

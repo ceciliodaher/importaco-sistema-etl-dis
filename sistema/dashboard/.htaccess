@@ -1,0 +1,107 @@
+# ================================================================================
+# SISTEMA ETL DI's - CONFIGURAÇÃO APACHE
+# Configurações de rewrite e segurança para o dashboard
+# ================================================================================
+
+# Ativar mod_rewrite
+RewriteEngine On
+
+# Configurações de segurança
+# Prevenir acesso direto a arquivos sensíveis
+<FilesMatch "\.(log|sql|md|txt|bak)$">
+    Require all denied
+</FilesMatch>
+
+# Proteger diretórios sensíveis
+<DirectoryMatch "/(config|core|data)">
+    Require all denied
+</DirectoryMatch>
+
+# Headers de segurança
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options nosniff
+    Header always set X-Frame-Options DENY
+    Header always set X-XSS-Protection "1; mode=block"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval'; img-src 'self' data: https:; font-src 'self' data: https:;"
+</IfModule>
+
+# Configurações de cache
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Cache para arquivos estáticos
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType image/png "access plus 6 months"
+    ExpiresByType image/jpg "access plus 6 months"
+    ExpiresByType image/jpeg "access plus 6 months"
+    ExpiresByType image/gif "access plus 6 months"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    
+    # Cache curto para APIs
+    ExpiresByType application/json "access plus 5 minutes"
+    
+    # No cache para PHP
+    ExpiresByType text/html "access plus 0 seconds"
+    ExpiresByType application/x-httpd-php "access plus 0 seconds"
+</IfModule>
+
+# Compressão GZIP
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+</IfModule>
+
+# Redirecionamentos e rotas
+# Redirecionar raiz do dashboard para index.php
+DirectoryIndex index.php index.html
+
+# Configurações de upload
+php_value upload_max_filesize 10M
+php_value post_max_size 12M
+php_value max_execution_time 300
+php_value max_input_time 300
+php_value memory_limit 256M
+
+# Configurações de sessão
+php_value session.cookie_httponly 1
+php_value session.cookie_secure 1
+php_value session.use_strict_mode 1
+
+# Log de erros customizado
+php_value error_log "../../../data/logs/dashboard_errors.log"
+php_value log_errors On
+php_value display_errors Off
+
+# Mime types customizados
+AddType application/json .json
+AddType text/xml .xml
+
+# Configurações de charset
+AddDefaultCharset UTF-8
+
+# Prevenir hotlinking de imagens (opcional)
+<IfModule mod_rewrite.c>
+    RewriteCond %{HTTP_REFERER} !^$
+    RewriteCond %{HTTP_REFERER} !^https?://(www\.)?localhost [NC]
+    RewriteRule \.(jpg|jpeg|png|gif|svg)$ - [F]
+</IfModule>
+
+# Configurações específicas para desenvolvimento
+<IfModule mod_env.c>
+    SetEnv ETL_ENVIRONMENT development
+    SetEnv ETL_DEBUG true
+</IfModule>
+
+# Rewrite rules para URLs amigáveis (futuro)
+# RewriteRule ^api/([^/]+)/([^/]+)/?$ api/$1/$2.php [L,QSA]
+# RewriteRule ^module/([^/]+)/?$ modules/$1/index.php [L,QSA]

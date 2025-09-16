@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, observerOptions);
 
             // Aplicar a elementos que devem aparecer gradualmente
-            document.querySelectorAll('.feature, .module').forEach(el => {
+            document.querySelectorAll('.feature, .module, .metric-card, .system-card').forEach(el => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(30px)';
                 el.style.transition = `opacity ${config.animationDuration}ms ease, transform ${config.animationDuration}ms ease`;
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         hoverEffects: () => {
             // Efeitos hover para cards
-            document.querySelectorAll('.feature, .module').forEach(card => {
+            document.querySelectorAll('.feature, .module, .metric-card, .system-card').forEach(card => {
                 card.addEventListener('mouseenter', function() {
                     this.style.transform = 'translateY(-5px) scale(1.02)';
                     performance.logInteraction(this.className, 'hover_enter');
@@ -142,21 +142,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // Navegação
     const navigation = {
         handleCTAClick: () => {
-            const ctaButton = document.querySelector('.btn');
-            if (ctaButton) {
-                ctaButton.addEventListener('click', (e) => {
-                    performance.logInteraction('cta_button', 'click');
+            // Capturar clicks em todos os botões de ação
+            document.querySelectorAll('.btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const buttonText = button.textContent.trim();
+                    performance.logInteraction(`button_${buttonText}`, 'click');
 
-                    // Adicionar loading state
-                    ctaButton.style.opacity = '0.7';
-                    ctaButton.innerHTML = 'Carregando...';
+                    // Verificar se é o botão do dashboard
+                    if (button.href && button.href.includes('dashboard')) {
+                        e.preventDefault();
+                        
+                        // Adicionar loading state
+                        const originalText = button.innerHTML;
+                        button.style.opacity = '0.7';
+                        button.innerHTML = 'Acessando Dashboard...';
 
-                    // Simular loading para melhor UX
-                    setTimeout(() => {
-                        window.location.href = ctaButton.href;
-                    }, 500);
+                        // Simular loading para melhor UX
+                        setTimeout(() => {
+                            window.location.href = button.href;
+                        }, 800);
+                    }
                 });
-            }
+            });
         },
 
         init: () => {

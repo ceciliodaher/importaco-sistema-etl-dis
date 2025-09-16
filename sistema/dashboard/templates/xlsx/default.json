@@ -1,0 +1,230 @@
+{
+  "name": "Default Excel Workbook",
+  "description": "Template padrão para planilhas Excel completas",
+  "version": "1.0.0",
+  "default_font": "Arial",
+  "default_size": 10,
+  "freeze_panes": true,
+  "auto_filter": true,
+  "conditional_formatting": true,
+  "colors": {
+    "primary": "FF002D",
+    "secondary": "091A30",
+    "success": "28A745",
+    "warning": "FFC107",
+    "danger": "DC3545",
+    "info": "17A2B8",
+    "light": "F8F9FA",
+    "dark": "343A40",
+    "header_bg": "091A30",
+    "header_text": "FFFFFF",
+    "alt_row": "F8F9FA",
+    "border": "CCCCCC"
+  },
+  "sheets": {
+    "dashboard": {
+      "enabled": true,
+      "name": "Dashboard",
+      "protected": false,
+      "kpi_section": true,
+      "charts_placeholder": true,
+      "trends_section": true,
+      "position": 1
+    },
+    "dis": {
+      "enabled": true,
+      "name": "DIs Detalhadas",
+      "protected": false,
+      "auto_filter": true,
+      "freeze_header": true,
+      "conditional_formatting": true,
+      "position": 2
+    },
+    "adicoes": {
+      "enabled": true,
+      "name": "Adições",
+      "protected": false,
+      "auto_filter": true,
+      "freeze_header": true,
+      "conditional_formatting": true,
+      "position": 3
+    },
+    "impostos": {
+      "enabled": true,
+      "name": "Impostos",
+      "protected": false,
+      "auto_filter": true,
+      "freeze_header": true,
+      "conditional_formatting": true,
+      "tax_type_formatting": true,
+      "position": 4
+    },
+    "despesas": {
+      "enabled": true,
+      "name": "Despesas",
+      "protected": false,
+      "auto_filter": true,
+      "freeze_header": true,
+      "conditional_formatting": true,
+      "category_formatting": true,
+      "position": 5
+    },
+    "analysis": {
+      "enabled": true,
+      "name": "Análises",
+      "protected": false,
+      "pivot_tables": true,
+      "formulas": true,
+      "benchmarks": true,
+      "position": 6
+    },
+    "charts": {
+      "enabled": true,
+      "name": "Gráficos",
+      "protected": true,
+      "native_charts": true,
+      "chart_data": true,
+      "position": 7
+    },
+    "summary": {
+      "enabled": true,
+      "name": "Resumo",
+      "protected": false,
+      "sheet_links": true,
+      "consolidated_totals": true,
+      "position": 8
+    }
+  },
+  "formatting": {
+    "currency_format": "_-R$ * #,##0.00_-",
+    "percentage_format": "0.00%",
+    "date_format": "dd/mm/yyyy",
+    "number_format": "#,##0.00",
+    "integer_format": "#,##0",
+    "header_style": {
+      "font_bold": true,
+      "font_color": "FFFFFF",
+      "background_color": "091A30",
+      "text_align": "center",
+      "vertical_align": "center",
+      "borders": true
+    },
+    "data_style": {
+      "font_bold": false,
+      "text_align": "left",
+      "vertical_align": "center",
+      "borders": true,
+      "zebra_striping": true
+    },
+    "kpi_style": {
+      "font_bold": true,
+      "font_size": 14,
+      "font_color": "FF002D",
+      "text_align": "center",
+      "background_color": "F8F9FA"
+    }
+  },
+  "conditional_formatting": {
+    "currency_thresholds": {
+      "high": 1000000,
+      "medium": 100000,
+      "low": 10000,
+      "colors": {
+        "high": "28A745",
+        "medium": "FFC107",
+        "low": "DC3545"
+      }
+    },
+    "percentage_thresholds": {
+      "high": 0.3,
+      "medium": 0.15,
+      "low": 0.05,
+      "colors": {
+        "high": "DC3545",
+        "medium": "FFC107",
+        "low": "28A745"
+      }
+    },
+    "tax_types": {
+      "II": "FF002D",
+      "IPI": "091A30",
+      "PIS": "17A2B8",
+      "COFINS": "FFC107",
+      "ICMS": "28A745"
+    },
+    "expense_categories": {
+      "portuarias": "FF002D",
+      "logisticas": "17A2B8",
+      "administrativas": "FFC107",
+      "extras": "091A30"
+    }
+  },
+  "charts": {
+    "line_chart": {
+      "type": "line",
+      "title": "Evolução Temporal",
+      "size": {
+        "width": 600,
+        "height": 400
+      },
+      "legend": true,
+      "data_labels": false
+    },
+    "pie_chart": {
+      "type": "pie",
+      "title": "Distribuição",
+      "size": {
+        "width": 500,
+        "height": 400
+      },
+      "legend": true,
+      "data_labels": true,
+      "explosion": 0.1
+    },
+    "column_chart": {
+      "type": "column",
+      "title": "Comparativo",
+      "size": {
+        "width": 600,
+        "height": 400
+      },
+      "legend": true,
+      "data_labels": false
+    }
+  },
+  "protection": {
+    "workbook_protection": false,
+    "worksheet_protection": false,
+    "allow_formatting": true,
+    "allow_sorting": true,
+    "allow_filtering": true,
+    "password": ""
+  },
+  "print_settings": {
+    "orientation": "landscape",
+    "paper_size": "A4",
+    "margins": {
+      "top": 0.75,
+      "bottom": 0.75,
+      "left": 0.7,
+      "right": 0.7,
+      "header": 0.3,
+      "footer": 0.3
+    },
+    "scale": 100,
+    "fit_to_page": false
+  },
+  "advanced_features": {
+    "data_validation": true,
+    "pivot_tables": true,
+    "macros": false,
+    "external_links": false,
+    "form_controls": false
+  },
+  "custom_fields": {
+    "template_author": "Sistema ETL DI's",
+    "last_modified": "2025-09-16",
+    "compatibility": "Excel 2016+",
+    "file_size_estimate": "2-5 MB"
+  }
+}

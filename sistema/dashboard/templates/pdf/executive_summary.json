@@ -1,0 +1,109 @@
+{
+  "name": "Executive Summary Report",
+  "description": "Template condensado para resumos executivos",
+  "version": "1.0.0",
+  "orientation": "portrait",
+  "page_size": "A4",
+  "margins": {
+    "top": 15,
+    "bottom": 15,
+    "left": 12,
+    "right": 12
+  },
+  "font_family": "Arial",
+  "font_size": 9,
+  "header_height": 25,
+  "footer_height": 20,
+  "colors": {
+    "primary": "#FF002D",
+    "secondary": "#091A30",
+    "text": "#333333",
+    "text_light": "#666666",
+    "background": "#FFFFFF",
+    "table_header": "#F8F9FA",
+    "table_alt": "#FCFCFC",
+    "border": "#DDDDDD",
+    "success": "#28A745",
+    "warning": "#FFC107",
+    "danger": "#DC3545"
+  },
+  "sections": {
+    "cover": {
+      "enabled": true,
+      "logo": true,
+      "stats_summary": true,
+      "company_branding": true
+    },
+    "executive_summary": {
+      "enabled": true,
+      "highlights": true,
+      "recommendations": true,
+      "max_highlights": 3
+    },
+    "table_of_contents": {
+      "enabled": false
+    },
+    "charts": {
+      "enabled": true,
+      "charts_per_page": 4,
+      "high_resolution": false,
+      "include_descriptions": false
+    },
+    "detailed_analysis": {
+      "enabled": false
+    },
+    "di_breakdown": {
+      "enabled": false
+    },
+    "tax_analysis": {
+      "enabled": true,
+      "by_type": true,
+      "by_agreement": false,
+      "efficiency_metrics": true
+    },
+    "expense_analysis": {
+      "enabled": true,
+      "by_category": true,
+      "operational_metrics": false
+    },
+    "recommendations": {
+      "enabled": true,
+      "strategic": true,
+      "operational": false,
+      "compliance": false
+    },
+    "appendices": {
+      "enabled": false
+    }
+  },
+  "formatting": {
+    "title_sizes": {
+      "main": 20,
+      "section": 14,
+      "subsection": 10
+    },
+    "table_formatting": {
+      "zebra_striping": true,
+      "border_style": "thin",
+      "header_bold": true
+    },
+    "number_formats": {
+      "currency": "R$ #,##0.00",
+      "percentage": "0.0%",
+      "decimal": "#,##0.0",
+      "integer": "#,##0"
+    }
+  },
+  "watermark": {
+    "enabled": true,
+    "text": "RESUMO EXECUTIVO",
+    "opacity": 0.05,
+    "font_size": 36,
+    "angle": 45
+  },
+  "custom_fields": {
+    "report_type": "Resumo Executivo",
+    "target_audience": "Diretoria e Gerência",
+    "summary_focus": "KPIs e Recomendações Estratégicas"
+  }
+}

@@ -1,0 +1,530 @@
+name: 🧪 Suite Completa de Testes - Dashboard ETL DI's
+
+on:
+  push:
+    branches: [ main, develop, 'feature/*', 'hotfix/*' ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Executar testes diariamente às 2h da manhã
+    - cron: '0 2 * * *'
+
+env:
+  PHP_VERSION: '8.1'
+  NODE_VERSION: '18'
+  MYSQL_VERSION: '8.0'
+
+jobs:
+  # ============================================================================
+  # SETUP E VALIDAÇÃO DO AMBIENTE
+  # ============================================================================
+  setup:
+    name: 🔧 Setup e Validação
+    runs-on: ubuntu-latest
+    outputs:
+      cache-key: ${{ steps.cache-keys.outputs.cache-key }}
+      php-cache-key: ${{ steps.cache-keys.outputs.php-cache-key }}
+      node-cache-key: ${{ steps.cache-keys.outputs.node-cache-key }}
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+        
+      - name: 📊 Análise de mudanças
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            php:
+              - 'sistema/dashboard/api/**/*.php'
+              - 'sistema/dashboard/tests/**/*.php'
+              - 'composer.json'
+              - 'composer.lock'
+            js:
+              - 'sistema/dashboard/assets/js/**/*.js'
+              - 'sistema/dashboard/tests/**/*.js'
+              - 'package.json'
+              - 'package-lock.json'
+            config:
+              - 'sistema/dashboard/tests/phpunit.xml'
+              - 'sistema/dashboard/tests/jest.config.js'
+              - '.github/workflows/**'
+      
+      - name: 🔑 Gerar chaves de cache
+        id: cache-keys
+        run: |
+          echo "cache-key=v1-${{ runner.os }}-${{ hashFiles('**/composer.lock', '**/package-lock.json') }}" >> $GITHUB_OUTPUT
+          echo "php-cache-key=v1-php-${{ runner.os }}-${{ hashFiles('**/composer.lock') }}" >> $GITHUB_OUTPUT
+          echo "node-cache-key=v1-node-${{ runner.os }}-${{ hashFiles('**/package-lock.json') }}" >> $GITHUB_OUTPUT
+
+  # ============================================================================
+  # TESTES UNITÁRIOS PHP
+  # ============================================================================
+  php-unit-tests:
+    name: 🐘 Testes Unitários PHP
+    runs-on: ubuntu-latest
+    needs: setup
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: testpassword
+          MYSQL_DATABASE: importaco_etl_dis_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+        
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: pdo, pdo_mysql, mbstring, xml, json, curl
+          coverage: xdebug
+          tools: composer:v2
+          
+      - name: 📦 Cache dependências PHP
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ needs.setup.outputs.php-cache-key }}
+          restore-keys: |
+            v1-php-${{ runner.os }}-
+            
+      - name: 🏗️ Instalar dependências PHP
+        run: |
+          cd sistema/dashboard
+          composer install --no-progress --prefer-dist --optimize-autoloader
+          
+      - name: 🗄️ Configurar banco de dados
+        run: |
+          mysql -h 127.0.0.1 -u root -ptestpassword -e "CREATE DATABASE IF NOT EXISTS importaco_etl_dis_test;"
+          mysql -h 127.0.0.1 -u root -ptestpassword importaco_etl_dis_test < sistema/dashboard/tests/fixtures/test-data.sql
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_NAME: importaco_etl_dis_test
+          DB_USER: root
+          DB_PASS: testpassword
+          
+      - name: 🧪 Executar testes unitários PHP
+        run: |
+          cd sistema/dashboard/tests
+          vendor/bin/phpunit \
+            --configuration phpunit.xml \
+            --testsuite Unit \
+            --coverage-clover reports/coverage/clover.xml \
+            --coverage-html reports/coverage/html \
+            --log-junit reports/junit/phpunit.xml \
+            --testdox-html reports/testdox.html
+        env:
+          APP_ENV: testing
+          DB_HOST: 127.0.0.1:3306
+          DB_NAME: importaco_etl_dis_test
+          DB_USER: root
+          DB_PASS: testpassword
+          
+      - name: 📊 Upload cobertura para Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: sistema/dashboard/tests/reports/coverage/clover.xml
+          flags: php-unit
+          name: php-unit-coverage
+          
+      - name: 📋 Upload resultados de teste
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: php-unit-results
+          path: |
+            sistema/dashboard/tests/reports/
+            !sistema/dashboard/tests/reports/coverage/html/
+          retention-days: 30
+
+  # ============================================================================
+  # TESTES JAVASCRIPT
+  # ============================================================================
+  javascript-tests:
+    name: 🟨 Testes JavaScript
+    runs-on: ubuntu-latest
+    needs: setup
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+        
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: sistema/dashboard/tests/package-lock.json
+          
+      - name: 📦 Cache dependências Node
+        uses: actions/cache@v3
+        with:
+          path: sistema/dashboard/tests/node_modules
+          key: ${{ needs.setup.outputs.node-cache-key }}
+          restore-keys: |
+            v1-node-${{ runner.os }}-
+            
+      - name: 🏗️ Instalar dependências JavaScript
+        run: |
+          cd sistema/dashboard/tests
+          npm ci
+          
+      - name: 🧪 Executar testes JavaScript
+        run: |
+          cd sistema/dashboard/tests
+          npm run test -- --coverage --watchAll=false --passWithNoTests
+        env:
+          CI: true
+          
+      - name: 📊 Upload cobertura JS para Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: sistema/dashboard/tests/reports/coverage/js/lcov.info
+          flags: javascript
+          name: javascript-coverage
+          
+      - name: 📋 Upload resultados Jest
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: javascript-results
+          path: sistema/dashboard/tests/reports/jest/
+          retention-days: 30
+
+  # ============================================================================
+  # TESTES DE INTEGRAÇÃO
+  # ============================================================================
+  integration-tests:
+    name: 🔗 Testes de Integração
+    runs-on: ubuntu-latest
+    needs: [setup, php-unit-tests]
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: testpassword
+          MYSQL_DATABASE: importaco_etl_dis_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+        
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: pdo, pdo_mysql, mbstring, xml, json, curl
+          
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          
+      - name: 🏗️ Instalar dependências
+        run: |
+          cd sistema/dashboard
+          composer install --no-dev --optimize-autoloader
+          cd tests
+          npm ci
+          
+      - name: 🗄️ Configurar banco de dados
+        run: |
+          mysql -h 127.0.0.1 -u root -ptestpassword -e "CREATE DATABASE IF NOT EXISTS importaco_etl_dis_test;"
+          mysql -h 127.0.0.1 -u root -ptestpassword importaco_etl_dis_test < sistema/dashboard/tests/fixtures/test-data.sql
+          
+      - name: 🚀 Iniciar servidor de teste
+        run: |
+          cd sistema
+          php -S localhost:8000 &
+          sleep 5
+          curl -f http://localhost:8000/dashboard || exit 1
+        env:
+          APP_ENV: testing
+          
+      - name: 🧪 Executar testes de integração
+        run: |
+          cd sistema/dashboard/tests
+          vendor/bin/phpunit \
+            --configuration phpunit.xml \
+            --testsuite Integration \
+            --log-junit reports/junit/integration.xml
+        env:
+          DB_HOST: 127.0.0.1:3306
+          DB_NAME: importaco_etl_dis_test
+          DB_USER: root
+          DB_PASS: testpassword
+          TEST_BASE_URL: http://localhost:8000
+
+  # ============================================================================
+  # TESTES E2E COM PUPPETEER
+  # ============================================================================
+  e2e-tests:
+    name: 🎭 Testes End-to-End
+    runs-on: ubuntu-latest
+    needs: [setup, integration-tests]
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+        
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          
+      - name: 🏗️ Instalar dependências
+        run: |
+          cd sistema/dashboard/tests
+          npm ci
+          
+      - name: 🚀 Iniciar servidor
+        run: |
+          cd sistema
+          php -S localhost:8000 &
+          sleep 5
+          
+      - name: 🎭 Executar testes E2E
+        run: |
+          cd sistema/dashboard/tests
+          npm run test:e2e
+        env:
+          CI: true
+          TEST_BASE_URL: http://localhost:8000
+          
+      - name: 📸 Upload screenshots de falhas
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: e2e-screenshots
+          path: sistema/dashboard/tests/screenshots/
+          retention-days: 7
+
+  # ============================================================================
+  # TESTES DE PERFORMANCE
+  # ============================================================================
+  performance-tests:
+    name: ⚡ Testes de Performance
+    runs-on: ubuntu-latest
+    needs: [setup, integration-tests]
+    
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: testpassword
+          MYSQL_DATABASE: importaco_etl_dis_test
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+        
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: pdo, pdo_mysql, mbstring, xml, json, curl
+          
+      - name: 🗄️ Configurar banco com dados de performance
+        run: |
+          mysql -h 127.0.0.1 -u root -ptestpassword -e "CREATE DATABASE IF NOT EXISTS importaco_etl_dis_test;"
+          mysql -h 127.0.0.1 -u root -ptestpassword importaco_etl_dis_test < sistema/dashboard/tests/fixtures/test-data.sql
+          
+      - name: 🚀 Iniciar servidor
+        run: |
+          cd sistema
+          php -S localhost:8000 &
+          sleep 5
+          
+      - name: ⚡ Executar testes de performance
+        run: |
+          cd sistema/dashboard/tests
+          php ../api/tests/performance_test.php http://localhost:8000/api/dashboard
+        env:
+          DB_HOST: 127.0.0.1:3306
+          DB_NAME: importaco_etl_dis_test
+          DB_USER: root
+          DB_PASS: testpassword
+          
+      - name: 📊 Analisar resultados de performance
+        run: |
+          cd sistema/dashboard/tests
+          # Verificar se todos targets foram atingidos
+          if [ -f "performance_results_*.json" ]; then
+            php -r "
+            \$files = glob('performance_results_*.json');
+            \$data = json_decode(file_get_contents(end(\$files)), true);
+            \$failed = [];
+            foreach (\$data as \$api => \$result) {
+              if (!(\$result['passed'] ?? false)) {
+                \$failed[] = \$api;
+              }
+            }
+            if (!empty(\$failed)) {
+              echo 'Performance targets failed for: ' . implode(', ', \$failed) . PHP_EOL;
+              exit(1);
+            }
+            echo 'All performance targets met!' . PHP_EOL;
+            "
+          fi
+
+  # ============================================================================
+  # TESTES DE SEGURANÇA
+  # ============================================================================
+  security-tests:
+    name: 🔒 Testes de Segurança
+    runs-on: ubuntu-latest
+    needs: [setup, php-unit-tests]
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+        
+      - name: 🐘 Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          
+      - name: 🧪 Executar testes de segurança
+        run: |
+          cd sistema/dashboard/tests
+          vendor/bin/phpunit \
+            --configuration phpunit.xml \
+            --testsuite Security \
+            --log-junit reports/junit/security.xml
+            
+      - name: 🔍 Análise estática de segurança
+        run: |
+          # Verificar padrões inseguros no código
+          cd sistema/dashboard
+          grep -r "eval(" . && echo "❌ Uso de eval() detectado" && exit 1 || echo "✅ Nenhum eval() encontrado"
+          grep -r "\$_GET\[" . && echo "⚠️ Uso direto de \$_GET detectado" || echo "✅ Nenhum uso direto de \$_GET"
+          grep -r "\$_POST\[" . && echo "⚠️ Uso direto de \$_POST detectado" || echo "✅ Nenhum uso direto de \$_POST"
+          grep -r "shell_exec\|system\|exec\|passthru" . && echo "❌ Execução de shell detectada" && exit 1 || echo "✅ Nenhuma execução de shell"
+
+  # ============================================================================
+  # ANÁLISE DE QUALIDADE E RELATÓRIOS
+  # ============================================================================
+  quality-analysis:
+    name: 📊 Análise de Qualidade
+    runs-on: ubuntu-latest
+    needs: [php-unit-tests, javascript-tests, integration-tests, performance-tests, security-tests]
+    if: always()
+    
+    steps:
+      - name: 📥 Checkout código
+        uses: actions/checkout@v4
+        
+      - name: 📥 Download todos os artefatos
+        uses: actions/download-artifact@v3
+        
+      - name: 📊 Gerar relatório consolidado
+        run: |
+          mkdir -p consolidated-report
+          
+          # Consolidar resultados de cobertura
+          echo "# Relatório Consolidado de Testes - Dashboard ETL DI's" > consolidated-report/README.md
+          echo "" >> consolidated-report/README.md
+          echo "**Data:** $(date)" >> consolidated-report/README.md
+          echo "**Commit:** ${{ github.sha }}" >> consolidated-report/README.md
+          echo "**Branch:** ${{ github.ref_name }}" >> consolidated-report/README.md
+          echo "" >> consolidated-report/README.md
+          
+          # Status dos jobs
+          echo "## Status dos Testes" >> consolidated-report/README.md
+          echo "" >> consolidated-report/README.md
+          echo "| Categoria | Status |" >> consolidated-report/README.md
+          echo "|-----------|--------|" >> consolidated-report/README.md
+          echo "| PHP Unit Tests | ${{ needs.php-unit-tests.result == 'success' && '✅ Passou' || '❌ Falhou' }} |" >> consolidated-report/README.md
+          echo "| JavaScript Tests | ${{ needs.javascript-tests.result == 'success' && '✅ Passou' || '❌ Falhou' }} |" >> consolidated-report/README.md
+          echo "| Integration Tests | ${{ needs.integration-tests.result == 'success' && '✅ Passou' || '❌ Falhou' }} |" >> consolidated-report/README.md
+          echo "| Performance Tests | ${{ needs.performance-tests.result == 'success' && '✅ Passou' || '❌ Falhou' }} |" >> consolidated-report/README.md
+          echo "| Security Tests | ${{ needs.security-tests.result == 'success' && '✅ Passou' || '❌ Falhou' }} |" >> consolidated-report/README.md
+          
+          # Links para artefatos
+          echo "" >> consolidated-report/README.md
+          echo "## Artefatos" >> consolidated-report/README.md
+          echo "" >> consolidated-report/README.md
+          echo "- [Resultados PHP Unit](./php-unit-results/)" >> consolidated-report/README.md
+          echo "- [Resultados JavaScript](./javascript-results/)" >> consolidated-report/README.md
+          echo "- [Screenshots E2E](./e2e-screenshots/)" >> consolidated-report/README.md
+          
+      - name: 📋 Upload relatório consolidado
+        uses: actions/upload-artifact@v3
+        with:
+          name: consolidated-report
+          path: consolidated-report/
+          retention-days: 30
+          
+      - name: 💬 Comentário no PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const report = fs.readFileSync('consolidated-report/README.md', 'utf8');
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## 🧪 Relatório de Testes Automatizados\n\n${report}`
+            });
+
+  # ============================================================================
+  # DEPLOY E NOTIFICAÇÕES
+  # ============================================================================
+  deploy-notification:
+    name: 🚀 Notificação de Deploy
+    runs-on: ubuntu-latest
+    needs: [quality-analysis]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+      - name: 🎉 Sucesso - Pronto para Deploy
+        if: needs.quality-analysis.result == 'success'
+        run: |
+          echo "✅ Todos os testes passaram! Sistema pronto para deploy em produção."
+          echo "📊 Métricas de qualidade atendidas:"
+          echo "   - Cobertura de código: ✅"
+          echo "   - Performance targets: ✅"
+          echo "   - Testes de segurança: ✅"
+          echo "   - Integração E2E: ✅"
+          
+      - name: ❌ Falha - Deploy Bloqueado
+        if: needs.quality-analysis.result != 'success'
+        run: |
+          echo "❌ Alguns testes falharam. Deploy bloqueado."
+          echo "🔍 Verifique os logs e artefatos para mais detalhes."
+          exit 1

@@ -56,6 +56,11 @@ Thumbs.db
 .vscode/
 .idea/
 
+# Serena MCP
+.serena/
+serena_config.yml
+memories/
+
 # ================================================================================
 # NOTA: Documentos técnicos (.md) e PDFs educacionais são mantidos no repo
 # ================================================================================

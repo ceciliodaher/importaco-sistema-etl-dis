@@ -1,0 +1,287 @@
+{
+  "name": "Financial Analysis Workbook",
+  "description": "Template especializado para análises financeiras e tributárias",
+  "version": "1.0.0",
+  "default_font": "Calibri",
+  "default_size": 10,
+  "freeze_panes": true,
+  "auto_filter": true,
+  "conditional_formatting": true,
+  "colors": {
+    "primary": "FF002D",
+    "secondary": "091A30",
+    "financial_positive": "28A745",
+    "financial_negative": "DC3545",
+    "financial_neutral": "6C757D",
+    "tax_savings": "28A745",
+    "tax_burden": "DC3545",
+    "operational": "17A2B8",
+    "header_bg": "091A30",
+    "header_text": "FFFFFF"
+  },
+  "sheets": {
+    "financial_summary": {
+      "enabled": true,
+      "name": "Resumo Financeiro",
+      "protected": false,
+      "kpi_dashboard": true,
+      "financial_ratios": true,
+      "trend_analysis": true,
+      "position": 1
+    },
+    "tax_analysis": {
+      "enabled": true,
+      "name": "Análise Tributária",
+      "protected": false,
+      "tax_breakdown": true,
+      "savings_opportunities": true,
+      "compliance_metrics": true,
+      "position": 2
+    },
+    "cost_breakdown": {
+      "enabled": true,
+      "name": "Breakdown de Custos",
+      "protected": false,
+      "landed_cost_analysis": true,
+      "cost_centers": true,
+      "variance_analysis": true,
+      "position": 3
+    },
+    "cash_flow": {
+      "enabled": true,
+      "name": "Fluxo de Caixa",
+      "protected": false,
+      "monthly_projection": true,
+      "payment_terms": true,
+      "working_capital": true,
+      "position": 4
+    },
+    "profitability": {
+      "enabled": true,
+      "name": "Rentabilidade",
+      "protected": false,
+      "margin_analysis": true,
+      "product_profitability": true,
+      "benchmarking": true,
+      "position": 5
+    },
+    "risk_analysis": {
+      "enabled": true,
+      "name": "Análise de Risco",
+      "protected": false,
+      "currency_exposure": true,
+      "tax_risks": true,
+      "operational_risks": true,
+      "position": 6
+    },
+    "scenarios": {
+      "enabled": true,
+      "name": "Cenários",
+      "protected": false,
+      "sensitivity_analysis": true,
+      "what_if_scenarios": true,
+      "monte_carlo": false,
+      "position": 7
+    },
+    "recommendations": {
+      "enabled": true,
+      "name": "Recomendações",
+      "protected": false,
+      "action_items": true,
+      "roi_projections": true,
+      "implementation_plan": true,
+      "position": 8
+    }
+  },
+  "formatting": {
+    "currency_format": "_-R$ * #,##0.00_-",
+    "currency_thousands": "_-R$ * #,##0_-",
+    "currency_millions": "_-R$ * #,##0,,_-\"M\"",
+    "percentage_format": "0.00%",
+    "percentage_basis_points": "0\"bp\"",
+    "variance_format": "+0.00%;[Red]-0.00%;0.00%",
+    "ratio_format": "0.00",
+    "date_format": "mmm-yy",
+    "financial_header_style": {
+      "font_bold": true,
+      "font_color": "FFFFFF",
+      "background_color": "091A30",
+      "text_align": "center",
+      "borders": true
+    },
+    "financial_positive_style": {
+      "font_color": "28A745",
+      "font_bold": true
+    },
+    "financial_negative_style": {
+      "font_color": "DC3545",
+      "font_bold": true
+    }
+  },
+  "financial_metrics": {
+    "profitability_ratios": {
+      "gross_margin": true,
+      "operating_margin": true,
+      "net_margin": true,
+      "roi": true,
+      "roa": true,
+      "roe": true
+    },
+    "efficiency_ratios": {
+      "asset_turnover": true,
+      "inventory_turnover": true,
+      "receivables_turnover": true,
+      "working_capital_ratio": true
+    },
+    "tax_metrics": {
+      "effective_tax_rate": true,
+      "tax_burden_ratio": true,
+      "tax_savings_rate": true,
+      "compliance_score": true
+    },
+    "operational_metrics": {
+      "cost_per_di": true,
+      "processing_efficiency": true,
+      "error_rate": true,
+      "automation_rate": true
+    }
+  },
+  "conditional_formatting": {
+    "financial_performance": {
+      "excellent": {
+        "threshold": 0.15,
+        "color": "28A745",
+        "icon": "up_arrow"
+      },
+      "good": {
+        "threshold": 0.10,
+        "color": "FFC107",
+        "icon": "side_arrow"
+      },
+      "poor": {
+        "threshold": 0.05,
+        "color": "DC3545",
+        "icon": "down_arrow"
+      }
+    },
+    "tax_efficiency": {
+      "high_savings": {
+        "threshold": 0.20,
+        "color": "28A745"
+      },
+      "moderate_savings": {
+        "threshold": 0.10,
+        "color": "FFC107"
+      },
+      "low_savings": {
+        "threshold": 0.05,
+        "color": "DC3545"
+      }
+    },
+    "variance_analysis": {
+      "favorable": {
+        "condition": ">0",
+        "color": "28A745"
+      },
+      "unfavorable": {
+        "condition": "<0",
+        "color": "DC3545"
+      },
+      "neutral": {
+        "condition": "=0",
+        "color": "6C757D"
+      }
+    }
+  },
+  "charts": {
+    "waterfall_chart": {
+      "type": "waterfall",
+      "title": "Análise de Variação",
+      "show_connectors": true,
+      "total_columns": true
+    },
+    "trend_chart": {
+      "type": "line_with_markers",
+      "title": "Tendências Financeiras",
+      "dual_axis": true,
+      "forecast_periods": 3
+    },
+    "composition_chart": {
+      "type": "stacked_column",
+      "title": "Composição de Custos",
+      "percentage_scale": true
+    },
+    "scatter_plot": {
+      "type": "scatter",
+      "title": "Análise de Correlação",
+      "trend_line": true,
+      "r_squared": true
+    }
+  },
+  "data_validation": {
+    "percentage_ranges": {
+      "min": 0,
+      "max": 1,
+      "error_message": "Insira um valor entre 0% e 100%"
+    },
+    "currency_ranges": {
+      "min": 0,
+      "max": 999999999,
+      "error_message": "Insira um valor monetário válido"
+    },
+    "date_ranges": {
+      "start_date": "2020-01-01",
+      "end_date": "2030-12-31",
+      "error_message": "Insira uma data válida"
+    }
+  },
+  "formulas": {
+    "financial_calculations": {
+      "npv": "=NPV(taxa_desconto,fluxos_caixa)+investimento_inicial",
+      "irr": "=IRR(fluxos_caixa)",
+      "payback": "=YEAR(data_payback)-YEAR(data_inicial)",
+      "roi": "=(ganho-investimento)/investimento",
+      "wacc": "=(E/V*Re)+((D/V*Rd)*(1-T))"
+    },
+    "tax_calculations": {
+      "effective_rate": "=total_impostos/receita_bruta",
+      "tax_savings": "=impostos_sem_beneficios-impostos_com_beneficios",
+      "compliance_score": "=conformidade_items/total_items"
+    }
+  },
+  "pivot_tables": {
+    "cost_by_category": {
+      "source_range": "cost_breakdown!A:Z",
+      "row_fields": ["categoria", "subcategoria"],
+      "column_fields": ["mes"],
+      "value_fields": ["valor"],
+      "filters": ["uf", "importador"]
+    },
+    "tax_by_type": {
+      "source_range": "tax_analysis!A:Z",
+      "row_fields": ["tipo_imposto"],
+      "column_fields": ["mes"],
+      "value_fields": ["valor_devido", "valor_pago"],
+      "calculations": ["sum", "average", "percentage"]
+    }
+  },
+  "advanced_features": {
+    "goal_seek": true,
+    "solver": false,
+    "data_model": true,
+    "power_query": false,
+    "dynamic_arrays": true
+  },
+  "reporting": {
+    "executive_dashboard": true,
+    "variance_reports": true,
+    "trend_analysis": true,
+    "benchmark_comparison": true,
+    "scenario_modeling": true
+  },
+  "custom_functions": {
+    "tax_efficiency_score": "=IF(tax_rate<benchmark_rate,\"Eficiente\",\"Revisar\")",
+    "cost_category_alert": "=IF(cost_variance>0.1,\"Atenção\",\"OK\")",
+    "roi_rating": "=CHOOSE(MAX(1,MIN(5,ROUND(roi*10,0))),\"Muito Baixo\",\"Baixo\",\"Médio\",\"Alto\",\"Excelente\")"
+  }
+}
