@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema ETL de DI's - Expertzy</title>
-    <!-- IMPORTANT: expertzy-theme.css deve ser carregado PRIMEIRO -->
-    <link rel="stylesheet" href="assets/css/expertzy-theme.css">
     <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/expertzy-theme.css">
 </head>
-<body class="animate-fade-in">
+<body>
     <div class="container">
         <div class="header">
             <div class="logo">
@@ -17,49 +16,47 @@
             <div class="tagline">Energia • Segurança • Transparência</div>
         </div>
 
-        <section class="hero animate-fade-in" role="banner">
+        <div class="hero">
             <h1>Sistema ETL de DI's</h1>
             <p>
                 Solução modular completa para importação, processamento e análise de Declarações de Importação brasileiras.
                 Automatize cálculos fiscais, otimize precificação e unifique seus departamentos.
             </p>
-        </section>
+        </div>
 
-        <section class="features animate-fade-in" role="main" aria-labelledby="features-heading">
-            <h2 id="features-heading" class="sr-only">Principais Funcionalidades do Sistema</h2>
-            <div class="feature card">
+        <div class="features">
+            <div class="feature">
                 <h3>🚀 ETL Automatizado</h3>
                 <p>Processamento completo de XMLs de DI em menos de 30 segundos. Extração, transformação e carga automática com validação em tempo real.</p>
             </div>
-            <div class="feature card">
+            <div class="feature">
                 <h3>💰 Cálculos Tributários</h3>
                 <p>Motor fiscal configurável para II, IPI, PIS/COFINS e ICMS. Suporte a regimes Real, Presumido e Simples com benefícios por estado.</p>
             </div>
-            <div class="feature card">
+            <div class="feature">
                 <h3>📊 Precificação Inteligente</h3>
                 <p>Segmentação B2B/B2C com markup baseado em landed cost total. Análise de margens e competitividade em tempo real.</p>
             </div>
-            <div class="feature card">
+            <div class="feature">
                 <h3>📈 Dashboard Dinâmico</h3>
                 <p>Visibilidade completa de custos, câmbio e evolução. Relatórios executivos e operacionais com exportação automática.</p>
             </div>
-        </section>
+        </div>
 
-        <section class="modules animate-scale-in" role="region" aria-labelledby="modules-heading">
-            <h2 id="modules-heading" class="sr-only">Módulos do Sistema ETL</h2>
-            <div class="module card animate-scale-in">
+        <div class="modules">
+            <div class="module">
                 <h4>Módulo Fiscal</h4>
                 <p>Cálculos tributários automatizados com nomenclatura centralizada e aplicação de benefícios por estado.</p>
             </div>
-            <div class="module card animate-scale-in">
+            <div class="module">
                 <h4>Módulo Comercial</h4>
                 <p>Precificação segmentada e análise competitiva baseada em custos reais de importação.</p>
             </div>
-            <div class="module card animate-scale-in">
+            <div class="module">
                 <h4>Módulo Contábil</h4>
                 <p>Custeio completo com rateio de despesas extras e relatórios gerenciais detalhados.</p>
             </div>
-            <div class="module card animate-scale-in">
+            <div class="module">
                 <h4>Módulo Faturamento</h4>
                 <p>Geração automática de croquis de NF importação e gestão de documentos fiscais.</p>
             </div>
@@ -73,316 +70,15 @@
             <div class="tech-item">Cross-Platform</div>
         </div>
 
-        <!-- Seção de Métricas -->
-        <div class="metrics-section">
-            <div class="metrics-grid">
-                <div class="metric-card card animate-scale-in">
-                    <div class="metric-number">12+</div>
-                    <div class="metric-label">Tabelas MySQL</div>
-                    <div class="metric-desc">Schema completo DI's</div>
-                </div>
-                <div class="metric-card card animate-scale-in">
-                    <div class="metric-number">30s</div>
-                    <div class="metric-label">Processamento XML</div>
-                    <div class="metric-desc">Performance otimizada</div>
-                </div>
-                <div class="metric-card card animate-scale-in">
-                    <div class="metric-number">4</div>
-                    <div class="metric-label">Módulos Integrados</div>
-                    <div class="metric-desc">Fiscal, Comercial, Contábil, Faturamento</div>
-                </div>
-                <div class="metric-card card animate-scale-in">
-                    <div class="metric-number">100%</div>
-                    <div class="metric-label">APIs RESTful</div>
-                    <div class="metric-desc">Integração completa</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Seção Sistemas Disponíveis -->
-        <div class="systems-section">
-            <h2>Acesse os Sistemas</h2>
+        <div class="cta">
+            <h2>Acesse o Sistema</h2>
             <p>Transforme sua operação de importação com automação, precisão e transparência.</p>
-            
-            <div class="systems-grid">
-                <!-- Dashboard ETL - Principal -->
-                <div class="system-card card available featured animate-slide-in-right">
-                    <div class="system-header">
-                        <div class="system-icon dashboard">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                                <path d="M3 13H11V3H3V13ZM3 21H11V15H3V21ZM13 21H21V11H13V21ZM13 3V9H21V3H13Z" fill="currentColor"/>
-                            </svg>
-                        </div>
-                        <div class="system-status available">
-                            <span class="status-dot"></span>
-                            <span class="status-text">✅ Disponível</span>
-                        </div>
-                    </div>
-                    
-                    <div class="system-content">
-                        <h3>🚀 Dashboard ETL</h3>
-                        <p>Sistema completo para upload, análise e exportação de XMLs de DI com interface intuitiva e gráficos interativos Chart.js.</p>
-                        
-                        <div class="system-features">
-                            <div class="feature-item">
-                                <span class="feature-icon">📁</span>
-                                <span>Upload drag'n'drop XMLs</span>
-                            </div>
-                            <div class="feature-item">
-                                <span class="feature-icon">📊</span>
-                                <span>12+ gráficos interativos</span>
-                            </div>
-                            <div class="feature-item">
-                                <span class="feature-icon">🔍</span>
-                                <span>Pesquisa avançada/filtros</span>
-                            </div>
-                            <div class="feature-item">
-                                <span class="feature-icon">📄</span>
-                                <span>Export JSON/PDF/XLSX</span>
-                            </div>
-                            <div class="feature-item">
-                                <span class="feature-icon">🎯</span>
-                                <span>APIs REST completas</span>
-                            </div>
-                            <div class="feature-item">
-                                <span class="feature-icon">🔄</span>
-                                <span>WebSocket real-time</span>
-                            </div>
-                        </div>
-                        
-                        <div class="performance-badges">
-                            <div class="performance-badge">
-                                <span class="perf-icon">⚡</span>
-                                <span>Carga < 3s</span>
-                            </div>
-                            <div class="performance-badge processing">
-                                <span class="perf-icon">🚀</span>
-                                <span>XML < 30s</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="system-footer">
-                        <a href="sistema/dashboard/" class="btn btn-primary btn-lg" 
-                           aria-label="Acessar Dashboard Principal do Sistema ETL"
-                           role="button">
-                            Acessar Dashboard
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Módulo Fiscal -->
-                <div class="system-card card development animate-slide-in-right">
-                    <div class="system-header">
-                        <div class="system-icon fiscal">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                                <path d="M9 11H15M9 15H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17Z" stroke="currentColor" stroke-width="2"/>
-                            </svg>
-                        </div>
-                        <div class="system-status development">
-                            <span class="status-dot"></span>
-                            <span class="status-text">🔄 Em Desenvolvimento</span>
-                        </div>
-                    </div>
-                    
-                    <div class="system-content">
-                        <h3>📋 Módulo Fiscal</h3>
-                        <p>Cálculos tributários automatizados com nomenclatura centralizada e aplicação de benefícios por estado.</p>
-                        
-                        <div class="development-progress">
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: 75%"></div>
-                            </div>
-                            <span class="progress-text">75% Concluído</span>
-                        </div>
-                    </div>
-                    
-                    <div class="system-footer">
-                        <button class="btn btn-outline-primary" disabled 
-                               aria-label="Módulo em desenvolvimento, será lançado em breve">
-                            Em Breve
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Módulo Comercial -->
-                <div class="system-card card planned animate-slide-in-right">
-                    <div class="system-header">
-                        <div class="system-icon commercial">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 6V4M12 6C10.8954 6 10 6.89543 10 8C10 9.10457 10.8954 10 12 10M12 6C13.1046 6 14 6.89543 14 8C14 9.10457 13.1046 10 12 10M12 10V20M8 21H16M16 4H8" stroke="currentColor" stroke-width="2"/>
-                            </svg>
-                        </div>
-                        <div class="system-status planned">
-                            <span class="status-dot"></span>
-                            <span class="status-text">📋 Planejado</span>
-                        </div>
-                    </div>
-                    
-                    <div class="system-content">
-                        <h3>💰 Módulo Comercial</h3>
-                        <p>Precificação segmentada B2B/B2C e análise competitiva baseada em custos reais de importação.</p>
-                    </div>
-                    
-                    <div class="system-footer">
-                        <button class="btn btn-outline-primary" disabled 
-                               aria-label="Módulo planejado para próximas versões">
-                            Planejado
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Módulo Contábil -->
-                <div class="system-card card planned animate-slide-in-right">
-                    <div class="system-header">
-                        <div class="system-icon accounting">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                                <path d="M9 7H15M9 11H15M9 15H13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
-                            </svg>
-                        </div>
-                        <div class="system-status planned">
-                            <span class="status-dot"></span>
-                            <span class="status-text">📋 Planejado</span>
-                        </div>
-                    </div>
-                    
-                    <div class="system-content">
-                        <h3>📊 Módulo Contábil</h3>
-                        <p>Custeio completo com rateio de despesas extras e relatórios gerenciais detalhados.</p>
-                    </div>
-                    
-                    <div class="system-footer">
-                        <button class="btn btn-outline-primary" disabled 
-                               aria-label="Módulo planejado para próximas versões">
-                            Planejado
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Módulo Faturamento -->
-                <div class="system-card card planned animate-slide-in-right">
-                    <div class="system-header">
-                        <div class="system-icon billing">
-                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
-                            </svg>
-                        </div>
-                        <div class="system-status planned">
-                            <span class="status-dot"></span>
-                            <span class="status-text">📋 Planejado</span>
-                        </div>
-                    </div>
-                    
-                    <div class="system-content">
-                        <h3>📄 Módulo Faturamento</h3>
-                        <p>Geração automática de croquis de NF importação e gestão de documentos fiscais.</p>
-                    </div>
-                    
-                    <div class="system-footer">
-                        <button class="btn btn-outline-primary" disabled 
-                               aria-label="Módulo planejado para próximas versões">
-                            Planejado
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- CTA Secundário -->
-        <div class="cta-secondary">
-            <div class="cta-content">
-                <h3>Roadmap de Desenvolvimento</h3>
-                <p>Acompanhe o progresso dos módulos e funcionalidades em desenvolvimento.</p>
-                <div class="roadmap-timeline">
-                    <div class="timeline-item completed">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-title">Dashboard ETL</span>
-                            <span class="timeline-status">✅ Concluído</span>
-                        </div>
-                    </div>
-                    <div class="timeline-item active">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-title">Módulo Fiscal</span>
-                            <span class="timeline-status">🔄 Q1 2025</span>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-title">Módulos Restantes</span>
-                            <span class="timeline-status">📋 Q2 2025</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <a href="sistema/dashboard/" class="btn">Acessar Dashboard</a>
         </div>
 
         <div class="footer">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>Sistema ETL</h4>
-                    <ul class="footer-links">
-                        <li><a href="sistema/dashboard/">Dashboard</a></li>
-                        <li><a href="sistema/dashboard/#upload">Upload XMLs</a></li>
-                        <li><a href="sistema/dashboard/#reports">Relatórios</a></li>
-                        <li><a href="sistema/dashboard/#config">Configurações</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Módulos</h4>
-                    <ul class="footer-links">
-                        <li><span class="link-available">Fiscal</span></li>
-                        <li><span class="link-development">Comercial</span></li>
-                        <li><span class="link-planned">Contábil</span></li>
-                        <li><span class="link-planned">Faturamento</span></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Recursos</h4>
-                    <ul class="footer-links">
-                        <li><a href="sistema/core/database/SCHEMA-SPECIFICATION.md">Documentação</a></li>
-                        <li><a href="PRD-Sistema-ETL-DIs.md">Requirements</a></li>
-                        <li><a href="sistema/dashboard/tests/">Testes</a></li>
-                        <li><a href="sistema/dashboard/api/">API</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Status</h4>
-                    <div class="system-indicators">
-                        <div class="indicator-item">
-                            <span class="indicator-dot online"></span>
-                            <span>Dashboard Online</span>
-                        </div>
-                        <div class="indicator-item">
-                            <span class="indicator-dot development"></span>
-                            <span>Fiscal 75%</span>
-                        </div>
-                        <div class="indicator-item">
-                            <span class="indicator-dot planned"></span>
-                            <span>Outros Planejados</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 Sistema ETL de DI's - Padrão <a href="https://expertzy.com.br" target="_blank" rel="noopener" class="expertzy-link">Expertzy</a>. Desenvolvido para automação fiscal inteligente.</p>
-                <p class="expertzy-values"><strong>Energia • Velocidade • Força | Segurança • Intelecto • Precisão | Respeito • Proteção • Transparência</strong></p>
-                <p class="expertzy-contact">
-                    <span>Suporte técnico: </span>
-                    <a href="mailto:suporte@expertzy.com.br" class="expertzy-link">suporte@expertzy.com.br</a>
-                    <span> | Visite: </span>
-                    <a href="https://expertzy.com.br" target="_blank" rel="noopener" class="expertzy-link">expertzy.com.br</a>
-                </p>
-            </div>
+            <p>&copy; 2025 Sistema ETL de DI's - Padrão Expertzy. Desenvolvido para automação fiscal inteligente.</p>
+            <p><strong>Energia • Velocidade • Força | Segurança • Intelecto • Precisão | Respeito • Proteção • Transparência</strong></p>
         </div>
     </div>
 

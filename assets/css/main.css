@@ -7,130 +7,136 @@
 }
 
 body {
-    font-family: var(--expertzy-font-family);
-    line-height: var(--expertzy-line-height-normal);
-    color: var(--expertzy-dark);
-    background: linear-gradient(135deg, var(--expertzy-light-gray) 0%, #e9ecef 100%);
+    font-family: var(--expertzy-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif);
+    line-height: 1.6;
+    color: #333;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0;
-    padding: 0;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: var(--expertzy-spacing-xl);
+    padding: 2rem;
     background: rgba(255, 255, 255, 0.95);
-    border-radius: var(--expertzy-border-radius-3xl);
+    border-radius: 20px;
     backdrop-filter: blur(10px);
-    box-shadow: var(--expertzy-shadow-2xl);
-    transition: all var(--expertzy-transition-normal);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 .header {
     text-align: center;
-    margin-bottom: var(--expertzy-spacing-3xl);
+    margin-bottom: 3rem;
+}
+
+.logo-img {
+    max-height: 80px;
+    width: auto;
+    margin-bottom: 1rem;
 }
 
 .tagline {
-    font-size: var(--expertzy-font-size-xl);
-    color: var(--expertzy-gray);
-    margin-bottom: var(--expertzy-spacing-xl);
-    font-weight: var(--expertzy-font-weight-medium);
+    font-size: 1.2rem;
+    color: var(--expertzy-gray, #666);
+    margin-bottom: 2rem;
+    font-weight: var(--expertzy-font-weight-medium, 600);
 }
 
 .hero {
     text-align: center;
-    margin-bottom: var(--expertzy-spacing-4xl);
+    margin-bottom: 4rem;
 }
 
 .hero h1 {
-    font-size: var(--expertzy-font-size-5xl);
-    margin-bottom: var(--expertzy-spacing-base);
-    color: var(--expertzy-dark);
-    font-weight: var(--expertzy-font-weight-extrabold);
+    font-size: 3rem;
+    margin-bottom: 1rem;
 }
 
 .hero p {
-    font-size: var(--expertzy-font-size-xl);
-    color: var(--expertzy-gray);
-    margin-bottom: var(--expertzy-spacing-xl);
+    font-size: 1.3rem;
+    color: var(--expertzy-gray, #666);
+    margin-bottom: 2rem;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    line-height: var(--expertzy-line-height-normal);
 }
 
 .features {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--expertzy-spacing-xl);
-    margin-bottom: var(--expertzy-spacing-4xl);
+    gap: 2rem;
+    margin-bottom: 4rem;
 }
 
 .feature {
-    background: var(--expertzy-white);
-    padding: var(--expertzy-spacing-xl);
-    border-radius: var(--expertzy-border-radius-xl);
-    box-shadow: var(--expertzy-shadow-lg);
-    transition: all var(--expertzy-transition-normal);
-    border: var(--expertzy-border-width) solid var(--expertzy-border-gray);
+    background: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
 }
 
 .feature:hover {
     transform: translateY(-5px);
-    box-shadow: var(--expertzy-shadow-xl);
 }
 
 .feature h3 {
-    font-size: var(--expertzy-font-size-xl);
-    margin-bottom: var(--expertzy-spacing-base);
-    color: var(--expertzy-dark);
-    font-weight: var(--expertzy-font-weight-bold);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
 }
 
 .feature p {
-    color: var(--expertzy-gray);
-    line-height: var(--expertzy-line-height-normal);
+    color: var(--expertzy-gray, #666);
+    line-height: 1.6;
 }
 
 .modules {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--expertzy-spacing-lg);
-    margin-bottom: var(--expertzy-spacing-4xl);
+    gap: 1.5rem;
+    margin-bottom: 4rem;
 }
 
 .module {
-    color: var(--expertzy-white);
-    padding: var(--expertzy-spacing-xl);
-    border-radius: var(--expertzy-border-radius-xl);
+    color: #fff;
+    padding: 2rem;
+    border-radius: 15px;
     text-align: center;
-    transition: all var(--expertzy-transition-normal);
-    background: var(--expertzy-gradient-primary);
-    box-shadow: var(--expertzy-shadow-md);
+    transition: transform 0.3s ease;
 }
 
 .module:hover {
-    transform: scale(1.05) translateY(-2px);
-    box-shadow: var(--expertzy-shadow-xl);
+    transform: scale(1.05);
 }
 
 .module h4 {
-    font-size: var(--expertzy-font-size-xl);
-    margin-bottom: var(--expertzy-spacing-base);
-    font-weight: var(--expertzy-font-weight-bold);
-    color: var(--expertzy-white);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    font-weight: var(--expertzy-font-weight-medium, 600);
 }
 
 .module p {
-    font-size: var(--expertzy-font-size-sm);
+    font-size: 0.95rem;
     opacity: 0.9;
-    color: var(--expertzy-white);
-    line-height: var(--expertzy-line-height-normal);
+}
+
+/* Cores diferenciadas para cada módulo */
+.module:nth-child(1) {
+    background: linear-gradient(135deg, #FF002D 0%, #cc0024 100%);
+}
+
+.module:nth-child(2) {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+}
+
+.module:nth-child(3) {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+}
+
+.module:nth-child(4) {
+    background: linear-gradient(135deg, #091A30 0%, #1a2b3a 100%);
 }
 
 .cta {
@@ -139,6 +145,7 @@ body {
     color: #fff;
     border-radius: 15px;
     margin-bottom: 2rem;
+    background: linear-gradient(135deg, #FF002D 0%, #cc0024 100%);
 }
 
 .cta h2 {
@@ -154,18 +161,16 @@ body {
 }
 
 .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--expertzy-spacing-base) var(--expertzy-spacing-2xl);
-    border-radius: var(--expertzy-border-radius-full);
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
     text-decoration: none;
-    font-size: var(--expertzy-font-size-lg);
-    font-weight: var(--expertzy-font-weight-medium);
-    transition: all var(--expertzy-transition-normal);
-    box-shadow: var(--expertzy-shadow-lg);
-    border: none;
-    cursor: pointer;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    background: #fff;
+    color: #FF002D;
+    font-weight: 600;
 }
 
 .btn:hover {
