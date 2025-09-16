@@ -1,0 +1,61 @@
+# ================================================================================
+# SISTEMA ETL DE DI's - .gitignore
+# Arquivos com dados empresariais específicos (mantidos apenas localmente)
+# ================================================================================
+
+# XMLs de DI com dados reais de empresas
+2300120746.xml
+2518173187.xml
+2520345968.xml
+
+# Planilhas com dados empresariais específicos
+Croqui_NF_2518173187_20250820.xlsx
+ExtratoDI_COMPLETO_2300120746.xlsx
+ENTRA-DI-Detalhado-v-4.1.xlsx
+Croquis-NF.xlsx
+
+# PDFs com documentos fiscais reais
+D.I. Nº 25.1817318-7 - REF. TWA25-263 - EQUIPLEX (1).pdf
+DI - NOTA FISCAL - ALIQUOTA 17 - ENTRADA Nr. 000034.pdf
+DI.pdf
+ExtratoDI .pdf
+NF 0128720.pdf
+RASCUNHO NOTA FISCAL - REF. TWA25-263 - EQUIPLEX (1).pdf
+Croquis-NF.pdf
+
+# Arquivos compactados com dados sensíveis
+documentos.7z
+
+# Script Python com lógica empresarial específica
+importador-xml-di-nf-entrada-perplexity-aprimorado-venda.py
+
+# Dados de produção
+/sistema/data/uploads/*
+/sistema/data/processed/*
+/sistema/data/exports/*
+
+# Manter estrutura de diretórios vazios
+!/sistema/data/uploads/.keep
+!/sistema/data/processed/.keep
+!/sistema/data/exports/.keep
+
+# Logs e backups
+*.log
+backup_*.sql
+*.bak
+
+# Configurações locais
+.env
+.env.local
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# ================================================================================
+# NOTA: Documentos técnicos (.md) e PDFs educacionais são mantidos no repo
+# ================================================================================

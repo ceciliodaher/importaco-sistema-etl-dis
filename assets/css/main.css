@@ -1,0 +1,235 @@
+/* Sistema ETL de DI's - Main Styles */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--expertzy-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif);
+    line-height: 1.6;
+    color: #333;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.tagline {
+    font-size: 1.2rem;
+    color: var(--expertzy-gray, #666);
+    margin-bottom: 2rem;
+    font-weight: var(--expertzy-font-weight-medium, 600);
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    color: var(--expertzy-gray, #666);
+    margin-bottom: 2rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.feature {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.feature:hover {
+    transform: translateY(-5px);
+}
+
+.feature h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+.feature p {
+    color: var(--expertzy-gray, #666);
+    line-height: 1.6;
+}
+
+.modules {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+}
+
+.module {
+    color: #fff;
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.module:hover {
+    transform: scale(1.05);
+}
+
+.module h4 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    font-weight: var(--expertzy-font-weight-medium, 600);
+}
+
+.module p {
+    font-size: 0.95rem;
+    opacity: 0.9;
+}
+
+.cta {
+    text-align: center;
+    padding: 3rem;
+    color: #fff;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+}
+
+.cta h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    font-weight: var(--expertzy-font-weight-bold, 700);
+}
+
+.cta p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    opacity: 0.95;
+}
+
+.btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.footer {
+    text-align: center;
+    color: var(--expertzy-gray, #666);
+    padding: 2rem 0;
+    border-top: 1px solid #eee;
+}
+
+.tech-stack {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.tech-item {
+    background: var(--expertzy-light-gray, #f8f9fa);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    color: var(--expertzy-gray, #666);
+    border: 1px solid #e9ecef;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        margin: 1rem;
+        padding: 1.5rem;
+    }
+
+    .logo-img {
+        max-height: 60px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .hero p {
+        font-size: 1.1rem;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .modules {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+
+    .tech-stack {
+        gap: 1rem;
+    }
+
+    .cta h2 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .logo-img {
+        max-height: 50px;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .cta h2 {
+        font-size: 1.8rem;
+    }
+
+    .cta {
+        padding: 2rem 1rem;
+    }
+}

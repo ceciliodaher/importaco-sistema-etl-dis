@@ -1,0 +1,118 @@
+/* Expertzy Brand Theme - Cores e Tipografia Oficial */
+
+:root {
+    /* Cores Oficiais Expertzy */
+    --expertzy-red: #FF002D;
+    --expertzy-dark: #091A30;
+    --expertzy-white: #FFFFFF;
+    --expertzy-gray: #666666;
+    --expertzy-light-gray: #f8f9fa;
+
+    /* Gradientes da Marca */
+    --expertzy-primary-gradient: linear-gradient(135deg, #091A30 0%, #FF002D 100%);
+    --expertzy-secondary-gradient: linear-gradient(135deg, #FF002D 0%, #cc0024 100%);
+    --expertzy-module-gradient: linear-gradient(135deg, #091A30 0%, #1a3a5c 100%);
+
+    /* Tipografia Expertzy */
+    --expertzy-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    --expertzy-font-weight-light: 300;
+    --expertzy-font-weight-normal: 400;
+    --expertzy-font-weight-medium: 600;
+    --expertzy-font-weight-bold: 700;
+}
+
+/* Logo Expertzy */
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.logo-img {
+    max-height: 80px;
+    width: auto;
+    object-fit: contain;
+}
+
+/* Padrão de Cores Expertzy */
+body {
+    background: var(--expertzy-primary-gradient);
+    font-family: var(--expertzy-font-family);
+}
+
+.hero h1 {
+    color: var(--expertzy-dark);
+    font-weight: var(--expertzy-font-weight-bold);
+}
+
+.feature {
+    border-left: 4px solid var(--expertzy-red);
+}
+
+.feature h3 {
+    color: var(--expertzy-dark);
+    font-weight: var(--expertzy-font-weight-medium);
+}
+
+.module {
+    background: var(--expertzy-module-gradient);
+}
+
+.cta {
+    background: var(--expertzy-secondary-gradient);
+}
+
+.btn {
+    background: var(--expertzy-white);
+    color: var(--expertzy-red);
+    font-weight: var(--expertzy-font-weight-medium);
+}
+
+.btn:hover {
+    background: var(--expertzy-light-gray);
+}
+
+/* Elementos específicos do tema Expertzy */
+.expertzy-badge {
+    background: var(--expertzy-red);
+    color: var(--expertzy-white);
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: var(--expertzy-font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.expertzy-card {
+    background: var(--expertzy-white);
+    border: 1px solid #e9ecef;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 5px 20px rgba(9, 26, 48, 0.08);
+    transition: all 0.3s ease;
+}
+
+.expertzy-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(9, 26, 48, 0.15);
+}
+
+.expertzy-text-primary {
+    color: var(--expertzy-red);
+}
+
+.expertzy-text-dark {
+    color: var(--expertzy-dark);
+}
+
+.expertzy-bg-primary {
+    background: var(--expertzy-red);
+    color: var(--expertzy-white);
+}
+
+.expertzy-bg-dark {
+    background: var(--expertzy-dark);
+    color: var(--expertzy-white);
+}
