@@ -22,7 +22,6 @@ class ExpertzyChartsSystem {
         
         this.gradients = {};
         this.isInitialized = false;
-        this.websocket = null;
         
         this.init();
     }
@@ -35,12 +34,12 @@ class ExpertzyChartsSystem {
         
         this.setupChartDefaults();
         this.createColorPalettes();
-        this.initWebSocket();
+        // this.initWebSocket(); // DESABILITADO - Controle manual
         this.setupResizeObservers();
-        this.loadChartData();
+        // this.loadChartData(); // REMOVIDO - Carregamento manual apenas
         
         this.isInitialized = true;
-        console.log('✅ Sistema de Gráficos Expertzy inicializado com sucesso');
+        console.log('✅ Sistema de Gráficos Expertzy inicializado (modo manual)');
     }
 
     /**
@@ -104,27 +103,31 @@ class ExpertzyChartsSystem {
     }
 
     /**
-     * WebSocket para atualizações em tempo real
+     * Sistema de polling DESABILITADO - Controle manual apenas
      */
     initWebSocket() {
-        try {
-            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsUrl = `${protocol}//${window.location.host}/ws/charts`;
-            
-            this.websocket = new WebSocket(wsUrl);
-            
-            this.websocket.onmessage = (event) => {
-                const data = JSON.parse(event.data);
-                this.updateChartsRealtime(data);
-            };
-
-            this.websocket.onclose = () => {
-                console.log('WebSocket desconectado, tentando reconexão em 5s...');
-                setTimeout(() => this.initWebSocket(), 5000);
-            };
-        } catch (error) {
-            console.warn('WebSocket não disponível:', error.message);
-        }
+        // POLLING DESABILITADO - Sistema em modo manual
+        // setInterval(() => {
+        //     this.refreshCharts();
+        // }, 30000);
+        
+        console.log('📊 Sistema de polling DESABILITADO - Controle manual ativo');
+    }
+    
+    /**
+     * Atualiza gráficos - APENAS MANUAL
+     */
+    refreshCharts() {
+        console.log('🔄 Atualização manual de gráficos solicitada');
+        this.loadChartData(true); // Manual trigger = true
+    }
+    
+    /**
+     * Método público para carregamento manual
+     */
+    manualLoadCharts() {
+        console.log('🎯 Carregamento manual iniciado pelo usuário');
+        return this.loadChartData(true);
     }
 
     /**
@@ -150,9 +153,15 @@ class ExpertzyChartsSystem {
     }
 
     /**
-     * Carregamento inicial de dados
+     * Carregamento de dados - APENAS MANUAL
      */
-    async loadChartData() {
+    async loadChartData(manualTrigger = false) {
+        if (!manualTrigger) {
+            console.log('🔄 Carregamento automático BLOQUEADO - Use controle manual');
+            this.showEmptyStates(); // Mostra placeholders vazios
+            return;
+        }
+        
         try {
             const response = await fetch('/sistema/dashboard/api/dashboard/charts.php?type=all');
             const data = await response.json();
@@ -780,13 +789,22 @@ class ExpertzyChartsSystem {
     }
 
     /**
-     * Estados vazios
+     * Estados vazios com indicação de controle manual
      */
     showEmptyStates() {
         document.querySelectorAll('[data-chart]').forEach(container => {
             const emptyState = container.querySelector('.chart-empty');
             if (emptyState) {
                 emptyState.style.display = 'flex';
+            }
+            
+            // Marcar container como aguardando carregamento manual
+            container.setAttribute('data-state', 'awaiting-manual');
+            
+            // Esconder skeleton de loading
+            const skeleton = container.querySelector('.chart-skeleton');
+            if (skeleton) {
+                skeleton.style.display = 'none';
             }
         });
     }
@@ -874,8 +892,14 @@ class ExpertzyChartsSystem {
     /**
      * Atualização de gráfico específico
      */
-    async refreshChart(chartType) {
+    async refreshChart(chartType, manualTrigger = false) {
+        if (!manualTrigger) {
+            console.log(`🚫 Atualização automática de ${chartType} BLOQUEADA - Use controle manual`);
+            return;
+        }
+        
         try {
+            console.log(`🔄 Atualizando gráfico ${chartType} manualmente...`);
             const response = await fetch(`/sistema/dashboard/api/dashboard/charts.php?type=${chartType}`);
             const data = await response.json();
             
@@ -914,25 +938,6 @@ class ExpertzyChartsSystem {
         console.log('Drill-down estado:', state, data);
     }
 
-    /**
-     * Atualização em tempo real via WebSocket
-     */
-    updateChartsRealtime(data) {
-        data.charts.forEach(chartUpdate => {
-            const chart = this.charts.get(chartUpdate.chartId);
-            if (chart) {
-                // Atualizar dados do gráfico
-                if (chartUpdate.newData) {
-                    chart.data.datasets.forEach((dataset, index) => {
-                        if (chartUpdate.newData[index]) {
-                            dataset.data = chartUpdate.newData[index];
-                        }
-                    });
-                    chart.update('none'); // Sem animação para tempo real
-                }
-            }
-        });
-    }
 
     /**
      * Destruição/limpeza
@@ -943,9 +948,6 @@ class ExpertzyChartsSystem {
         });
         this.charts.clear();
         
-        if (this.websocket) {
-            this.websocket.close();
-        }
         
         this.isInitialized = false;
     }
@@ -960,11 +962,22 @@ class ExpertzyChartsSystem {
         return;
     }
     
-    // Inicialização automática quando DOM carregado
+    // Inicialização em modo manual quando DOM carregado
     document.addEventListener('DOMContentLoaded', function() {
         // Aguardar Chart.js carregar
         if (typeof Chart !== 'undefined') {
             window.expertzyCharts = new ExpertzyChartsSystem();
+            
+            // MODO MANUAL: Expor função global para carregamento manual
+            window.loadChartsManually = function() {
+                console.log('🎯 Carregamento manual de gráficos iniciado...');
+                return window.expertzyCharts.manualLoadCharts();
+            };
+            
+            // Informar modo manual ativo
+            console.log('📊 Sistema de Gráficos: MODO MANUAL ATIVO');
+            console.log('🔧 Use window.loadChartsManually() ou botão "Atualizar Todos"');
+            
         } else {
             console.error('Chart.js não foi carregado. Verifique se a biblioteca está incluída.');
         }

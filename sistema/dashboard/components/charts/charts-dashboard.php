@@ -62,10 +62,10 @@
     </div>
 </section>
 
-<!-- Dashboard Principal de Gráficos -->
-<div class="charts-dashboard">
+<!-- Dashboard Principal de Gráficos - MODO MANUAL -->
+<div class="charts-dashboard" data-manual-control="true" data-auto-load="false">
     <!-- 1. Gráfico Temporal - Evolução das Importações -->
-    <div class="chart-container" data-chart="temporal">
+    <div class="chart-container" data-chart="temporal" data-manual-control="true" data-state="empty">
         <div class="chart-skeleton">
             <div class="skeleton-animation">
                 <div class="skeleton-bars">
@@ -80,15 +80,15 @@
             </div>
         </div>
         
-        <div class="chart-empty">
+        <div class="chart-empty" style="display: flex;">
             <div class="chart-empty-icon">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
                     <path d="M3 3V21H21" stroke="currentColor" stroke-width="2"/>
                     <path d="M7 16L12 12L16 16L21 10" stroke="currentColor" stroke-width="2"/>
                 </svg>
             </div>
-            <div class="chart-empty-title">Sem Dados Temporais</div>
-            <div class="chart-empty-subtitle">Não há dados suficientes para exibir a evolução temporal. Importe algumas DIs para ver o gráfico.</div>
+            <div class="chart-empty-title">🔄 Aguardando Carregamento Manual</div>
+            <div class="chart-empty-subtitle">Use o botão "Atualizar Todos" acima para carregar os dados dos gráficos ou clique no ícone de refresh individual.</div>
         </div>
         
         <div class="chart-canvas-container">
@@ -97,7 +97,7 @@
     </div>
 
     <!-- 2. Gráfico de Barras - Impostos por Tipo -->
-    <div class="chart-container" data-chart="taxes">
+    <div class="chart-container" data-chart="taxes" data-manual-control="true" data-state="empty">
         <div class="chart-skeleton">
             <div class="skeleton-animation">
                 <div class="skeleton-bars">
@@ -112,7 +112,7 @@
             </div>
         </div>
         
-        <div class="chart-empty">
+        <div class="chart-empty" style="display: flex;">
             <div class="chart-empty-icon">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
                     <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
@@ -120,8 +120,8 @@
                     <rect x="14" y="11" width="3" height="6" fill="currentColor"/>
                 </svg>
             </div>
-            <div class="chart-empty-title">Sem Dados de Impostos</div>
-            <div class="chart-empty-subtitle">Os cálculos de impostos aparecerão aqui após o processamento das DIs.</div>
+            <div class="chart-empty-title">🔄 Aguardando Carregamento Manual</div>
+            <div class="chart-empty-subtitle">Impostos serão exibidos após carregamento manual dos dados. Use o controle manual para atualizar.</div>
         </div>
         
         <div class="chart-canvas-container">
@@ -130,7 +130,7 @@
     </div>
 
     <!-- 3. Gráfico de Pizza - Despesas Portuárias -->
-    <div class="chart-container" data-chart="expenses">
+    <div class="chart-container" data-chart="expenses" data-manual-control="true" data-state="empty">
         <div class="chart-skeleton">
             <div class="skeleton-animation">
                 <div class="skeleton-circle skeleton-animation"></div>
@@ -139,15 +139,15 @@
             </div>
         </div>
         
-        <div class="chart-empty">
+        <div class="chart-empty" style="display: flex;">
             <div class="chart-empty-icon">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
                     <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
                     <path d="M12 2L12 12L19 12" stroke="currentColor" stroke-width="2"/>
                 </svg>
             </div>
-            <div class="chart-empty-title">Sem Despesas Registradas</div>
-            <div class="chart-empty-subtitle">As despesas portuárias e extras serão exibidas aqui conforme os dados forem processados.</div>
+            <div class="chart-empty-title">🔄 Aguardando Carregamento Manual</div>
+            <div class="chart-empty-subtitle">Despesas serão carregadas manualmente. Clique em "Atualizar Todos" para exibir os dados.</div>
         </div>
         
         <div class="chart-canvas-container">
@@ -156,7 +156,7 @@
     </div>
 
     <!-- 4. Gráfico Donut - Segmentação por Moedas -->
-    <div class="chart-container" data-chart="currencies">
+    <div class="chart-container" data-chart="currencies" data-manual-control="true" data-state="empty">
         <div class="chart-skeleton">
             <div class="skeleton-animation">
                 <div class="skeleton-circle skeleton-animation"></div>
@@ -165,15 +165,15 @@
             </div>
         </div>
         
-        <div class="chart-empty">
+        <div class="chart-empty" style="display: flex;">
             <div class="chart-empty-icon">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
                     <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
                     <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="2"/>
                 </svg>
             </div>
-            <div class="chart-empty-title">Aguardando Dados de Moedas</div>
-            <div class="chart-empty-subtitle">A distribuição por moedas será exibida após importar DIs com diferentes moedas.</div>
+            <div class="chart-empty-title">🔄 Aguardando Carregamento Manual</div>
+            <div class="chart-empty-subtitle">Distribuição de moedas disponível via carregamento manual. Use os controles acima.</div>
         </div>
         
         <div class="chart-canvas-container">
@@ -182,7 +182,7 @@
     </div>
 
     <!-- 5. Heatmap - Performance por Estado -->
-    <div class="chart-container chart-container-large" data-chart="states">
+    <div class="chart-container chart-container-large" data-chart="states" data-manual-control="true" data-state="empty">
         <div class="chart-skeleton">
             <div class="skeleton-animation">
                 <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px;">
@@ -194,15 +194,15 @@
             </div>
         </div>
         
-        <div class="chart-empty">
+        <div class="chart-empty" style="display: flex;">
             <div class="chart-empty-icon">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
                     <path d="M21 10C21 17 12 23 12 23C12 23 3 17 3 10C3 5.02944 7.02944 1 12 1C16.9706 1 21 5.02944 21 10Z" stroke="currentColor" stroke-width="2"/>
                     <circle cx="12" cy="10" r="3" stroke="currentColor" stroke-width="2"/>
                 </svg>
             </div>
-            <div class="chart-empty-title">Mapa de Estados Vazio</div>
-            <div class="chart-empty-subtitle">A performance por estado será calculada após processar DIs de diferentes locais de desembaraço.</div>
+            <div class="chart-empty-title">🔄 Aguardando Carregamento Manual</div>
+            <div class="chart-empty-subtitle">Heatmap de estados carregado apenas via controle manual. Clique em "Atualizar Todos".</div>
         </div>
         
         <div class="chart-canvas-container large">
@@ -211,12 +211,12 @@
     </div>
 
     <!-- 6. Scatter Plot - Correlação Câmbio vs Custo -->
-    <div class="chart-container" data-chart="correlation">
+    <div class="chart-container" data-chart="correlation" data-manual-control="true" data-state="empty">
         <div class="chart-skeleton">
             <div class="skeleton-animation">
                 <div style="display: flex; justify-content: space-around; align-items: end; height: 120px;">
                     <?php for($i = 0; $i < 25; $i++): ?>
-                    <div style="width: 4px; height: <?= rand(20, 100) ?>%; background: rgba(255, 0, 45, 0.2); border-radius: 2px;" class="skeleton-animation"></div>
+                    <div style="width: 4px; height: <?= 30 + ($i % 4) * 20 ?>%; background: rgba(255, 0, 45, 0.2); border-radius: 2px;" class="skeleton-animation"></div>
                     <?php endfor; ?>
                 </div>
                 <div class="skeleton-text skeleton-animation"></div>
@@ -224,7 +224,7 @@
             </div>
         </div>
         
-        <div class="chart-empty">
+        <div class="chart-empty" style="display: flex;">
             <div class="chart-empty-icon">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
                     <circle cx="6" cy="18" r="2" stroke="currentColor" stroke-width="2"/>
@@ -233,8 +233,8 @@
                     <path d="M6 18L12 12L18 6" stroke="currentColor" stroke-width="2"/>
                 </svg>
             </div>
-            <div class="chart-empty-title">Correlação Não Disponível</div>
-            <div class="chart-empty-subtitle">A análise de correlação entre câmbio e custos será exibida com mais dados históricos.</div>
+            <div class="chart-empty-title">🔄 Aguardando Carregamento Manual</div>
+            <div class="chart-empty-subtitle">Correlação câmbio vs custo via carregamento manual. Use o botão de refresh.</div>
         </div>
         
         <div class="chart-canvas-container">
@@ -243,10 +243,10 @@
     </div>
 </div>
 
-<!-- Cards Estatísticos Avançados -->
-<div class="stats-cards-grid">
+<!-- Cards Estatísticos Avançados - MODO MANUAL -->
+<div class="stats-cards-grid" data-manual-control="true" data-auto-load="false">
     <!-- Card 1: Total DIs -->
-    <div class="stat-card" data-stat="total-dis">
+    <div class="stat-card" data-stat="total-dis" data-manual-control="true" data-state="empty">
         <div class="stat-card-header">
             <div class="stat-card-icon success">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -262,12 +262,9 @@
             </button>
         </div>
         <div class="stat-card-title">DIs Processadas</div>
-        <div class="stat-card-value" id="stat-dis-value">---</div>
-        <div class="stat-card-change positive" id="stat-dis-change">
-            <svg class="change-arrow" viewBox="0 0 24 24" fill="none">
-                <path d="M12 19V5M5 12L12 5L19 12" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <span>+12.5% este mês</span>
+        <div class="stat-card-value" id="stat-dis-value">🔄 Manual</div>
+        <div class="stat-card-change neutral" id="stat-dis-change">
+            <span>Aguardando carregamento manual</span>
         </div>
         <div class="stat-mini-chart">
             <canvas id="miniChartDis" width="100" height="40"></canvas>
@@ -279,7 +276,7 @@
     </div>
 
     <!-- Card 2: Volume CIF -->
-    <div class="stat-card" data-stat="volume-cif">
+    <div class="stat-card" data-stat="volume-cif" data-manual-control="true" data-state="empty">
         <div class="stat-card-header">
             <div class="stat-card-icon info">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -295,12 +292,9 @@
             </button>
         </div>
         <div class="stat-card-title">Volume CIF</div>
-        <div class="stat-card-value" id="stat-cif-value">---</div>
-        <div class="stat-card-change positive" id="stat-cif-change">
-            <svg class="change-arrow" viewBox="0 0 24 24" fill="none">
-                <path d="M12 19V5M5 12L12 5L19 12" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <span>+8.9% este mês</span>
+        <div class="stat-card-value" id="stat-cif-value">🔄 Manual</div>
+        <div class="stat-card-change neutral" id="stat-cif-change">
+            <span>Aguardando carregamento manual</span>
         </div>
         <div class="stat-mini-chart">
             <canvas id="miniChartCif" width="100" height="40"></canvas>
@@ -312,7 +306,7 @@
     </div>
 
     <!-- Card 3: Total Impostos -->
-    <div class="stat-card" data-stat="total-impostos">
+    <div class="stat-card" data-stat="total-impostos" data-manual-control="true" data-state="empty">
         <div class="stat-card-header">
             <div class="stat-card-icon warning">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -328,7 +322,7 @@
             </button>
         </div>
         <div class="stat-card-title">Total Impostos</div>
-        <div class="stat-card-value" id="stat-impostos-value">---</div>
+        <div class="stat-card-value" id="stat-impostos-value">🔄 Manual</div>
         <div class="stat-card-change neutral" id="stat-impostos-change">
             <span>Última atualização: hoje</span>
         </div>
@@ -342,7 +336,7 @@
     </div>
 
     <!-- Card 4: Despesas Discriminadas -->
-    <div class="stat-card" data-stat="despesas">
+    <div class="stat-card" data-stat="despesas" data-manual-control="true" data-state="empty">
         <div class="stat-card-header">
             <div class="stat-card-icon danger">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -358,12 +352,9 @@
             </button>
         </div>
         <div class="stat-card-title">Despesas Extras</div>
-        <div class="stat-card-value" id="stat-despesas-value">---</div>
-        <div class="stat-card-change positive" id="stat-despesas-change">
-            <svg class="change-arrow" viewBox="0 0 24 24" fill="none" transform="rotate(180)">
-                <path d="M12 19V5M5 12L12 5L19 12" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <span>-2.3% este mês</span>
+        <div class="stat-card-value" id="stat-despesas-value">🔄 Manual</div>
+        <div class="stat-card-change neutral" id="stat-despesas-change">
+            <span>Aguardando carregamento manual</span>
         </div>
         <div class="stat-mini-chart">
             <canvas id="miniChartDespesas" width="100" height="40"></canvas>
@@ -375,7 +366,7 @@
     </div>
 
     <!-- Card 5: NCMs Catalogados -->
-    <div class="stat-card" data-stat="ncms">
+    <div class="stat-card" data-stat="ncms" data-manual-control="true" data-state="empty">
         <div class="stat-card-header">
             <div class="stat-card-icon success">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -391,9 +382,9 @@
             </button>
         </div>
         <div class="stat-card-title">NCMs Catalogados</div>
-        <div class="stat-card-value" id="stat-ncms-value">---</div>
-        <div class="stat-card-change positive" id="stat-ncms-change">
-            <span>+5 novos NCMs</span>
+        <div class="stat-card-value" id="stat-ncms-value">🔄 Manual</div>
+        <div class="stat-card-change neutral" id="stat-ncms-change">
+            <span>Aguardando carregamento manual</span>
         </div>
         <div class="stat-mini-chart">
             <canvas id="miniChartNcms" width="100" height="40"></canvas>
@@ -405,7 +396,7 @@
     </div>
 
     <!-- Card 6: AFRMM Performance -->
-    <div class="stat-card" data-stat="afrmm">
+    <div class="stat-card" data-stat="afrmm" data-manual-control="true" data-state="empty">
         <div class="stat-card-header">
             <div class="stat-card-icon warning">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -421,12 +412,9 @@
             </button>
         </div>
         <div class="stat-card-title">AFRMM Performance</div>
-        <div class="stat-card-value" id="stat-afrmm-value">---</div>
-        <div class="stat-card-change positive" id="stat-afrmm-change">
-            <svg class="change-arrow" viewBox="0 0 24 24" fill="none">
-                <path d="M12 19V5M5 12L12 5L19 12" stroke="currentColor" stroke-width="2"/>
-            </svg>
-            <span>+8.7% performance</span>
+        <div class="stat-card-value" id="stat-afrmm-value">🔄 Manual</div>
+        <div class="stat-card-change neutral" id="stat-afrmm-change">
+            <span>Aguardando carregamento manual</span>
         </div>
         <div class="stat-mini-chart">
             <canvas id="miniChartAfrmm" width="100" height="40"></canvas>
@@ -466,8 +454,8 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', handleStatCardDetails);
     });
     
-    // Carregar dados iniciais dos cards
-    loadStatsCards();
+    // CARREGAMENTO AUTOMÁTICO DESABILITADO - Apenas controle manual
+    // loadStatsCards(); // COMENTADO - Usar controle manual
 });
 
 function handlePeriodFilter(e) {
@@ -510,8 +498,8 @@ function handleTaxRegimeFilter(e) {
 
 function refreshAllCharts() {
     if (window.expertzyCharts) {
-        window.expertzyCharts.loadChartData();
-        loadStatsCards();
+        window.expertzyCharts.loadChartData(true); // Manual trigger = true
+        loadStatsCards(); // Manual refresh dos cards
     }
 }
 
@@ -526,7 +514,7 @@ function handleStatCardDetails(e) {
 
 async function loadStatsCards() {
     try {
-        const response = await fetch('/api/dashboard/charts?endpoint=stats');
+        const response = await fetch('/sistema/dashboard/api/dashboard/stats.php');
         const data = await response.json();
         
         if (data.success) {

@@ -20,7 +20,7 @@ class DashboardManager {
         // State management
         this.isRefreshing = false;
         this.autoRefreshInterval = null;
-        this.autoRefreshEnabled = true;
+        this.autoRefreshEnabled = false; // DESABILITADO por padrão
         this.refreshIntervalTime = 30000; // 30 seconds
         this.lastDataUpdate = null;
         this.cachedData = new Map();
@@ -58,13 +58,13 @@ class DashboardManager {
             this.initializeFilters();
             this.applyUserPreferences();
             
-            // Initial data load
-            await this.refreshDashboard(false); // Silent initial load
+            // CARREGAMENTO INICIAL REMOVIDO - Apenas controle manual
+            // await this.refreshDashboard(false); // DESABILITADO
             
-            // Start auto-refresh
-            this.startAutoRefresh();
+            // AUTO-REFRESH DESABILITADO - Apenas controle manual
+            // this.startAutoRefresh(); // DESABILITADO
             
-            this.showNotification('Dashboard inicializado com sucesso', 'success', 2000);
+            this.showNotification('Dashboard inicializado (modo manual)', 'info', 2000);
         } catch (error) {
             this.showNotification('Erro ao inicializar dashboard: ' + error.message, 'error');
             console.error('Dashboard initialization error:', error);
@@ -92,27 +92,27 @@ class DashboardManager {
             });
         }
         
-        // Window focus/blur for auto-refresh management
-        window.addEventListener('focus', () => {
-            if (this.autoRefreshEnabled) {
-                this.startAutoRefresh();
-                this.refreshDashboard(true); // Immediate refresh on focus
-            }
-        });
+        // EVENTOS DE FOCUS/BLUR DESABILITADOS - Controle manual apenas
+        // window.addEventListener('focus', () => {
+        //     if (this.autoRefreshEnabled) {
+        //         this.startAutoRefresh();
+        //         this.refreshDashboard(true); // Immediate refresh on focus
+        //     }
+        // });
         
-        window.addEventListener('blur', () => {
-            this.pauseAutoRefresh();
-        });
+        // window.addEventListener('blur', () => {
+        //     this.pauseAutoRefresh();
+        // });
         
-        // Visibility API for better resource management
-        document.addEventListener('visibilitychange', () => {
-            if (document.visibilityState === 'visible' && this.autoRefreshEnabled) {
-                this.startAutoRefresh();
-                this.refreshDashboard(true);
-            } else {
-                this.pauseAutoRefresh();
-            }
-        });
+        // VISIBILITY API DESABILITADO - Controle manual apenas
+        // document.addEventListener('visibilitychange', () => {
+        //     if (document.visibilityState === 'visible' && this.autoRefreshEnabled) {
+        //         this.startAutoRefresh();
+        //         this.refreshDashboard(true);
+        //     } else {
+        //         this.pauseAutoRefresh();
+        //     }
+        // });
         
         // Card interactions
         this.statsCards.forEach((card, index) => {
@@ -1320,6 +1320,16 @@ document.head.appendChild(dashboardStyles);
         
         // Make available globally
         window.dashboardManager = dashboardManager;
+        
+        // MODO MANUAL: Expor função global para refresh manual
+        window.refreshDashboardManually = function() {
+            console.log('🎯 Refresh manual do dashboard iniciado...');
+            return dashboardManager.refreshDashboard(true);
+        };
+        
+        // Informar modo manual ativo
+        console.log('📊 Dashboard Manager: MODO MANUAL ATIVO');
+        console.log('🔧 Use window.refreshDashboardManually() ou botões de refresh');
     });
     
     // Export for module use
