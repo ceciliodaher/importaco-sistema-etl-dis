@@ -2,76 +2,54 @@
 /**
  * ================================================================================
  * SISTEMA ETL DE DI's - CONFIGURAÇÃO DO BANCO DE DADOS
- * Configuração para ServBay MySQL (localhost:3307)
- * Versão: 1.0.0
+ * Sistema flexível de conexões com detecção automática de ambientes
+ * Versão: 2.0.0 - Gerenciador de Conexões Inteligente
  * ================================================================================
  */
 
-// Detectar ambiente automaticamente
+// Carregar gerenciador de conexões
+require_once __DIR__ . '/../core/DatabaseConnectionManager.php';
+
+// Obter instância do gerenciador
+$connectionManager = DatabaseConnectionManager::getInstance();
+
+// Auto-selecionar melhor perfil baseado no ambiente
+$selectedProfile = $connectionManager->autoSelectProfile();
+
+// Obter configuração do perfil selecionado
+$config = $connectionManager->getCurrentConfig();
+
+// BACKWARD COMPATIBILITY: Manter variáveis antigas para compatibilidade
 $environment = $_ENV['ETL_ENVIRONMENT'] ?? 'development';
-
-// Configurações por ambiente
 $configs = [
-    'development' => [
-        'host' => 'localhost',
-        'port' => 3307,
-        'database' => 'importaco_etl_dis',
-        'username' => 'root',
-        'password' => 'ServBay.dev',
-        'charset' => 'utf8mb4',
-        'options' => [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false,
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci"
-        ]
-    ],
-    'testing' => [
-        'host' => 'localhost',
-        'port' => 3307,
-        'database' => 'importaco_etl_dis_test',
-        'username' => 'root',
-        'password' => 'ServBay.dev',
-        'charset' => 'utf8mb4',
-        'options' => [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false,
-        ]
-    ],
-    'production' => [
-        'host' => $_ENV['DB_HOST'] ?? 'localhost',
-        'port' => $_ENV['DB_PORT'] ?? 3306,
-        'database' => $_ENV['DB_DATABASE'] ?? 'importaco_etl_dis',
-        'username' => $_ENV['DB_USERNAME'] ?? 'root',
-        'password' => $_ENV['DB_PASSWORD'] ?? '',
-        'charset' => 'utf8mb4',
-        'options' => [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false,
-            PDO::ATTR_PERSISTENT => true,
-        ]
-    ]
+    'development' => $config,
+    'testing' => $connectionManager->getProfile('testing'),
+    'production' => $connectionManager->getProfile('production')
 ];
-
-// Configuração ativa
-$config = $configs[$environment];
 
 /**
  * Classe para conexão com banco de dados
- * Singleton pattern para garantir uma única conexão
+ * Singleton pattern integrado com DatabaseConnectionManager
  */
 class Database 
 {
     private static $instance = null;
     private $connection;
     private $config;
+    private $connectionManager;
 
-    private function __construct($config) 
+    private function __construct($config = null) 
     {
-        $this->config = $config;
-        $this->connect();
+        $this->connectionManager = DatabaseConnectionManager::getInstance();
+        
+        // Se config foi passado, usar ele (backward compatibility)
+        // Senão, usar o gerenciador de conexões
+        if ($config !== null) {
+            $this->config = $config;
+            $this->connect();
+        } else {
+            $this->connectViaManager();
+        }
     }
 
     /**
@@ -80,16 +58,27 @@ class Database
     public static function getInstance($config = null) 
     {
         if (self::$instance === null) {
-            if ($config === null) {
-                throw new InvalidArgumentException('Configuração é obrigatória na primeira chamada');
-            }
             self::$instance = new self($config);
         }
         return self::$instance;
     }
 
     /**
-     * Conectar ao banco de dados
+     * Conectar via DatabaseConnectionManager (novo método)
+     */
+    private function connectViaManager() 
+    {
+        try {
+            $this->connection = $this->connectionManager->getConnection();
+            $this->config = $this->connectionManager->getCurrentConfig();
+            
+        } catch (Exception $e) {
+            throw new RuntimeException('Falha na conexão via gerenciador: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Conectar ao banco de dados (método legacy)
      */
     private function connect() 
     {
@@ -143,11 +132,69 @@ class Database
      */
     public function getServerInfo() 
     {
-        return [
+        $info = [
             'version' => $this->connection->getAttribute(PDO::ATTR_SERVER_VERSION),
             'connection_status' => $this->connection->getAttribute(PDO::ATTR_CONNECTION_STATUS),
             'server_info' => $this->connection->getAttribute(PDO::ATTR_SERVER_INFO)
         ];
+        
+        // Adicionar informações do gerenciador de conexões
+        if ($this->connectionManager) {
+            $info['connection_manager'] = [
+                'current_profile' => $this->connectionManager->getCurrentProfileName(),
+                'detected_environments' => count($this->connectionManager->getDetectedEnvironments()),
+                'available_profiles' => count($this->connectionManager->getAvailableProfiles())
+            ];
+        }
+        
+        return $info;
+    }
+    
+    /**
+     * Obter gerenciador de conexões
+     */
+    public function getConnectionManager() 
+    {
+        return $this->connectionManager;
+    }
+    
+    /**
+     * Trocar perfil de conexão (reconectar)
+     */
+    public function switchProfile($profileName) 
+    {
+        if (!$this->connectionManager) {
+            throw new RuntimeException('Gerenciador de conexões não disponível');
+        }
+        
+        $this->connectionManager->setProfile($profileName);
+        $this->connectViaManager();
+        
+        return $this;
+    }
+    
+    /**
+     * Listar perfis disponíveis
+     */
+    public function getAvailableProfiles() 
+    {
+        if (!$this->connectionManager) {
+            return [];
+        }
+        
+        return $this->connectionManager->getAvailableProfiles();
+    }
+    
+    /**
+     * Obter status do perfil atual
+     */
+    public function getConnectionStatus() 
+    {
+        if (!$this->connectionManager) {
+            return ['legacy_mode' => true];
+        }
+        
+        return $this->connectionManager->getStatus();
     }
 
     /**
@@ -290,11 +337,38 @@ class Database
 
 /**
  * Função helper para obter conexão rapidamente
+ * Agora usa o sistema inteligente de detecção
  */
 function getDatabase() 
 {
-    global $config;
-    return Database::getInstance($config);
+    // Usar o novo sistema sem configuração manual
+    return Database::getInstance();
+}
+
+/**
+ * Função helper para obter gerenciador de conexões
+ */
+function getConnectionManager() 
+{
+    return DatabaseConnectionManager::getInstance();
+}
+
+/**
+ * Função helper para testar todas as conexões
+ */
+function testAllConnections() 
+{
+    $manager = getConnectionManager();
+    return $manager->testAllConnections();
+}
+
+/**
+ * Função helper para listar ambientes detectados
+ */
+function getDetectedEnvironments() 
+{
+    $manager = getConnectionManager();
+    return $manager->getDetectedEnvironments();
 }
 
 /**
@@ -337,23 +411,89 @@ function executeSqlFile($filename)
 $GLOBALS['db_config'] = $config;
 
 /**
- * Verificar se ServBay está rodando (desenvolvimento)
+ * Verificar se ServBay está rodando (desenvolvimento) - LEGACY
+ * Função mantida para compatibilidade, mas o gerenciador faz isso automaticamente
  */
 function checkServBay() 
 {
-    if ($GLOBALS['db_config']['port'] === 3307) {
-        $connection = @fsockopen('localhost', 3307, $errno, $errstr, 1);
-        if (!$connection) {
-            throw new RuntimeException(
-                'ServBay MySQL não está rodando na porta 3307. ' .
-                'Verifique se o ServBay está iniciado.'
-            );
-        }
-        fclose($connection);
+    $connection = @fsockopen('localhost', 3307, $errno, $errstr, 1);
+    if (!$connection) {
+        throw new RuntimeException(
+            'ServBay MySQL não está rodando na porta 3307. ' .
+            'Verifique se o ServBay está iniciado.'
+        );
     }
+    fclose($connection);
 }
 
-// Verificar ServBay se estiver em desenvolvimento
-if ($environment === 'development') {
-    checkServBay();
-}
+// DISPONIBILIZAR INFORMAÇÕES GLOBALMENTE
+$GLOBALS['db_config'] = $config;
+$GLOBALS['connection_manager'] = $connectionManager;
+$GLOBALS['selected_profile'] = $selectedProfile;
+
+/*
+================================================================================
+SISTEMA DE CONEXÕES INTELIGENTE - GUIA DE USO
+================================================================================
+
+O sistema agora detecta automaticamente o ambiente e seleciona a melhor configuração:
+
+1. AUTO-DETECÇÃO:
+   - ServBay (Mac): porta 3307 detectada
+   - WAMP (Windows): porta 3306 + Windows  
+   - XAMPP (Cross-platform): porta 3306 + não-Windows
+   - Docker: porta 3306 + ambiente Docker
+   - Produção: variáveis DB_* detectadas
+
+2. USO BÁSICO (sem mudanças no código existente):
+   $db = getDatabase(); // Detecta automaticamente
+
+3. USO AVANÇADO:
+   // Listar ambientes detectados
+   $environments = getDetectedEnvironments();
+   
+   // Testar todas as conexões
+   $tests = testAllConnections();
+   
+   // Trocar perfil manualmente
+   $db = getDatabase();
+   $db->switchProfile('wamp');
+   
+   // Obter status atual
+   $status = $db->getConnectionStatus();
+
+4. VARIÁVEIS DE AMBIENTE SUPORTADAS:
+   - ETL_DB_PROFILE: Forçar perfil específico
+   - ETL_ENVIRONMENT: development|testing|production
+   - DB_*: Configurações de produção
+   - CUSTOM_DB_*: Configurações customizadas
+
+5. PERFIS DISPONÍVEIS:
+   - servbay: ServBay MySQL (Mac) - PADRÃO
+   - wamp: WAMP Server (Windows)
+   - xampp: XAMPP (Cross-platform)
+   - docker: Docker MySQL
+   - production: Servidor produção
+   - testing: Ambiente de testes
+   - custom_local: Configuração personalizada
+   - cloud: Bancos em nuvem (RDS, Cloud SQL)
+
+================================================================================
+BACKWARD COMPATIBILITY
+================================================================================
+
+Todo código existente continua funcionando:
+- getDatabase() funciona igual
+- Database::getInstance() funciona igual
+- Todas as funções da classe Database mantidas
+- Variáveis $config e $environment ainda disponíveis
+
+NOVO: Funções adicionais disponíveis:
+- getConnectionManager()
+- testAllConnections()
+- getDetectedEnvironments()
+- $db->switchProfile()
+- $db->getAvailableProfiles()
+
+================================================================================
+*/
