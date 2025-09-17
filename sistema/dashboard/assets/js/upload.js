@@ -23,6 +23,7 @@ class UploadManager {
         // Advanced properties
         this.selectedFiles = [];
         this.uploadQueue = [];
+        this.activeUploads = new Map(); // Initialize the activeUploads Map
         this.maxFileSize = 10 * 1024 * 1024; // 10MB
         this.chunkSize = 5 * 1024 * 1024; // 5MB chunks
         this.allowedTypes = ['.xml'];
@@ -31,6 +32,7 @@ class UploadManager {
         this.retryDelay = 1000; // 1 second
         this.duplicateFiles = new Map();
         this.xmlValidator = null;
+        this.pollingInterval = null; // Initialize polling interval
         
         // WebSocket connection
         this.wsConnection = null;
@@ -59,30 +61,60 @@ class UploadManager {
     }
 
     initializeWebSocket() {
-        try {
-            const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsUrl = `${protocol}//${location.host}/ws/upload-status`;
-            
-            this.wsConnection = new WebSocket(wsUrl);
-            
-            this.wsConnection.onopen = () => {
-                this.wsReconnectAttempts = 0;
-                this.showFeedback('Conexão em tempo real estabelecida', 'success', 2000);
-            };
-            
-            this.wsConnection.onmessage = (event) => {
-                this.handleWebSocketMessage(JSON.parse(event.data));
-            };
-            
-            this.wsConnection.onclose = () => {
-                this.handleWebSocketReconnect();
-            };
-            
-            this.wsConnection.onerror = (error) => {
-                console.warn('WebSocket error:', error);
-            };
-        } catch (error) {
-            console.warn('WebSocket não disponível:', error.message);
+        // WebSocket desabilitado até servidor implementar suporte
+        // Usar polling com API real para status
+        this.startStatusPolling();
+    }
+    
+    startStatusPolling() {
+        // Polling real via API para verificar status de uploads
+        if (this.pollingInterval) return;
+        
+        this.pollingInterval = setInterval(() => {
+            if (this.activeUploads.size > 0) {
+                this.fetchRealUploadStatus();
+            }
+        }, 2000); // Verificar a cada 2 segundos
+    }
+    
+    async fetchRealUploadStatus() {
+        // Buscar status real dos uploads via API
+        for (const [fileId, upload] of this.activeUploads) {
+            if (upload.status === 'processing') {
+                try {
+                    const response = await fetch(`/sistema/dashboard/api/upload/status.php?id=${fileId}`);
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.status === 'success') {
+                            this.handleUploadProgress(fileId, data.progress);
+                            if (data.completed) {
+                                this.handleUploadComplete(fileId, data);
+                            }
+                        }
+                    }
+                } catch (error) {
+                    console.error(`Erro ao verificar status do upload ${fileId}:`, error);
+                }
+            }
+        }
+    }
+
+    addActiveUpload(fileId, uploadData) {
+        this.activeUploads.set(fileId, {
+            ...uploadData,
+            status: 'processing',
+            startTime: Date.now()
+        });
+    }
+
+    removeActiveUpload(fileId) {
+        this.activeUploads.delete(fileId);
+    }
+
+    updateActiveUpload(fileId, updateData) {
+        if (this.activeUploads.has(fileId)) {
+            const upload = this.activeUploads.get(fileId);
+            this.activeUploads.set(fileId, { ...upload, ...updateData });
         }
     }
 
@@ -739,6 +771,13 @@ class UploadManager {
     }
 
     async uploadFileSingle(file, fileIndex, totalFiles) {
+        // Add to active uploads
+        this.addActiveUpload(file.uploadId, {
+            filename: file.name,
+            size: file.size,
+            progress: 0
+        });
+
         return new Promise((resolve, reject) => {
             const formData = new FormData();
             formData.append('xml_file', file);
@@ -752,10 +791,14 @@ class UploadManager {
                 if (e.lengthComputable) {
                     const percent = (e.loaded / e.total) * 100;
                     this.updateFileProgress(file.uploadId, percent);
+                    this.updateActiveUpload(file.uploadId, { progress: percent });
                 }
             };
 
             xhr.onload = () => {
+                // Remove from active uploads when done
+                this.removeActiveUpload(file.uploadId);
+                
                 if (xhr.status === 200) {
                     try {
                         const response = JSON.parse(xhr.responseText);
@@ -769,10 +812,14 @@ class UploadManager {
             };
 
             xhr.onerror = () => {
+                // Remove from active uploads on error
+                this.removeActiveUpload(file.uploadId);
                 reject(new Error('Erro de conexão com o servidor'));
             };
 
             xhr.ontimeout = () => {
+                // Remove from active uploads on timeout
+                this.removeActiveUpload(file.uploadId);
                 reject(new Error('Timeout na requisição (tempo limite excedido)'));
             };
 
@@ -990,6 +1037,17 @@ class UploadManager {
         // Por enquanto, apenas log para debug
         console.log('Atualizando estatísticas:', stats);
     }
+
+    // Cleanup method
+    destroy() {
+        if (this.pollingInterval) {
+            clearInterval(this.pollingInterval);
+        }
+        this.activeUploads.clear();
+        if (this.wsConnection) {
+            this.wsConnection.close();
+        }
+    }
 }
 
 // Adicionar animação de saída para feedback messages
@@ -1024,19 +1082,31 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Inicializar o gerenciador de upload quando o DOM estiver pronto
-let uploadManager;
-
-document.addEventListener('DOMContentLoaded', function() {
-    uploadManager = new UploadManager();
+// IIFE to prevent global scope pollution and redeclaration errors
+(function() {
+    'use strict';
     
-    // Configurar refresh automático das estatísticas
-    setInterval(() => {
-        if (!uploadManager.isProcessing) {
-            uploadManager.refreshStats();
-        }
-    }, 30000); // 30 segundos
-});
-
-// Exportar para uso global
-window.UploadManager = UploadManager;
+    // Prevent multiple initializations
+    if (window.uploadManager) {
+        return;
+    }
+    
+    let uploadManager;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        uploadManager = new UploadManager();
+        
+        // Make available globally
+        window.uploadManager = uploadManager;
+        
+        // Configurar refresh automático das estatísticas
+        setInterval(() => {
+            if (!uploadManager.isProcessing) {
+                uploadManager.refreshStats();
+            }
+        }, 30000); // 30 segundos
+    });
+    
+    // Exportar para uso global
+    window.UploadManager = UploadManager;
+})();

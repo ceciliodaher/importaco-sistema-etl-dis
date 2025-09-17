@@ -1,0 +1,141 @@
+Uncaught SyntaxError: redeclaration of let DashboardManager
+    <anonymous> https://importacao-sistema.local/sistema/dashboard/assets/js/dashboard.js:1
+dashboard.js:1:1
+Uncaught SyntaxError: redeclaration of let ExpertzyChartsSystem
+    <anonymous> https://importacao-sistema.local/sistema/dashboard/assets/js/charts.js:1
+charts.js:1:1
+✅ Extensões avançadas dos gráficos carregadas com sucesso charts-extensions.js:812:9
+Sistema de Navegação Expertzy inicializado navigation.js:29:17
+URL atual: /sistema/dashboard/ navigation.js:30:17
+Dashboard Expertzy ETL DI carregado com sucesso dashboard:1130:13
+Sistema de Navegação destruído navigation.js:488:17
+Sistema de Navegação Expertzy inicializado navigation.js:29:17
+URL atual: /sistema/dashboard/ navigation.js:30:17
+✅ Sistema de Gráficos Expertzy inicializado com sucesso charts.js:43:17
+Sistema de Navegação destruído navigation.js:488:17
+Sistema de Navegação Expertzy inicializado navigation.js:29:17
+URL atual: /sistema/dashboard/ navigation.js:30:17
+Layout Expertzy carregado: 
+Object { type: "dashboard", hasHeader: true, hasFooter: true, hasBreadcrumbs: true }
+dashboard:1511:17
+Layout Expertzy pronto: 
+Object { type: "dashboard", hasHeader: true, hasFooter: true, hasBreadcrumbs: true }
+dashboard:1134:17
+Dashboard refresh error: Error: HTTP 503: Service Unavailable
+    fetchRecentActivity https://importacao-sistema.local/sistema/dashboard/assets/js/dashboard.js:329
+dashboard.js:281:21
+O Firefox não conseguiu estabelecer uma conexão com o servidor wss://importacao-sistema.local/ws/charts. charts.js:114:30
+WebSocket desconectado, tentando reconexão em 5s... charts.js:122:25
+Erro ao carregar cards estatísticos: SyntaxError: JSON.parse: unexpected character at line 1 column 1 of the JSON data dashboard:1082:17
+Erro ao carregar dados dos gráficos: SyntaxError: JSON.parse: unexpected character at line 1 column 1 of the JSON data charts.js:164:21
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+2 upload.js:72:17
+O Firefox não conseguiu estabelecer uma conexão com o servidor wss://importacao-sistema.local/ws/charts. charts.js:114:30
+WebSocket desconectado, tentando reconexão em 5s... charts.js:122:25
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+2 upload.js:72:17
+Erro de parse XML: nenhum elemento raiz encontrado
+Local: https://importacao-sistema.local/sistema/dashboard/
+Linha número 122, coluna 50: dashboard:122:50
+O Firefox não conseguiu estabelecer uma conexão com o servidor wss://importacao-sistema.local/ws/charts. charts.js:114:30
+WebSocket desconectado, tentando reconexão em 5s... charts.js:122:25
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+upload.js:72:17
+Dashboard refresh error: Error: HTTP 503: Service Unavailable
+    fetchRecentActivity https://importacao-sistema.local/sistema/dashboard/assets/js/dashboard.js:329
+dashboard.js:281:21
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+2 upload.js:72:17
+O Firefox não conseguiu estabelecer uma conexão com o servidor wss://importacao-sistema.local/ws/charts. charts.js:114:30
+WebSocket desconectado, tentando reconexão em 5s... charts.js:122:25
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+2 upload.js:72:17
+O Firefox não conseguiu estabelecer uma conexão com o servidor wss://importacao-sistema.local/ws/charts. charts.js:114:30
+WebSocket desconectado, tentando reconexão em 5s... charts.js:122:25
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+3 upload.js:72:17
+GET
+wss://importacao-sistema.local/ws/charts
+NS_ERROR_WEBSOCKET_CONNECTION_REFUSED
+
+O Firefox não conseguiu estabelecer uma conexão com o servidor wss://importacao-sistema.local/ws/charts. charts.js:114:30
+WebSocket desconectado, tentando reconexão em 5s... charts.js:122:25
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+2 upload.js:72:17
+Atualizando estatísticas... dashboard:1142:17
+XHRGET
+https://importacao-sistema.local/api/dashboard/charts/all
+[HTTP/1.1 404 Not Found 1ms]
+
+XHRGET
+https://importacao-sistema.local/sistema/dashboard/api/stats.php
+[HTTP/1.1 404 Not Found 1ms]
+
+Erro ao carregar dados dos gráficos: SyntaxError: JSON.parse: unexpected character at line 1 column 1 of the JSON data charts.js:164:21
+Atualizando estatísticas: undefined upload.js:1002:17
+GET
+wss://importacao-sistema.local/ws/charts
+NS_ERROR_WEBSOCKET_CONNECTION_REFUSED
+
+O Firefox não conseguiu estabelecer uma conexão com o servidor wss://importacao-sistema.local/ws/charts. charts.js:114:30
+WebSocket desconectado, tentando reconexão em 5s... charts.js:122:25
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+3 upload.js:72:17
+GET
+wss://importacao-sistema.local/ws/charts
+NS_ERROR_WEBSOCKET_CONNECTION_REFUSED
+
+O Firefox não conseguiu estabelecer uma conexão com o servidor wss://importacao-sistema.local/ws/charts. charts.js:114:30
+WebSocket desconectado, tentando reconexão em 5s... charts.js:122:25
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+3 upload.js:72:17
+GET
+wss://importacao-sistema.local/ws/charts
+NS_ERROR_WEBSOCKET_CONNECTION_REFUSED
+
+O Firefox não conseguiu estabelecer uma conexão com o servidor wss://importacao-sistema.local/ws/charts. charts.js:114:30
+WebSocket desconectado, tentando reconexão em 5s... charts.js:122:25
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+5 upload.js:72:17
+GET
+wss://importacao-sistema.local/ws/charts
+NS_ERROR_WEBSOCKET_CONNECTION_REFUSED
+
+O Firefox não conseguiu estabelecer uma conexão com o servidor wss://importacao-sistema.local/ws/charts. charts.js:114:30
+WebSocket desconectado, tentando reconexão em 5s... charts.js:122:25
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+4 upload.js:72:17
+Atualizando estatísticas... dashboard:1142:17
+XHRGET
+https://importacao-sistema.local/sistema/dashboard/api/stats.php
+[HTTP/1.1 404 Not Found 1ms]
+
+XHRGET
+https://importacao-sistema.local/api/dashboard/charts/all
+[HTTP/1.1 404 Not Found 1ms]
+
+Erro ao carregar dados dos gráficos: SyntaxError: JSON.parse: unexpected character at line 1 column 1 of the JSON data charts.js:164:21
+Atualizando estatísticas: undefined upload.js:1002:17
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+3 upload.js:72:17
+GET
+wss://importacao-sistema.local/ws/charts
+NS_ERROR_WEBSOCKET_CONNECTION_REFUSED
+
+O Firefox não conseguiu estabelecer uma conexão com o servidor wss://importacao-sistema.local/ws/charts. charts.js:114:30
+WebSocket desconectado, tentando reconexão em 5s... charts.js:122:25
+Uncaught TypeError: can't access property "size", this.activeUploads is undefined
+    pollingInterval https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js:72
+3 upload.js:72:17

@@ -8,7 +8,7 @@
 
 require_once '../common/response.php';
 require_once '../common/cache.php';
-require_once '../../config/database.php';
+require_once '../../../config/database.php';
 
 // Configurar ambiente de teste
 error_reporting(E_ALL);

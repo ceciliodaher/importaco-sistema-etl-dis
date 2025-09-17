@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 
 try {
     // Carregar configurações
-    require_once '../../../config/database.php';
+    require_once __DIR__ . '/../../../config/database.php';
     
     // Verificar se arquivo foi enviado
     if (!isset($_FILES['xml_file']) || $_FILES['xml_file']['error'] !== UPLOAD_ERR_OK) {
@@ -139,7 +139,7 @@ function validateUploadedFile($file) {
 function processXmlFile($file) {
     // Gerar nome único para o arquivo
     $filename = uniqid('di_', true) . '_' . time() . '.xml';
-    $uploadPath = '../../../data/uploads/' . $filename;
+    $uploadPath = __DIR__ . '/../../../data/uploads/' . $filename;
     
     // Mover arquivo para diretório de uploads
     if (!move_uploaded_file($file['tmp_name'], $uploadPath)) {
@@ -180,28 +180,47 @@ function processXmlFile($file) {
         throw new Exception('Erro ao validar XML: ' . $e->getMessage());
     }
     
-    // Simular processamento (por enquanto apenas salva o arquivo)
-    // TODO: Implementar parser de DI real aqui
-    
-    // Registrar no banco (básico por enquanto)
+    // Processar XML usando DiXmlParser
     try {
-        $db = getDatabase();
+        require_once __DIR__ . '/../../../core/parsers/DiXmlParser.php';
         
-        // Inserir registro de processamento
-        $sql = "INSERT INTO processamento_arquivos (nome_arquivo, tamanho_arquivo, status, data_upload) 
-                VALUES (?, ?, 'uploaded', NOW())";
+        $parser = new DiXmlParser(true); // Enable debug mode
         
-        // Verificar se tabela existe (pode não existir ainda)
-        try {
-            $db->query($sql, [$filename, $file['size']]);
-        } catch (Exception $e) {
-            // Se tabela não existe, apenas log
-            error_log("Aviso: Não foi possível registrar no banco: " . $e->getMessage());
-        }
+        // Parse XML
+        $diData = $parser->parseXml($uploadPath);
+        
+        // Save to database
+        $parser->saveToDatabase($diData);
+        
+        // Register processing
+        $parser->registerProcessing($uploadPath, $diData['numero_di'], 
+                                   $diData['adicoes'][0]['incoterm'] ?? '');
+        
+        // Return parsed data
+        $parsedData = [
+            'numero_di' => $diData['numero_di'],
+            'data_registro' => $diData['data_registro'],
+            'importador_nome' => $diData['importador_nome'],
+            'total_adicoes' => $diData['total_adicoes'],
+            'valor_total_cif_brl' => $diData['valor_total_cif_brl'],
+            'incoterm' => $diData['adicoes'][0]['incoterm'] ?? null,
+            'moeda_codigo' => $diData['adicoes'][0]['moeda_codigo'] ?? null
+        ];
         
     } catch (Exception $e) {
-        error_log("Erro no banco de dados: " . $e->getMessage());
-        // Não falhar por erro de banco neste momento
+        // If parsing fails, still keep the file but mark as error
+        error_log("Erro ao processar DI: " . $e->getMessage());
+        
+        // Try to register as error
+        try {
+            require_once __DIR__ . '/../../../core/parsers/DiXmlParser.php';
+            $parser = new DiXmlParser();
+            $parser->registerProcessing($uploadPath, 'ERRO', 'ERRO');
+        } catch (Exception $regError) {
+            error_log("Erro ao registrar falha: " . $regError->getMessage());
+        }
+        
+        throw new Exception('Erro ao processar DI: ' . $e->getMessage());
     }
     
     return [
@@ -210,7 +229,8 @@ function processXmlFile($file) {
         'size' => $file['size'],
         'upload_path' => $uploadPath,
         'processed_at' => date('Y-m-d H:i:s'),
-        'status' => 'uploaded'
+        'status' => 'processed',
+        'parsed_data' => $parsedData ?? null
     ];
 }
 

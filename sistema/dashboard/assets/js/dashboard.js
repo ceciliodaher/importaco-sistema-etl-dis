@@ -286,7 +286,7 @@ class DashboardManager {
     }
 
     async fetchStatsData() {
-        const response = await fetch('api/dashboard/stats.php', {
+        const response = await fetch('/sistema/dashboard/api/dashboard/stats.php', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -302,7 +302,7 @@ class DashboardManager {
     }
 
     async fetchChartsData() {
-        const response = await fetch('api/dashboard/charts.php', {
+        const response = await fetch('/sistema/dashboard/api/dashboard/charts.php?type=all', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -318,7 +318,7 @@ class DashboardManager {
     }
 
     async fetchRecentActivity() {
-        const response = await fetch('api/dashboard/activity.php', {
+        const response = await fetch('/sistema/dashboard/api/dashboard/activity.php', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -333,7 +333,7 @@ class DashboardManager {
     }
 
     async fetchSystemStatus() {
-        const response = await fetch('api/dashboard/system-status.php', {
+        const response = await fetch('/sistema/dashboard/api/dashboard/system-status.php', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -511,7 +511,7 @@ class DashboardManager {
         }
         
         try {
-            const response = await fetch('api/dashboard/search.php', {
+            const response = await fetch('/sistema/dashboard/api/dashboard/search.php', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -762,7 +762,7 @@ class DashboardManager {
         
         try {
             const cardType = card.dataset.cardType;
-            const response = await fetch(`api/dashboard/card-data.php?type=${cardType}`);
+            const response = await fetch(`/sistema/dashboard/api/dashboard/stats.php?type=${cardType}`);
             const data = await response.json();
             
             if (data.success) {
@@ -1304,15 +1304,24 @@ dashboardStyles.textContent = `
 
 document.head.appendChild(dashboardStyles);
 
-// Initialize dashboard manager when DOM is ready
-let dashboardManager;
-
-document.addEventListener('DOMContentLoaded', function() {
-    dashboardManager = new DashboardManager();
+// IIFE to prevent global scope pollution and redeclaration errors
+(function() {
+    'use strict';
     
-    // Make available globally
-    window.dashboardManager = dashboardManager;
-});
-
-// Export for module use
-window.DashboardManager = DashboardManager;
+    // Prevent multiple initializations
+    if (window.dashboardManager) {
+        return;
+    }
+    
+    let dashboardManager;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        dashboardManager = new DashboardManager();
+        
+        // Make available globally
+        window.dashboardManager = dashboardManager;
+    });
+    
+    // Export for module use
+    window.DashboardManager = DashboardManager;
+})();

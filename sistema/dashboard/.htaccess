@@ -102,6 +102,14 @@ AddDefaultCharset UTF-8
     SetEnv ETL_DEBUG true
 </IfModule>
 
-# Rewrite rules para URLs amigáveis (futuro)
-# RewriteRule ^api/([^/]+)/([^/]+)/?$ api/$1/$2.php [L,QSA]
+# Rewrite rules para APIs específicas
+RewriteRule ^api/dashboard/charts/all/?$ api/dashboard/charts.php?type=all [L,QSA]
+RewriteRule ^api/dashboard/charts/([^/]+)/?$ api/dashboard/charts.php?type=$1 [L,QSA]
+RewriteRule ^api/dashboard/stats/?$ api/dashboard/stats.php [L,QSA]
+RewriteRule ^api/dashboard/([^/]+)/?$ api/dashboard/$1.php [L,QSA]
+
+# Generic API routing (fallback)
+RewriteRule ^api/([^/]+)/([^/]+)/?$ api/$1/$2.php [L,QSA]
+
+# Module routing (futuro)
 # RewriteRule ^module/([^/]+)/?$ modules/$1/index.php [L,QSA]

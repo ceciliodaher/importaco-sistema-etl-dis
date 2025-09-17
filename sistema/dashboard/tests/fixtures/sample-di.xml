@@ -32,7 +32,7 @@ XML de Declaração de Importação sintética baseada em formato real SISCOMEX
     </exportador>
     
     <informacoesGerais>
-        <paisOrigem>US</paisOrigemPais>
+        <paisOrigem>US</paisOrigem>
         <paisProcedencia>US</paisProcedencia>
         <viaTransporte>MARITIMA</viaTransporte>
         <urf>717600</urf> <!-- Santos/SP -->

@@ -154,7 +154,7 @@ class ExpertzyChartsSystem {
      */
     async loadChartData() {
         try {
-            const response = await fetch('/api/dashboard/charts/all');
+            const response = await fetch('/sistema/dashboard/api/dashboard/charts.php?type=all');
             const data = await response.json();
             
             if (data.success) {
@@ -876,7 +876,7 @@ class ExpertzyChartsSystem {
      */
     async refreshChart(chartType) {
         try {
-            const response = await fetch(`/api/dashboard/charts/${chartType}`);
+            const response = await fetch(`/sistema/dashboard/api/dashboard/charts.php?type=${chartType}`);
             const data = await response.json();
             
             if (data.success) {
@@ -951,17 +951,29 @@ class ExpertzyChartsSystem {
     }
 }
 
-// Inicialização automática quando DOM carregado
-document.addEventListener('DOMContentLoaded', function() {
-    // Aguardar Chart.js carregar
-    if (typeof Chart !== 'undefined') {
-        window.expertzyCharts = new ExpertzyChartsSystem();
-    } else {
-        console.error('Chart.js não foi carregado. Verifique se a biblioteca está incluída.');
+// IIFE to prevent global scope pollution and redeclaration errors
+(function() {
+    'use strict';
+    
+    // Prevent multiple initializations
+    if (window.expertzyCharts) {
+        return;
     }
-});
-
-// Export para uso externo
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = ExpertzyChartsSystem;
-}
+    
+    // Inicialização automática quando DOM carregado
+    document.addEventListener('DOMContentLoaded', function() {
+        // Aguardar Chart.js carregar
+        if (typeof Chart !== 'undefined') {
+            window.expertzyCharts = new ExpertzyChartsSystem();
+        } else {
+            console.error('Chart.js não foi carregado. Verifique se a biblioteca está incluída.');
+        }
+    });
+    
+    // Export para uso externo
+    window.ExpertzyChartsSystem = ExpertzyChartsSystem;
+    
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = ExpertzyChartsSystem;
+    }
+})();

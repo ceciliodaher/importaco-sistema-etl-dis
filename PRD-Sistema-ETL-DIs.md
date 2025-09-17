@@ -904,7 +904,288 @@ Payback Period: 4 meses
 
 ---
 
-## 11. Conclusão
+## 11. Estratégia de Teste e Validação
+
+### 11.1 Test Strategy & Quality Assurance
+
+#### **Filosofia de Testes**
+- **Test-Driven Development**: Testes escritos antes do código
+- **Continuous Testing**: Validação contínua durante desenvolvimento
+- **Zero Tolerance**: Sistema só é considerado completo com ZERO erros
+- **Real-World Testing**: Uso de XMLs DI reais para validação
+
+#### **Níveis de Teste**
+1. **Unit Testing**: Componentes isolados (PHP, JS)
+2. **Integration Testing**: Comunicação entre módulos
+3. **E2E Testing**: Fluxo completo com Playwright
+4. **Performance Testing**: Carga e stress testing
+5. **Security Testing**: Penetração e vulnerabilidade
+6. **UAT Testing**: Validação com usuários finais
+
+### 11.2 Critérios de Aceitação
+
+#### **Definition of Done**
+Um componente só está COMPLETO quando:
+- ✅ **Zero erros no console JavaScript**
+- ✅ **Zero erros fatais nos logs PHP**
+- ✅ **Todas APIs retornando 200 OK**
+- ✅ **Testes automatizados passando (100%)**
+- ✅ **XML real processado com sucesso**
+- ✅ **Dados corretos no dashboard**
+- ✅ **Performance dentro dos targets**
+- ✅ **Documentação atualizada**
+
+#### **Critérios de Release**
+Sistema pronto para produção quando:
+- ✅ **100% dos testes E2E passando**
+- ✅ **Zero bugs críticos ou bloqueadores**
+- ✅ **Performance < 30s para processar DI**
+- ✅ **Uptime > 99.9% em staging**
+- ✅ **Security scan sem vulnerabilidades críticas**
+- ✅ **UAT aprovado pelos stakeholders**
+
+### 11.3 Playwright Test Suite
+
+#### **Configuração Playwright**
+```javascript
+// playwright.config.js
+module.exports = {
+  testDir: './tests/e2e',
+  timeout: 60000,
+  retries: 2,
+  use: {
+    baseURL: 'http://localhost:8000',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+    trace: 'on-first-retry'
+  },
+  projects: [
+    { name: 'Chrome', use: { browserName: 'chromium' }},
+    { name: 'Firefox', use: { browserName: 'firefox' }},
+    { name: 'Safari', use: { browserName: 'webkit' }}
+  ]
+};
+```
+
+#### **Test Cases E2E Obrigatórios**
+
+##### **Test Case 1: Upload XML DI Real**
+```javascript
+// tests/e2e/test-upload-xml.spec.js
+test('Upload e processamento de XML DI real', async ({ page }) => {
+  // 1. Navegar para dashboard
+  await page.goto('/sistema/dashboard');
+  
+  // 2. Verificar zero erros no console
+  const errors = [];
+  page.on('console', msg => {
+    if (msg.type() === 'error') errors.push(msg.text());
+  });
+  
+  // 3. Upload do XML
+  const fileInput = await page.locator('input[type="file"]');
+  await fileInput.setInputFiles('tests/fixtures/sample-di.xml');
+  
+  // 4. Aguardar processamento
+  await page.waitForSelector('.upload-success', { timeout: 30000 });
+  
+  // 5. Verificar dados no dashboard
+  await expect(page.locator('.stats-card')).toContainText('24BR00001234567');
+  
+  // 6. Validar zero erros
+  expect(errors).toHaveLength(0);
+});
+```
+
+##### **Test Case 2: Dashboard Sem Erros**
+```javascript
+// tests/e2e/test-dashboard-health.spec.js
+test('Dashboard carrega sem erros', async ({ page }) => {
+  // Monitorar console
+  const consoleErrors = [];
+  page.on('console', msg => {
+    if (msg.type() === 'error') {
+      consoleErrors.push(msg.text());
+    }
+  });
+  
+  // Monitorar requests falhas
+  const failedRequests = [];
+  page.on('requestfailed', request => {
+    failedRequests.push(request.url());
+  });
+  
+  // Carregar dashboard
+  await page.goto('/sistema/dashboard');
+  await page.waitForLoadState('networkidle');
+  
+  // Verificações
+  expect(consoleErrors).toHaveLength(0);
+  expect(failedRequests).toHaveLength(0);
+  
+  // Verificar elementos críticos
+  await expect(page.locator('.dashboard-container')).toBeVisible();
+  await expect(page.locator('.stats-card')).toHaveCount(6);
+  await expect(page.locator('.chart-container')).toBeVisible();
+});
+```
+
+##### **Test Case 3: APIs Funcionais**
+```javascript
+// tests/e2e/test-apis.spec.js
+test('Todas APIs retornando dados válidos', async ({ page, request }) => {
+  const apis = [
+    '/api/dashboard/stats.php',
+    '/api/dashboard/charts.php',
+    '/api/dashboard/system-status.php'
+  ];
+  
+  for (const api of apis) {
+    const response = await request.get(api);
+    expect(response.status()).toBe(200);
+    
+    const json = await response.json();
+    expect(json).toHaveProperty('status', 'success');
+    expect(json).toHaveProperty('data');
+  }
+});
+```
+
+### 11.4 Monitoramento de Logs
+
+#### **Sistema de Logs Estruturado**
+```php
+// sistema/core/logger.php
+class SystemLogger {
+    private $logFile;
+    private $errorFile;
+    
+    public function __construct() {
+        $this->logFile = __DIR__ . '/../logs/system.log';
+        $this->errorFile = __DIR__ . '/../logs/error.log';
+    }
+    
+    public function log($level, $message, $context = []) {
+        $entry = [
+            'timestamp' => date('Y-m-d H:i:s'),
+            'level' => $level,
+            'message' => $message,
+            'context' => $context
+        ];
+        
+        if ($level === 'ERROR' || $level === 'FATAL') {
+            file_put_contents($this->errorFile, json_encode($entry) . PHP_EOL, FILE_APPEND);
+        }
+        
+        file_put_contents($this->logFile, json_encode($entry) . PHP_EOL, FILE_APPEND);
+    }
+    
+    public function hasErrors() {
+        if (!file_exists($this->errorFile)) return false;
+        return filesize($this->errorFile) > 0;
+    }
+}
+```
+
+#### **Log Monitoring Script**
+```bash
+#!/bin/bash
+# sistema/scripts/monitor-logs.sh
+
+LOGDIR="/Users/ceciliodaher/Documents/git/importaco-sistema/sistema/logs"
+ERROR_COUNT=0
+
+# Monitorar erros PHP
+if [ -f "$LOGDIR/error.log" ]; then
+    ERROR_COUNT=$(grep -c "ERROR\|FATAL" "$LOGDIR/error.log")
+fi
+
+# Monitorar erros Apache/Nginx
+APACHE_ERRORS=$(grep -c "error" /var/log/apache2/error.log 2>/dev/null || echo 0)
+
+# Status report
+echo "======================================="
+echo "SISTEMA ETL DI's - STATUS DE LOGS"
+echo "======================================="
+echo "Erros PHP: $ERROR_COUNT"
+echo "Erros Apache: $APACHE_ERRORS"
+echo "======================================="
+
+if [ $ERROR_COUNT -gt 0 ] || [ $APACHE_ERRORS -gt 0 ]; then
+    echo "❌ SISTEMA COM ERROS - CORREÇÃO NECESSÁRIA"
+    exit 1
+else
+    echo "✅ SISTEMA SEM ERROS - PRONTO PARA USO"
+    exit 0
+fi
+```
+
+### 11.5 Validação com XML Real
+
+#### **Processo de Validação**
+1. **Preparar XML de teste** (sample-di.xml já existe)
+2. **Iniciar servidor local**
+3. **Executar upload via interface**
+4. **Verificar processamento no banco**
+5. **Validar exibição no dashboard**
+6. **Confirmar cálculos tributários**
+7. **Testar exportações (JSON/PDF/XLSX)**
+
+#### **Script de Validação Automatizada**
+```bash
+#!/bin/bash
+# sistema/scripts/validate-system.sh
+
+echo "======================================="
+echo "VALIDAÇÃO COMPLETA DO SISTEMA ETL DI's"
+echo "======================================="
+
+# 1. Verificar servidor PHP
+echo "1. Verificando servidor..."
+curl -s http://localhost:8000/sistema/dashboard > /dev/null
+if [ $? -eq 0 ]; then
+    echo "✅ Servidor rodando"
+else
+    echo "❌ Servidor não está rodando"
+    exit 1
+fi
+
+# 2. Verificar banco de dados
+echo "2. Verificando banco de dados..."
+mysql -u root -p'ServBay.dev' -e "USE importaco_etl_dis; SELECT COUNT(*) FROM declaracoes_importacao;" > /dev/null 2>&1
+if [ $? -eq 0 ]; then
+    echo "✅ Banco de dados acessível"
+else
+    echo "❌ Banco de dados inacessível"
+    exit 1
+fi
+
+# 3. Executar testes Playwright
+echo "3. Executando testes E2E..."
+npx playwright test
+if [ $? -eq 0 ]; then
+    echo "✅ Todos os testes passaram"
+else
+    echo "❌ Testes falharam"
+    exit 1
+fi
+
+# 4. Verificar logs
+echo "4. Verificando logs..."
+./monitor-logs.sh
+if [ $? -eq 0 ]; then
+    echo "✅ Sem erros nos logs"
+else
+    echo "❌ Erros encontrados nos logs"
+    exit 1
+fi
+
+echo "======================================="
+echo "✅ SISTEMA VALIDADO COM SUCESSO!"
+echo "======================================="
+```
+
+## 12. Conclusão
 
 ### 11.1 Resumo Executivo Final
 

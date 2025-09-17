@@ -9,6 +9,7 @@
 
 require_once '../common/response.php';
 require_once '../common/cache.php';
+require_once '../common/validator.php';
 require_once '../../../config/database.php';
 
 // Middleware de inicialização
@@ -26,7 +27,7 @@ try {
     
     // Validação básica
     if (!$validator->allowedValues($params, [
-        'type' => ['evolution', 'taxes', 'expenses', 'currencies', 'ncms', 'states', 'importers', 'correlation'],
+        'type' => ['evolution', 'taxes', 'expenses', 'currencies', 'ncms', 'states', 'importers', 'correlation', 'all'],
         'period' => ['1month', '3months', '6months', '12months', 'all']
     ])) {
         apiError('Parâmetros inválidos: ' . implode(', ', $validator->getErrors()), 400)->send();
@@ -35,6 +36,11 @@ try {
     $chartType = $params['type'] ?? 'evolution';
     $period = $params['period'] ?? '6months';
     $filters = $params['filters'] ?? [];
+    
+    // Handle special 'all' type for bulk chart data
+    if ($chartType === 'all') {
+        return handleAllChartsRequest($period, $filters);
+    }
 
     // Inicializar cache do dashboard
     $cache = getDashboardCache();
@@ -57,6 +63,59 @@ try {
 } catch (Exception $e) {
     error_log("API Charts Error: " . $e->getMessage());
     apiError('Erro interno do servidor', 500)->send();
+}
+
+/**
+ * Handle request for all charts data
+ */
+function handleAllChartsRequest(string $period, array $filters): void
+{
+    try {
+        $cache = getDashboardCache();
+        $response = apiSuccess();
+        
+        // Generate all chart types
+        $allCharts = [
+            'temporal' => $cache->getChart('evolution', compact('period', 'filters'), function() use ($period, $filters) {
+                return generateChartData('evolution', $period, $filters);
+            }),
+            'taxes' => $cache->getChart('taxes', compact('period', 'filters'), function() use ($period, $filters) {
+                return generateChartData('taxes', $period, $filters);
+            }),
+            'expenses' => $cache->getChart('expenses', compact('period', 'filters'), function() use ($period, $filters) {
+                return generateChartData('expenses', $period, $filters);
+            }),
+            'currencies' => $cache->getChart('currencies', compact('period', 'filters'), function() use ($period, $filters) {
+                return generateChartData('currencies', $period, $filters);
+            }),
+            'states' => $cache->getChart('states', compact('period', 'filters'), function() use ($period, $filters) {
+                return generateChartData('states', $period, $filters);
+            }),
+            'correlation' => $cache->getChart('correlation', compact('period', 'filters'), function() use ($period, $filters) {
+                return generateChartData('correlation', $period, $filters);
+            })
+        ];
+        
+        // Add metadata
+        $response->setCacheStats(true, 'L1+L2');
+        $response->addMeta('chart_types', array_keys($allCharts));
+        $response->addMeta('period', $period);
+        $response->addMeta('total_charts', count($allCharts));
+        
+        // Send response with all charts
+        $response->setData([
+            'charts' => $allCharts,
+            'summary' => [
+                'period' => $period,
+                'generated_at' => date('Y-m-d H:i:s'),
+                'cache_enabled' => true
+            ]
+        ])->send();
+        
+    } catch (Exception $e) {
+        error_log("Error generating all charts: " . $e->getMessage());
+        apiError('Erro ao gerar todos os gráficos', 500)->send();
+    }
 }
 
 /**

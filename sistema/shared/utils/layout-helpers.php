@@ -247,8 +247,9 @@ class LayoutManager {
         
         switch ($layoutType) {
             case 'dashboard':
-                echo '<script src="/sistema/dashboard/assets/js/dashboard.js"></script>';
-                echo '<script src="/sistema/dashboard/assets/js/charts.js"></script>';
+                // Dashboard JS will be loaded via additional_js to prevent duplicates
+                // echo '<script src="/sistema/dashboard/assets/js/dashboard.js"></script>';
+                // echo '<script src="/sistema/dashboard/assets/js/charts.js"></script>';
                 break;
         }
     }

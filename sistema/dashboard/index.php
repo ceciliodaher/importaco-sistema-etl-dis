@@ -210,7 +210,7 @@ $layout->renderLayoutStart();
                         </div>
                         <div class="card-content">
                             <h3>DIs Processadas</h3>
-                            <div class="card-value"><?= number_format($stats['DIs Processadas']) ?></div>
+                            <div class="card-value"><?= is_numeric($stats['DIs Processadas']) ? number_format($stats['DIs Processadas']) : $stats['DIs Processadas'] ?></div>
                             <div class="card-trend positive">
                                 <span>+12% este mês</span>
                             </div>
@@ -225,7 +225,7 @@ $layout->renderLayoutStart();
                         </div>
                         <div class="card-content">
                             <h3>Impostos Calculados</h3>
-                            <div class="card-value"><?= number_format($stats['Impostos Calculados']) ?></div>
+                            <div class="card-value"><?= is_numeric($stats['Impostos Calculados']) ? number_format($stats['Impostos Calculados']) : $stats['Impostos Calculados'] ?></div>
                             <div class="card-trend neutral">
                                 <span>Última atualização: hoje</span>
                             </div>
@@ -240,7 +240,7 @@ $layout->renderLayoutStart();
                         </div>
                         <div class="card-content">
                             <h3>NCMs Catalogados</h3>
-                            <div class="card-value"><?= number_format($stats['NCMs Catalogados']) ?></div>
+                            <div class="card-value"><?= is_numeric($stats['NCMs Catalogados']) ? number_format($stats['NCMs Catalogados']) : $stats['NCMs Catalogados'] ?></div>
                             <div class="card-trend positive">
                                 <span>+5 novos NCMs</span>
                             </div>
@@ -255,7 +255,7 @@ $layout->renderLayoutStart();
                         </div>
                         <div class="card-content">
                             <h3>Despesas Extras</h3>
-                            <div class="card-value"><?= number_format($stats['Despesas Extras']) ?></div>
+                            <div class="card-value"><?= is_numeric($stats['Despesas Extras']) ? number_format($stats['Despesas Extras']) : $stats['Despesas Extras'] ?></div>
                             <div class="card-trend negative">
                                 <span>-2% este mês</span>
                             </div>
