@@ -54,10 +54,11 @@ CREATE TABLE IF NOT EXISTS adicoes (
     valor_vmle_reais DECIMAL(15,2) NOT NULL,
     valor_vmcv_moeda DECIMAL(15,2) NOT NULL,
     valor_vmcv_reais DECIMAL(15,2) NOT NULL,
-    taxa_cambio_calculada DECIMAL(10,6) GENERATED ALWAYS AS 
-        (CASE WHEN valor_vmcv_moeda > 0 THEN valor_vmcv_reais / valor_vmcv_moeda ELSE NULL END) STORED,
+    taxa_cambio_calculada DECIMAL(10,6) NULL COMMENT 'Calculado via trigger: valor_vmcv_reais / valor_vmcv_moeda',
     moeda_codigo CHAR(3) NOT NULL,
     moeda_nome VARCHAR(50),
+    incoterm VARCHAR(10) COMMENT 'INCOTERM da adição (CPT, FCA, CIF, FOB, etc)',
+    condicao_venda_local VARCHAR(100) COMMENT 'Local da condição de venda',
     peso_liquido DECIMAL(12,3),
     peso_bruto DECIMAL(12,3),
     numero_li VARCHAR(20),
@@ -69,6 +70,7 @@ CREATE TABLE IF NOT EXISTS adicoes (
     INDEX idx_valor_vmcv (valor_vmcv_reais),
     INDEX idx_moeda (moeda_codigo),
     INDEX idx_taxa_cambio (taxa_cambio_calculada),
+    INDEX idx_incoterm (incoterm),
     
     CONSTRAINT fk_adicao_di FOREIGN KEY (numero_di) 
         REFERENCES declaracoes_importacao(numero_di) ON DELETE CASCADE,
@@ -85,10 +87,7 @@ CREATE TABLE IF NOT EXISTS mercadorias (
     descricao TEXT NOT NULL,
     quantidade DECIMAL(12,5) NOT NULL,
     unidade_medida VARCHAR(20),
-    valor_unitario_moeda DECIMAL(15,8) GENERATED ALWAYS AS 
-        (CASE WHEN quantidade > 0 THEN 
-            (SELECT valor_vmcv_moeda FROM adicoes WHERE id = adicao_id) / quantidade 
-        ELSE 0 END) STORED,
+    valor_unitario_moeda DECIMAL(15,8) NULL COMMENT 'Calculado via trigger: valor_vmcv_moeda / quantidade',
     especificacao_mercadoria TEXT,
     condicao_mercadoria VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -115,6 +114,9 @@ CREATE TABLE IF NOT EXISTS impostos_adicao (
     valor_devido DECIMAL(15,2),
     valor_recolher DECIMAL(15,2),
     valor_devido_reais DECIMAL(15,2),
+    valor_calculado DECIMAL(15,2) COMMENT 'Valor calculado pelo sistema (para comparação)',
+    divergencia_valor DECIMAL(15,2) COMMENT 'Divergência (DI - Calculado)',
+    divergencia_pct DECIMAL(8,4) COMMENT '% Divergência',
     situacao_tributaria VARCHAR(10),
     aliquota_especifica DECIMAL(15,8),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -146,25 +148,7 @@ CREATE TABLE IF NOT EXISTS acordos_tarifarios (
     tipo_acordo VARCHAR(20) NOT NULL,
     codigo_acordo VARCHAR(10),
     aliquota_acordo DECIMAL(7,4),
-    percentual_reducao DECIMAL(5,2) GENERATED ALWAYS AS (
-        CASE 
-            WHEN EXISTS (
-                SELECT 1 FROM impostos_adicao 
-                WHERE adicao_id = acordos_tarifarios.adicao_id 
-                AND tipo_imposto = 'II' 
-                AND aliquota_ad_valorem > 0
-            ) THEN (
-                (SELECT aliquota_ad_valorem FROM impostos_adicao 
-                WHERE adicao_id = acordos_tarifarios.adicao_id 
-                AND tipo_imposto = 'II') - IFNULL(aliquota_acordo, 0)
-            ) / (
-                SELECT aliquota_ad_valorem FROM impostos_adicao 
-                WHERE adicao_id = acordos_tarifarios.adicao_id 
-                AND tipo_imposto = 'II'
-            ) * 100
-            ELSE 100
-        END
-    ) STORED,
+    percentual_reducao DECIMAL(5,2) NULL COMMENT 'Calculado via trigger: reducao aplicada',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     PRIMARY KEY (id),
@@ -184,13 +168,7 @@ CREATE TABLE IF NOT EXISTS icms_detalhado (
     uf_icms CHAR(2),
     valor_total_icms DECIMAL(15,2),
     codigo_receita VARCHAR(10),
-    situacao ENUM('NAO_APLICA','EXONERADO','DEVIDO') GENERATED ALWAYS AS (
-        CASE
-            WHEN valor_total_icms IS NULL THEN 'NAO_APLICA'
-            WHEN valor_total_icms = 0 THEN 'EXONERADO'
-            ELSE 'DEVIDO'
-        END
-    ) STORED,
+    situacao ENUM('NAO_APLICA','EXONERADO','DEVIDO') NULL COMMENT 'Calculado via trigger baseado em valor_total_icms',
     observacoes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
@@ -425,11 +403,34 @@ CREATE TABLE IF NOT EXISTS ncm_aliquotas_historico (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ================================================================================
--- Adicionar Foreign Key para moedas após criar tabela moedas_referencia
+-- TABELA ADICIONAL: processamento_xmls (Controle de Upload e Processamento)
 -- ================================================================================
-ALTER TABLE adicoes
-ADD CONSTRAINT fk_adicoes_moeda FOREIGN KEY (moeda_codigo) 
-    REFERENCES moedas_referencia(codigo_siscomex);
+CREATE TABLE IF NOT EXISTS processamento_xmls (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    hash_arquivo VARCHAR(32) UNIQUE NOT NULL COMMENT 'MD5 do arquivo XML',
+    nome_arquivo VARCHAR(255) NOT NULL COMMENT 'Nome original do arquivo',
+    numero_di VARCHAR(20) COMMENT 'Número da DI extraído do XML',
+    incoterm VARCHAR(10) COMMENT 'INCOTERM principal da DI',
+    status_processamento ENUM('PENDENTE', 'PROCESSANDO', 'COMPLETO', 'ERRO') DEFAULT 'PENDENTE',
+    erro_detalhes TEXT COMMENT 'Detalhes do erro caso status seja ERRO',
+    tamanho_arquivo INT UNSIGNED COMMENT 'Tamanho do arquivo em bytes',
+    data_upload TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_processamento TIMESTAMP NULL,
+    
+    INDEX idx_numero_di (numero_di),
+    INDEX idx_incoterm (incoterm),
+    INDEX idx_status (status_processamento),
+    INDEX idx_data_upload (data_upload),
+    INDEX idx_hash (hash_arquivo)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci 
+COMMENT='Controle de processamento de XMLs de DI brasileiras';
+
+-- ================================================================================
+-- NOTA: Foreign Key para moedas deve ser criada APÓS população da tabela
+-- moedas_referencia via script 08_popular_referencias.sql
+-- Comando: ALTER TABLE adicoes ADD CONSTRAINT fk_adicoes_moeda FOREIGN KEY (moeda_codigo) 
+--          REFERENCES moedas_referencia(codigo_siscomex);
+-- ================================================================================
 
 -- ================================================================================
 -- FIM DO SCHEMA PRINCIPAL
