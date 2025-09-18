@@ -67,6 +67,7 @@ $layoutConfig = [
         '../../assets/css/expertzy-theme.css',
         'assets/css/dashboard.css',
         'assets/css/charts.css',
+        'assets/css/manual-control.css',
         '../shared/assets/css/system-navigation.css'
     ],
     'additional_js' => [
@@ -74,7 +75,11 @@ $layoutConfig = [
         'assets/js/dashboard.js',
         'assets/js/charts.js',
         'assets/js/upload.js',
-        'assets/js/charts-extensions.js'
+        'assets/js/charts-extensions.js',
+        'assets/js/database-management.js',
+        'assets/js/manual-control.js',
+        'assets/js/manual-control-system.js',
+        'assets/js/dashboard-integration.js'
     ],
     'meta_tags' => [
         'keywords' => 'ETL, DI, Importação, Tributação, Sistema Fiscal, Dashboard',
@@ -161,6 +166,9 @@ $layout->renderLayoutStart();
 
         <!-- Main Content -->
         <main class="main-content">
+            <!-- Painel de Controle Manual -->
+            <?php include 'components/manual-control-panel.php'; ?>
+            
             <!-- Upload Zone -->
             <section class="upload-section card animate-fade-in">
                 <div class="upload-zone" id="uploadZone">
@@ -293,6 +301,45 @@ $layout->renderLayoutStart();
                 </div>
             </section>
 
+            <!-- Gerenciamento do Banco de Dados -->
+            <section class="database-management card animate-fade-in">
+                <div class="management-card card animate-scale-in">
+                    <h3>
+                        <i class="icon-database"></i>
+                        Gerenciamento do Banco de Dados
+                    </h3>
+                    <p>Ferramentas para limpeza e exportação dos dados processados</p>
+                    
+                    <div class="management-actions">
+                        <button type="button" class="btn btn-secondary" data-action="database-export">
+                            <i class="icon-download"></i>
+                            <span>Exportar JSON</span>
+                            <small>Exportar dados para validação</small>
+                        </button>
+                        
+                        <button type="button" class="btn btn-warning" data-action="database-cleanup">
+                            <i class="icon-cleanup"></i>
+                            <span>Limpeza de Dados</span>
+                            <small>Limpar dados de teste ou antigos</small>
+                        </button>
+                    </div>
+                    
+                    <div class="management-info">
+                        <div class="info-item">
+                            <span class="info-label">Última Exportação:</span>
+                            <span class="info-value">Nunca</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Última Limpeza:</span>
+                            <span class="info-value">Nunca</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Painel de Controle Manual -->
+            <?php include 'components/manual-control-panel.php'; ?>
+
             <!-- Dashboard de Gráficos Interativos -->
             <?php include 'components/charts/charts-dashboard.php'; ?>
             
@@ -303,6 +350,9 @@ $layout->renderLayoutStart();
 <div class="feedback-container" id="feedbackContainer">
     <!-- Messages serão inseridas dinamicamente aqui -->
 </div>
+
+<!-- Modais de Gerenciamento do Banco de Dados -->
+<?php include 'components/modals/database-management.php'; ?>
 
 <!-- JavaScript Customizado do Dashboard -->
 <script>
@@ -318,14 +368,17 @@ document.addEventListener('DOMContentLoaded', function() {
         initDashboardFeatures();
     });
     
-    // Atualizar estatísticas a cada 30 segundos
-    setInterval(() => {
-        console.log('Atualizando estatísticas...');
-        if (window.expertzyCharts) {
-            window.expertzyCharts.loadChartData();
+    // ATUALIZAÇÃO AUTOMÁTICA DESABILITADA - Usando sistema manual
+    // Aguardar sistema de controle manual estar pronto
+    const waitForManualControl = setInterval(() => {
+        if (window.manualControlSystem) {
+            clearInterval(waitForManualControl);
+            console.log('✅ Sistema de controle manual conectado ao dashboard');
+            
+            // Configurar integração com sistema manual
+            setupManualControlIntegration();
         }
-        updateSystemStats();
-    }, 30000);
+    }, 100);
 });
 
 // Funções específicas do dashboard
@@ -344,31 +397,86 @@ function initDashboardFeatures() {
     setupRealTimeUpdates();
 }
 
+function setupManualControlIntegration() {
+    if (!window.manualControlSystem) {
+        console.error('Sistema de controle manual não disponível');
+        return;
+    }
+    
+    const manualControl = window.manualControlSystem;
+    const state = manualControl.getState();
+    
+    // Configurar event listeners para atualização automática da UI
+    state.on('database-changed', (newState) => {
+        console.log('🔄 Estado do banco atualizado:', newState);
+        updateDashboardUI(newState);
+    });
+    
+    state.on('stats-loaded', (statsData) => {
+        console.log('📊 Estatísticas carregadas:', statsData);
+        updateStatCards(statsData.data);
+    });
+    
+    // Substituir funções antigas por versões que usam sistema manual
+    window.updateSystemStats = function() {
+        if (state.canLoadStats()) {
+            return manualControl.handleLoadStats();
+        } else {
+            console.log('📊 Stats não podem ser carregados - dados insuficientes');
+        }
+    };
+    
+    console.log('🔗 Integração com sistema manual configurada');
+}
+
 function updateSystemStats() {
-    // Atualizar estatísticas via AJAX
-    fetch('/sistema/dashboard/api/stats.php')
-        .then(response => response.json())
-        .then(data => {
-            updateStatCards(data);
-        })
-        .catch(error => {
-            console.warn('Erro ao atualizar estatísticas:', error);
-        });
+    // FUNÇÃO LEGACY - Usar window.updateSystemStats() após integração
+    console.warn('⚠️ updateSystemStats() legacy - Aguardando sistema manual');
 }
 
 function updateStatCards(stats) {
-    // Atualizar cards de estatísticas
+    if (!stats) return;
+    
+    // Atualizar cards de estatísticas com suporte ao novo formato
     Object.keys(stats).forEach(key => {
         const element = document.querySelector(`[data-stat="${key}"]`);
         if (element) {
-            element.textContent = stats[key];
+            if (typeof stats[key] === 'object' && stats[key].value !== undefined) {
+                element.textContent = stats[key].value;
+            } else {
+                element.textContent = typeof stats[key] === 'number' 
+                    ? stats[key].toLocaleString('pt-BR') 
+                    : stats[key];
+            }
         }
     });
 }
 
+function updateDashboardUI(databaseState) {
+    // Atualizar UI baseado no estado do banco
+    const statusIndicators = {
+        'database-status': databaseState.connected ? 'online' : 'offline',
+        'data-status': databaseState.sufficient ? 'sufficient' : 'insufficient',
+        'schema-status': databaseState.schema_ready ? 'ready' : 'pending'
+    };
+    
+    Object.entries(statusIndicators).forEach(([selector, status]) => {
+        const elements = document.querySelectorAll(`[data-indicator="${selector}"]`);
+        elements.forEach(element => {
+            element.className = `status-indicator ${status}`;
+        });
+    });
+    
+    // Atualizar contadores
+    const disCountElements = document.querySelectorAll('[data-dis-count]');
+    disCountElements.forEach(element => {
+        element.textContent = databaseState.dis_count.toLocaleString('pt-BR');
+    });
+}
+
 function setupRealTimeUpdates() {
-    // Configurar WebSocket ou polling para atualizações em tempo real
-    // Implementação futura
+    // Integrado com sistema manual - auto-refresh opcional
+    console.log('🔄 Real-time updates via sistema manual de controle');
 }
 
 // Expor funções globalmente para compatibilidade

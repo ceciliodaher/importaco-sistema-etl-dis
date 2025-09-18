@@ -106,7 +106,9 @@ class DiXmlParser {
             'incoterm' => $this->getElementValue($adicao->condicaoVendaIncoterm),
             'condicao_venda_local' => $this->getElementValue($adicao->condicaoVendaLocal),
             
-            // Valores (conversão Siscomex ÷ 100000)
+            // Valores VMLE e VMCV (conversão Siscomex ÷ 100)
+            'valor_vmle_moeda' => $this->convertSiscomexValue($adicao->localEmbarqueValorMoeda ?? $adicao->condicaoVendaValorMoeda),
+            'valor_vmle_reais' => $this->convertSiscomexValue($adicao->localEmbarqueValorReais ?? $adicao->condicaoVendaValorReais),
             'valor_vmcv_moeda' => $this->convertSiscomexValue($adicao->condicaoVendaValorMoeda),
             'valor_vmcv_reais' => $this->convertSiscomexValue($adicao->condicaoVendaValorReais),
             
@@ -196,7 +198,8 @@ class DiXmlParser {
     private function convertSiscomexRate($value) {
         if (!$value) return 0.0000;
         $num = (string) $value;
-        return round((float) $num / 100, 4);
+        // SISCOMEX usa centésimos de percentual: 965 = 9.65% = 0.0965 decimal
+        return round((float) $num / 10000, 6);
     }
     
     /**
@@ -233,13 +236,8 @@ class DiXmlParser {
      * Converte código de moeda Siscomex para ISO
      */
     private function convertMoedaCode($code) {
-        $codes = [
-            '220' => 'USD',
-            '900' => 'BRL',
-            '860' => 'INR',
-            '978' => 'EUR'
-        ];
-        return $codes[(string) $code] ?? (string) $code;
+        // Manter código SISCOMEX para foreign key com moedas_referencia
+        return (string) $code;
     }
     
     /**
@@ -334,12 +332,14 @@ class DiXmlParser {
      */
     private function insertAdicao($numeroDi, $adicao) {
         $sql = "INSERT INTO adicoes 
-                (numero_di, numero_adicao, ncm, valor_vmcv_moeda, valor_vmcv_reais,
-                 moeda_codigo, moeda_nome, incoterm, condicao_venda_local,
-                 peso_liquido, peso_bruto)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                (numero_di, numero_adicao, ncm, valor_vmle_moeda, valor_vmle_reais,
+                 valor_vmcv_moeda, valor_vmcv_reais, moeda_codigo, moeda_nome, 
+                 incoterm, condicao_venda_local, peso_liquido, peso_bruto)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE
                 ncm = VALUES(ncm),
+                valor_vmle_moeda = VALUES(valor_vmle_moeda),
+                valor_vmle_reais = VALUES(valor_vmle_reais),
                 valor_vmcv_moeda = VALUES(valor_vmcv_moeda),
                 valor_vmcv_reais = VALUES(valor_vmcv_reais),
                 moeda_codigo = VALUES(moeda_codigo),
@@ -353,6 +353,8 @@ class DiXmlParser {
             $numeroDi,
             $adicao['numero_adicao'],
             $adicao['ncm'],
+            $adicao['valor_vmle_moeda'] ?? 0,
+            $adicao['valor_vmle_reais'] ?? 0,
             $adicao['valor_vmcv_moeda'],
             $adicao['valor_vmcv_reais'],
             $adicao['moeda_codigo'],

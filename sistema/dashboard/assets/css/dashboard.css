@@ -796,3 +796,205 @@ body {
         background: #404040;
     }
 }
+
+/* ================================================================================
+ * DATABASE MANAGEMENT SECTION
+ * ================================================================================ */
+
+.database-management {
+    margin-bottom: var(--expertzy-spacing-xl);
+}
+
+.management-card {
+    padding: var(--expertzy-spacing-xl);
+    background: var(--expertzy-white);
+    border-radius: var(--expertzy-radius-lg);
+    box-shadow: var(--expertzy-shadow-sm);
+    border: 1px solid var(--expertzy-border-gray);
+    transition: all 0.3s ease;
+}
+
+.management-card:hover {
+    box-shadow: var(--expertzy-shadow-md);
+    transform: translateY(-2px);
+}
+
+.management-card h3 {
+    display: flex;
+    align-items: center;
+    gap: var(--expertzy-spacing-sm);
+    color: var(--expertzy-dark);
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: var(--expertzy-spacing-sm);
+}
+
+.management-card h3 i {
+    color: var(--expertzy-primary);
+    font-size: 1.5rem;
+}
+
+.management-card p {
+    color: var(--expertzy-text-secondary);
+    margin-bottom: var(--expertzy-spacing-lg);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Management Actions */
+.management-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--expertzy-spacing-base);
+    margin-bottom: var(--expertzy-spacing-lg);
+}
+
+.management-actions .btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--expertzy-spacing-xs);
+    padding: var(--expertzy-spacing-lg);
+    border: 2px solid transparent;
+    border-radius: var(--expertzy-radius-base);
+    background: var(--expertzy-light-gray);
+    color: var(--expertzy-dark);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-weight: 500;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.management-actions .btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.management-actions .btn:hover::before {
+    left: 100%;
+}
+
+.management-actions .btn:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--expertzy-shadow-lg);
+}
+
+.management-actions .btn-secondary {
+    background: #0ea5e9;
+    color: white;
+    border-color: #0ea5e9;
+}
+
+.management-actions .btn-secondary:hover {
+    background: #0369a1;
+    border-color: #0369a1;
+}
+
+.management-actions .btn-warning {
+    background: #f59e0b;
+    color: white;
+    border-color: #f59e0b;
+}
+
+.management-actions .btn-warning:hover {
+    background: #d97706;
+    border-color: #d97706;
+}
+
+.management-actions .btn i {
+    font-size: 1.5rem;
+    margin-bottom: var(--expertzy-spacing-xs);
+}
+
+.management-actions .btn span {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.management-actions .btn small {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    margin-top: var(--expertzy-spacing-xs);
+    line-height: 1.2;
+}
+
+/* Management Info */
+.management-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--expertzy-spacing-base);
+    padding-top: var(--expertzy-spacing-base);
+    border-top: 1px solid var(--expertzy-border-gray);
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--expertzy-spacing-xs);
+}
+
+.info-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--expertzy-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 0.9rem;
+    color: var(--expertzy-dark);
+    font-weight: 500;
+}
+
+/* Icons para botões de gerenciamento */
+.icon-database::before { content: '🗃️'; }
+.icon-download::before { content: '⬇️'; }
+.icon-cleanup::before { content: '🧹'; }
+
+/* Responsividade da seção de gerenciamento */
+@media (max-width: 768px) {
+    .management-actions {
+        grid-template-columns: 1fr;
+    }
+    
+    .management-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .management-card {
+        padding: var(--expertzy-spacing-lg);
+    }
+    
+    .management-actions .btn {
+        padding: var(--expertzy-spacing-base);
+    }
+}
+
+@media (max-width: 480px) {
+    .management-actions .btn {
+        flex-direction: row;
+        text-align: left;
+        padding: var(--expertzy-spacing-base);
+    }
+    
+    .management-actions .btn i {
+        font-size: 1.25rem;
+        margin-bottom: 0;
+        margin-right: var(--expertzy-spacing-sm);
+    }
+    
+    .management-actions .btn small {
+        margin-top: 0;
+        margin-left: auto;
+    }
+}

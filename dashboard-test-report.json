@@ -1,0 +1,176 @@
+{
+  "timestamp": "2025-09-17T19:32:15.345Z",
+  "summary": {
+    "totalRequests": 21,
+    "httpErrors": 4,
+    "consoleErrors": 8,
+    "testPassed": false
+  },
+  "httpErrors": [
+    {
+      "status": 503,
+      "url": "https://importacao-sistema.local/sistema/dashboard/api/dashboard/activity.php",
+      "statusText": "Service Unavailable",
+      "timestamp": "2025-09-17T19:32:04.190Z"
+    },
+    {
+      "status": 500,
+      "url": "https://importacao-sistema.local/sistema/dashboard/api/dashboard/charts.php?type=all",
+      "statusText": "Internal Server Error",
+      "timestamp": "2025-09-17T19:32:04.193Z"
+    },
+    {
+      "status": 500,
+      "url": "https://importacao-sistema.local/sistema/dashboard/api/dashboard/charts.php?type=all",
+      "statusText": "Internal Server Error",
+      "timestamp": "2025-09-17T19:32:04.199Z"
+    },
+    {
+      "status": 500,
+      "url": "https://importacao-sistema.local/sistema/dashboard/api/dashboard/charts.php?type=all",
+      "statusText": "Internal Server Error",
+      "timestamp": "2025-09-17T19:32:11.215Z"
+    }
+  ],
+  "consoleErrors": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "timestamp": "2025-09-17T19:32:04.180Z"
+    },
+    {
+      "text": "Erro ao carregar cards estatísticos: SyntaxError: Unexpected token '<', \"<html>\r\n<h\"... is not valid JSON",
+      "timestamp": "2025-09-17T19:32:04.183Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 503 (Service Unavailable)",
+      "timestamp": "2025-09-17T19:32:04.190Z"
+    },
+    {
+      "text": "Dashboard refresh error: Error: HTTP 503: Service Unavailable\n    at DashboardManager.fetchRecentActivity (https://importacao-sistema.local/sistema/dashboard/assets/js/dashboard.js:329:19)\n    at async Promise.all (index 2)\n    at async DashboardManager.refreshDashboard (https://importacao-sistema.local/sistema/dashboard/assets/js/dashboard.js:248:71)\n    at async DashboardManager.init (https://importacao-sistema.local/sistema/dashboard/assets/js/dashboard.js:62:13)",
+      "timestamp": "2025-09-17T19:32:04.190Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "timestamp": "2025-09-17T19:32:04.193Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "timestamp": "2025-09-17T19:32:04.199Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "timestamp": "2025-09-17T19:32:11.217Z"
+    },
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "timestamp": "2025-09-17T19:32:11.221Z"
+    }
+  ],
+  "allRequests": [
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.089Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/assets/css/expertzy-theme.css",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.098Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/shared/assets/css/system-navigation.css",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.100Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/assets/css/dashboard.css",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.101Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/assets/css/charts.css",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.101Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/images/logo-expertzy.png",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.120Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/shared/assets/js/navigation.js",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.123Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/assets/js/dashboard.js",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.124Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/assets/js/charts.js",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.125Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/assets/js/upload.js",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.125Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/assets/js/charts-extensions.js",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.125Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/assets/js/database-management.js",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.125Z"
+    },
+    {
+      "url": "https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.js",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.171Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/api/dashboard/charts?endpoint=stats",
+      "status": 404,
+      "timestamp": "2025-09-17T19:32:04.180Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/images/logo-expertzy.png",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.190Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/api/dashboard/activity.php",
+      "status": 503,
+      "timestamp": "2025-09-17T19:32:04.190Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/api/dashboard/stats.php",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.190Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/api/dashboard/charts.php?type=all",
+      "status": 500,
+      "timestamp": "2025-09-17T19:32:04.193Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/api/dashboard/charts.php?type=all",
+      "status": 500,
+      "timestamp": "2025-09-17T19:32:04.199Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/api/dashboard/system-status.php",
+      "status": 200,
+      "timestamp": "2025-09-17T19:32:04.222Z"
+    },
+    {
+      "url": "https://importacao-sistema.local/sistema/dashboard/api/dashboard/charts.php?type=all",
+      "status": 500,
+      "timestamp": "2025-09-17T19:32:11.215Z"
+    }
+  ]
+}

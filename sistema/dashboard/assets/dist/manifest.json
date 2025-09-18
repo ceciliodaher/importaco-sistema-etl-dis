@@ -1,0 +1,41 @@
+{
+    "version": "2025-09-17-23-24-02",
+    "css": {
+        "bundle": "assets\/dist\/css\/bundle.min.css",
+        "individual": [
+            "assets\/dist\/css\/advanced-features.min.css",
+            "assets\/dist\/css\/charts.min.css",
+            "assets\/dist\/css\/dashboard.min.css",
+            "assets\/dist\/css\/manual-control.min.css"
+        ]
+    },
+    "js": {
+        "bundle": "assets\/dist\/js\/bundle.min.js",
+        "individual": [
+            "assets\/dist\/js\/charts-extensions.min.js",
+            "assets\/dist\/js\/charts.min.js",
+            "assets\/dist\/js\/dashboard-integration.min.js",
+            "assets\/dist\/js\/dashboard.min.js",
+            "assets\/dist\/js\/database-management.min.js",
+            "assets\/dist\/js\/manual-control-system.min.js",
+            "assets\/dist\/js\/manual-control.min.js",
+            "assets\/dist\/js\/upload.min.js"
+        ]
+    },
+    "sizes": {
+        "advanced-features.min.css": 11485,
+        "charts.min.css": 11759,
+        "dashboard.min.css": 15622,
+        "manual-control.min.css": 15364,
+        "charts-extensions.min.js": 15667,
+        "charts.min.js": 17722,
+        "dashboard-integration.min.js": 9958,
+        "dashboard.min.js": 25278,
+        "database-management.min.js": 10923,
+        "manual-control-system.min.js": 33551,
+        "manual-control.min.js": 16105,
+        "upload.min.js": 22870,
+        "bundle.min.css": 54324,
+        "bundle.min.js": 152275
+    }
+}
