@@ -76,8 +76,8 @@ class LayoutManager {
     <link rel="apple-touch-icon" href="/images/logo-expertzy.png">
     
     <!-- CSS Base -->
-    <link rel="stylesheet" href="/assets/css/expertzy-theme.css">
-    <link rel="stylesheet" href="/sistema/shared/assets/css/system-navigation.css">
+    <link rel="stylesheet" href="../assets/css/expertzy-theme.css">
+    <link rel="stylesheet" href="../shared/assets/css/system-navigation.css">
     
     <?php
     // CSS adicional baseado no tipo de layout
@@ -95,7 +95,7 @@ class LayoutManager {
     <?php endforeach; ?>
     
     <!-- Preload recursos críticos -->
-    <link rel="preload" href="/sistema/shared/assets/js/navigation.js" as="script">
+    <link rel="preload" href="../shared/assets/js/navigation.js" as="script">
     <link rel="preload" href="/images/logo-expertzy.png" as="image">
     
     <!-- Schema.org JSON-LD -->
@@ -172,7 +172,7 @@ class LayoutManager {
     ?>
     
     <!-- JavaScript Base -->
-    <script src="/sistema/shared/assets/js/navigation.js"></script>
+    <script src="../shared/assets/js/navigation.js"></script>
     
     <?php
     // JavaScript adicional baseado no tipo de layout
@@ -225,8 +225,8 @@ class LayoutManager {
         
         switch ($layoutType) {
             case 'dashboard':
-                echo '<link rel="stylesheet" href="/sistema/dashboard/assets/css/dashboard.css">';
-                echo '<link rel="stylesheet" href="/sistema/dashboard/assets/css/charts.css">';
+                echo '<link rel="stylesheet" href="assets/css/dashboard.css">';
+                echo '<link rel="stylesheet" href="assets/css/charts.css">';
                 break;
                 
             case 'simple':
@@ -336,12 +336,12 @@ function renderDashboardLayout($config = [], $contentCallback = null) {
     $dashboardConfig = array_merge([
         'layout_type' => 'dashboard',
         'additional_css' => [
-            '/sistema/dashboard/assets/css/dashboard.css',
-            '/sistema/dashboard/assets/css/charts.css'
+            '/dashboard/assets/css/dashboard.css',
+            '/dashboard/assets/css/charts.css'
         ],
         'additional_js' => [
-            '/sistema/dashboard/assets/js/dashboard.js',
-            '/sistema/dashboard/assets/js/charts.js'
+            '/dashboard/assets/js/dashboard.js',
+            '/dashboard/assets/js/charts.js'
         ]
     ], $config);
     

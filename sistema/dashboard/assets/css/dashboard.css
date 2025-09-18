@@ -647,7 +647,7 @@ body {
 .feedback-message.error {
     background: #f8d7da;
     color: #721c24;
-    border-left: 4px solid: var(--expertzy-red);
+    border-left: 4px solid var(--expertzy-red);
 }
 
 .feedback-message.warning {
