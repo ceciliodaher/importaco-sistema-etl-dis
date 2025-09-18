@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- Title e Meta Tags -->
+    <title>Dashboard Principal | Sistema ETL DI&#039;s</title>
+    <meta name="description" content="Interface principal para importação e processamento de XMLs DI">
+    <meta name="keywords" content="ETL, DI, Importação, Sistema Fiscal, Expertzy">
+    <meta name="author" content="Expertzy IT Solutions">
+    <meta name="robots" content="noindex, nofollow">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Dashboard Principal">
+    <meta property="og:description" content="Interface principal para importação e processamento de XMLs DI">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Sistema ETL DI&#039;s">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/images/logo-expertzy.png">
+    <link rel="apple-touch-icon" href="/images/logo-expertzy.png">
+    
+    <!-- CSS Base -->
+    <link rel="stylesheet" href="/assets/css/expertzy-theme.css">
+    <link rel="stylesheet" href="/sistema/shared/assets/css/system-navigation.css">
+    
+    <link rel="stylesheet" href="/sistema/dashboard/assets/css/dashboard.css"><link rel="stylesheet" href="/sistema/dashboard/assets/css/charts.css">    <link rel="stylesheet" href="../../assets/css/expertzy-theme.css">
+        <link rel="stylesheet" href="assets/css/dashboard.css">
+        <link rel="stylesheet" href="assets/css/charts.css">
+        <link rel="stylesheet" href="assets/css/manual-control.css">
+        <link rel="stylesheet" href="../shared/assets/css/system-navigation.css">
+        
+        <meta name="keywords" content="ETL, DI, Importação, Tributação, Sistema Fiscal, Dashboard">
+        <meta name="author" content="Expertzy IT Solutions">
+        
+    <!-- Preload recursos críticos -->
+    <link rel="preload" href="/sistema/shared/assets/js/navigation.js" as="script">
+    <link rel="preload" href="/images/logo-expertzy.png" as="image">
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Sistema ETL DI\'s",
+        "description": "Interface principal para importação e processamento de XMLs DI",
+        "version": "1.0.0",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web Browser",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "BRL"
+        }
+    }
+    </script>
+</head>
+<body class="dashboard-layout page-dashboard" data-layout="dashboard">
+    
+    <!-- Skip Navigation Link para Acessibilidade -->
+    <a href="#main-content" class="skip-nav">Pular para o conteúdo principal</a>
+    
+    <header class="system-header" id="systemHeader">
+    <!-- Barra superior -->
+    <div class="header-top">
+        <div class="container-fluid">
+            <div class="header-content">
+                <!-- Logo e informações do sistema -->
+                <div class="header-brand">
+                    <a href="/index.html" class="brand-link">
+                        <img src="/images/logo-expertzy.png" alt="Expertzy" class="brand-logo">
+                        <div class="brand-info">
+                            <h1 class="brand-title">Dashboard Principal</h1>
+                            <span class="brand-version">1.0.0</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Navegação principal -->
+                <nav class="main-nav" role="navigation">
+                    <ul class="nav-list">
+                                                <li class="nav-item active ">
+                                                            <a href="/sistema/dashboard/" class="nav-link">
+                                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 13H11V3H3V13ZM3 21H11V15H3V21ZM13 21H21V11H13V21ZM13 3V9H21V3H13Z" stroke="currentColor" stroke-width="2"/></svg></span>
+                                    <span class="nav-label">Dashboard</span>
+                                </a>
+                                                    </li>
+                                                <li class="nav-item  has-dropdown">
+                                                            <a href="#" class="nav-link dropdown-toggle" data-dropdown="modules">
+                                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 4H10V10H4V4ZM14 4H20V10H14V4ZM4 14H10V20H4V14ZM14 14H20V20H14V14Z" stroke="currentColor" stroke-width="2"/></svg></span>
+                                    <span class="nav-label">Módulos</span>
+                                    <span class="dropdown-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                </a>
+                                <div class="dropdown-menu" id="dropdown-modules">
+                                                                        <a href="/sistema/modules/fiscal/" class="dropdown-item">
+                                        <div class="dropdown-item-content">
+                                            <span class="dropdown-item-label">Fiscal</span>
+                                                                                        <span class="dropdown-item-desc">Cálculos tributários e nomenclatura</span>
+                                                                                    </div>
+                                    </a>
+                                                                        <a href="/sistema/modules/commercial/" class="dropdown-item">
+                                        <div class="dropdown-item-content">
+                                            <span class="dropdown-item-label">Comercial</span>
+                                                                                        <span class="dropdown-item-desc">Precificação B2B/B2C</span>
+                                                                                    </div>
+                                    </a>
+                                                                        <a href="/sistema/modules/accounting/" class="dropdown-item">
+                                        <div class="dropdown-item-content">
+                                            <span class="dropdown-item-label">Contábil</span>
+                                                                                        <span class="dropdown-item-desc">Custeio e rateio de despesas</span>
+                                                                                    </div>
+                                    </a>
+                                                                        <a href="/sistema/modules/billing/" class="dropdown-item">
+                                        <div class="dropdown-item-content">
+                                            <span class="dropdown-item-label">Faturamento</span>
+                                                                                        <span class="dropdown-item-desc">Emissão de documentos fiscais</span>
+                                                                                    </div>
+                                    </a>
+                                                                    </div>
+                                                    </li>
+                                                <li class="nav-item  has-dropdown">
+                                                            <a href="#" class="nav-link dropdown-toggle" data-dropdown="reports">
+                                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 11H15M9 15H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17Z" stroke="currentColor" stroke-width="2"/></svg></span>
+                                    <span class="nav-label">Relatórios</span>
+                                    <span class="dropdown-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                </a>
+                                <div class="dropdown-menu" id="dropdown-reports">
+                                                                        <a href="/sistema/dashboard/api/export/pdf.php?type=taxes" class="dropdown-item">
+                                        <div class="dropdown-item-content">
+                                            <span class="dropdown-item-label">Relatório de Impostos</span>
+                                                                                    </div>
+                                    </a>
+                                                                        <a href="/sistema/dashboard/api/export/xlsx.php?type=costs" class="dropdown-item">
+                                        <div class="dropdown-item-content">
+                                            <span class="dropdown-item-label">Análise de Custos</span>
+                                                                                    </div>
+                                    </a>
+                                                                        <a href="/sistema/dashboard/api/export/pdf.php?type=pricing" class="dropdown-item">
+                                        <div class="dropdown-item-content">
+                                            <span class="dropdown-item-label">Precificação</span>
+                                                                                    </div>
+                                    </a>
+                                                                    </div>
+                                                    </li>
+                                                <li class="nav-item  ">
+                                                            <a href="/sistema/config/" class="nav-link">
+                                    <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/><path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.2578 9.77251 19.9887C9.5799 19.7197 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="currentColor" stroke-width="2"/></svg></span>
+                                    <span class="nav-label">Configurações</span>
+                                </a>
+                                                    </li>
+                                            </ul>
+                </nav>
+
+                <!-- Ações do header -->
+                <div class="header-actions">
+                                        <div class="system-status-indicator">
+                        <div class="status-icon status-online" title="Sistema Online">
+                            <div class="status-dot"></div>
+                        </div>
+                        <span class="status-text d-none d-md-inline">Online</span>
+                    </div>
+                    
+                    
+                    <!-- Toggle mobile menu -->
+                    <button class="mobile-menu-toggle d-lg-none" id="mobileMenuToggle">
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                        <span class="hamburger-line"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Breadcrumbs -->
+    <div class="breadcrumb-section">
+        <div class="container-fluid">
+            <nav class="breadcrumb-nav" aria-label="Navegação estrutural">
+                <ol class="breadcrumb">
+                                        <li class="breadcrumb-item ">
+                                                    <a href="/index.html">Início</a>
+                                                                        <span class="breadcrumb-separator"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18L15 12L9 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                                            </li>
+                                        <li class="breadcrumb-item active">
+                                                    <span>Dashboard</span>
+                                                                    </li>
+                                    </ol>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- Mobile Navigation Overlay -->
+    <div class="mobile-nav-overlay d-lg-none" id="mobileNavOverlay">
+        <div class="mobile-nav-content">
+            <div class="mobile-nav-header">
+                <div class="mobile-brand">
+                    <img src="/images/logo-expertzy.png" alt="Expertzy" class="mobile-logo">
+                    <span class="mobile-title">Dashboard Principal</span>
+                </div>
+                <button class="mobile-nav-close" id="mobileNavClose">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <nav class="mobile-nav-menu">
+                                <div class="mobile-nav-item active">
+                                            <a href="/sistema/dashboard/" class="mobile-nav-link">
+                            <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M3 13H11V3H3V13ZM3 21H11V15H3V21ZM13 21H21V11H13V21ZM13 3V9H21V3H13Z" stroke="currentColor" stroke-width="2"/></svg></span>
+                            <span class="nav-label">Dashboard</span>
+                        </a>
+                                    </div>
+                                <div class="mobile-nav-item ">
+                                            <button class="mobile-nav-toggle" data-mobile-dropdown="modules">
+                            <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M4 4H10V10H4V4ZM14 4H20V10H14V4ZM4 14H10V20H4V14ZM14 14H20V20H14V14Z" stroke="currentColor" stroke-width="2"/></svg></span>
+                            <span class="nav-label">Módulos</span>
+                            <span class="dropdown-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        </button>
+                        <div class="mobile-dropdown" id="mobile-dropdown-modules">
+                                                        <a href="/sistema/modules/fiscal/" class="mobile-dropdown-item">
+                                <span class="dropdown-item-label">Fiscal</span>
+                                                                <span class="dropdown-item-desc">Cálculos tributários e nomenclatura</span>
+                                                            </a>
+                                                        <a href="/sistema/modules/commercial/" class="mobile-dropdown-item">
+                                <span class="dropdown-item-label">Comercial</span>
+                                                                <span class="dropdown-item-desc">Precificação B2B/B2C</span>
+                                                            </a>
+                                                        <a href="/sistema/modules/accounting/" class="mobile-dropdown-item">
+                                <span class="dropdown-item-label">Contábil</span>
+                                                                <span class="dropdown-item-desc">Custeio e rateio de despesas</span>
+                                                            </a>
+                                                        <a href="/sistema/modules/billing/" class="mobile-dropdown-item">
+                                <span class="dropdown-item-label">Faturamento</span>
+                                                                <span class="dropdown-item-desc">Emissão de documentos fiscais</span>
+                                                            </a>
+                                                    </div>
+                                    </div>
+                                <div class="mobile-nav-item ">
+                                            <button class="mobile-nav-toggle" data-mobile-dropdown="reports">
+                            <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M9 11H15M9 15H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17Z" stroke="currentColor" stroke-width="2"/></svg></span>
+                            <span class="nav-label">Relatórios</span>
+                            <span class="dropdown-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M6 9L12 15L18 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                        </button>
+                        <div class="mobile-dropdown" id="mobile-dropdown-reports">
+                                                        <a href="/sistema/dashboard/api/export/pdf.php?type=taxes" class="mobile-dropdown-item">
+                                <span class="dropdown-item-label">Relatório de Impostos</span>
+                                                            </a>
+                                                        <a href="/sistema/dashboard/api/export/xlsx.php?type=costs" class="mobile-dropdown-item">
+                                <span class="dropdown-item-label">Análise de Custos</span>
+                                                            </a>
+                                                        <a href="/sistema/dashboard/api/export/pdf.php?type=pricing" class="mobile-dropdown-item">
+                                <span class="dropdown-item-label">Precificação</span>
+                                                            </a>
+                                                    </div>
+                                    </div>
+                                <div class="mobile-nav-item ">
+                                            <a href="/sistema/config/" class="mobile-nav-link">
+                            <span class="nav-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/><path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.2578 9.77251 19.9887C9.5799 19.7197 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="currentColor" stroke-width="2"/></svg></span>
+                            <span class="nav-label">Configurações</span>
+                        </a>
+                                    </div>
+                            </nav>
+
+                        <div class="mobile-status">
+                <div class="status-indicator">
+                    <div class="status-icon status-online">
+                        <div class="status-dot"></div>
+                    </div>
+                    <span class="status-text">Sistema Online</span>
+                </div>
+            </div>
+                    </div>
+    </div>
+</header>
+
+<script>
+// Inicialização da navegação - será expandido no navigation.js
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof initSystemNavigation === 'function') {
+        initSystemNavigation();
+    }
+});
+</script>
+    
+    <!-- Início do conteúdo principal -->
+    <main id="main-content" class="main-content dashboard-layout" role="main">
+        
+                <div class="dashboard-wrapper">
+                
+        <!-- O header é renderizado automaticamente pelo LayoutManager -->
+
+<!-- Container do dashboard -->
+<div class="dashboard-container animate-fade-in">
+        <!-- Sidebar -->
+        <aside class="sidebar card animate-slide-in-right">
+            <div class="modules-section">
+                <h3>Módulos do Sistema</h3>
+                
+                <div class="module-card card fiscal animate-scale-in">
+                    <div class="module-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 11H15M9 15H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17ZM17 21V11H13V7H7V19H17Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="module-info">
+                        <h4>Fiscal</h4>
+                        <p>Cálculos tributários e nomenclatura</p>
+                    </div>
+                    <div class="module-status active"></div>
+                </div>
+
+                <div class="module-card card commercial animate-scale-in">
+                    <div class="module-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M12 6V4M12 6C10.8954 6 10 6.89543 10 8C10 9.10457 10.8954 10 12 10M12 6C13.1046 6 14 6.89543 14 8C14 9.10457 13.1046 10 12 10M12 10V20M8 21H16M16 4H8M12 14C8.68629 14 6 11.3137 6 8H4C4 12.4183 7.58172 16 12 16C16.4183 16 20 12.4183 20 8H18C18 11.3137 15.3137 14 12 14Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="module-info">
+                        <h4>Comercial</h4>
+                        <p>Precificação B2B/B2C</p>
+                    </div>
+                    <div class="module-status active"></div>
+                </div>
+
+                <div class="module-card card accounting animate-scale-in">
+                    <div class="module-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 7H15M9 11H15M9 15H13M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="module-info">
+                        <h4>Contábil</h4>
+                        <p>Custeio e rateio de despesas</p>
+                    </div>
+                    <div class="module-status active"></div>
+                </div>
+
+                <div class="module-card card billing animate-scale-in">
+                    <div class="module-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="module-info">
+                        <h4>Faturamento</h4>
+                        <p>Emissão de documentos fiscais</p>
+                    </div>
+                    <div class="module-status active"></div>
+                </div>
+            </div>
+
+            <div class="quick-stats">
+                <h3>Estatísticas Rápidas</h3>
+                                <div class="stat-item animate-fade-in">
+                    <span class="stat-label">DIs Processadas</span>
+                    <span class="stat-value">3</span>
+                </div>
+                                <div class="stat-item animate-fade-in">
+                    <span class="stat-label">Adições</span>
+                    <span class="stat-value">3</span>
+                </div>
+                                <div class="stat-item animate-fade-in">
+                    <span class="stat-label">Impostos Calculados</span>
+                    <span class="stat-value">12</span>
+                </div>
+                                <div class="stat-item animate-fade-in">
+                    <span class="stat-label">Despesas Extras</span>
+                    <span class="stat-value">0</span>
+                </div>
+                                <div class="stat-item animate-fade-in">
+                    <span class="stat-label">NCMs Catalogados</span>
+                    <span class="stat-value">0</span>
+                </div>
+                                <div class="stat-item animate-fade-in">
+                    <span class="stat-label">Moedas Configuradas</span>
+                    <span class="stat-value">17</span>
+                </div>
+                            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Painel de Controle Manual -->
+            
+<!-- Painel de Controle Manual -->
+<section class="manual-control-panel card animate-fade-in" id="manualControlPanel">
+    <div class="control-header">
+        <div class="control-title">
+            <h2>
+                <svg class="control-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 6.5V9L21 9ZM3 9V7L9 6.5V9L3 9ZM15 10.5V13.5L21 13V10.5L15 10.5ZM3 10.5V13L9 13.5V10.5L3 10.5ZM15 15V18L21 17.5V15L15 15ZM3 15V17.5L9 18V15L3 15Z" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+                Painel de Controle ETL
+            </h2>
+            <span class="control-subtitle">Controle total do workflow manual</span>
+        </div>
+        
+        <div class="control-status">
+            <div class="status-indicator-main inactive">
+                <span class="status-text">
+                    Aguardando Dados                </span>
+                <div class="status-dot"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Status do Sistema com Visual Rico -->
+    <div class="system-overview">
+        <div class="overview-stats">
+            <div class="stat-card database success">
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M4 6C4 4.89543 4.89543 4 6 4H18C19.1046 4 20 4.89543 20 6V8C20 9.10457 19.1046 10 18 10H6C4.89543 10 4 9.10457 4 8V6Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M4 14C4 12.8954 4.89543 12 6 12H18C19.1046 12 20 12.8954 20 14V16C20 17.1046 19.1046 18 18 18H6C4.89543 18 4 17.1046 4 16V14Z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Banco de Dados</span>
+                    <span class="stat-value">Online</span>
+                </div>
+            </div>
+
+            <div class="stat-card data warning">
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M14 2V8H20" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 13H8" stroke="currentColor" stroke-width="2"/>
+                        <path d="M16 17H8" stroke="currentColor" stroke-width="2"/>
+                        <path d="M10 9H8" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">DIs Importadas</span>
+                    <span class="stat-value">0</span>
+                </div>
+            </div>
+
+            <div class="stat-card update neutral">
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 2V6M12 18V22M4.93 4.93L7.76 7.76M16.24 16.24L19.07 19.07M2 12H6M18 12H22M4.93 19.07L7.76 16.24M16.24 7.76L19.07 4.93" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-label">Última Atualização</span>
+                    <span class="stat-value">
+                        Nunca                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Como Começar (se não há dados) -->
+                    
+<div class="getting-started-card card animate-fade-in">
+    <div class="card-header">
+        <h3>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            Como Começar
+        </h3>
+        <span class="card-badge">Guia Rápido</span>
+    </div>
+    
+    <div class="card-content">
+        <p class="card-description">
+            Siga estes passos para usar o sistema ETL de DI's pela primeira vez:
+        </p>
+        
+        <div class="steps-list">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Verificar Sistema</h4>
+                    <p>Clique em "Verificar Status" para confirmar que o banco de dados está funcionando.</p>
+                    <div class="step-actions">
+                        <button type="button" class="btn-quick-action" onclick="manualControlPanel.handleVerifyDatabase()">
+                            Verificar Agora
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Importar Dados</h4>
+                    <p>Faça upload de arquivos XML de Declaração de Importação para processar.</p>
+                    <div class="step-actions">
+                        <button type="button" class="btn-quick-action" onclick="manualControlPanel.handleImportXML()">
+                            Importar XML
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>Visualizar Dados</h4>
+                    <p>Após importar, carregue os gráficos e estatísticas para análise.</p>
+                    <div class="step-actions">
+                        <button type="button" class="btn-quick-action" onclick="manualControlPanel.handleLoadCharts()" disabled>
+                            Carregar Gráficos
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="quick-tips">
+            <h4>Dicas Rápidas</h4>
+            <ul>
+                <li><strong>Atalhos de Teclado:</strong> Ctrl+Shift+I (Importar), Ctrl+Shift+R (Atualizar)</li>
+                <li><strong>Auto-refresh:</strong> Ative nas configurações para atualizações automáticas</li>
+                <li><strong>Suporte:</strong> Consulte a documentação para instruções detalhadas</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<style>
+.getting-started-card {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border: 2px solid #e2e8f0;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.getting-started-card .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.getting-started-card .card-header h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #1e293b;
+    font-weight: 600;
+    margin: 0;
+}
+
+.getting-started-card .card-header svg {
+    color: #3b82f6;
+}
+
+.card-badge {
+    padding: 0.25rem 0.75rem;
+    background: #3b82f6;
+    color: white;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.getting-started-card .card-content {
+    padding: 1.5rem;
+}
+
+.card-description {
+    color: #64748b;
+    margin-bottom: 1.5rem;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.steps-list {
+    margin-bottom: 2rem;
+}
+
+.step-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+}
+
+.step-item:last-child {
+    margin-bottom: 0;
+}
+
+.step-number {
+    width: 32px;
+    height: 32px;
+    background: #3b82f6;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-content h4 {
+    color: #1e293b;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+}
+
+.step-content p {
+    color: #64748b;
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.step-actions {
+    margin-top: 0.75rem;
+}
+
+.btn-quick-action {
+    padding: 0.5rem 1rem;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-quick-action:hover:not(:disabled) {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.btn-quick-action:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #94a3b8;
+}
+
+.quick-tips {
+    padding: 1rem;
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: 8px;
+    border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.quick-tips h4 {
+    color: #1e293b;
+    font-weight: 600;
+    margin: 0 0 0.75rem 0;
+    font-size: 0.95rem;
+}
+
+.quick-tips ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    list-style-type: disc;
+}
+
+.quick-tips li {
+    color: #64748b;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+}
+
+.quick-tips li:last-child {
+    margin-bottom: 0;
+}
+
+.quick-tips strong {
+    color: #1e293b;
+}
+
+@media (max-width: 768px) {
+    .getting-started-card .card-header {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+    
+    .step-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .step-number {
+        align-self: center;
+    }
+}
+</style>        
+        <!-- Próximo Passo Recomendado -->
+        <div class="next-step-card warning">
+            <div class="next-step-content">
+                <div class="step-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>                    </svg>
+                </div>
+                <div class="step-info">
+                    <h3>Próximo Passo</h3>
+                    <h4>Configurar Schema</h4>
+                    <p>Instalar estrutura do banco</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seções de Controle -->
+    <div class="control-sections">
+        <!-- Gestão de Dados -->
+        <div class="control-section data-management">
+            <div class="section-header">
+                <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 7H19L18 17H6L5 7Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M5 7L4 3H2" stroke="currentColor" stroke-width="2"/>
+                        <path d="M9 11V13" stroke="currentColor" stroke-width="2"/>
+                        <path d="M15 11V13" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Gestão de Dados
+                </h3>
+                <span class="section-badge">
+                    0 DIs
+                </span>
+            </div>
+            
+            <div class="control-actions">
+                <button type="button" class="control-btn primary" id="btnImportXML" 
+                        >
+                    <div class="btn-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M21 15V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V15M17 8L12 3M12 3L7 8M12 3V15" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">Importar XML DI</span>
+                        <small class="btn-description">Carregar novos dados</small>
+                    </div>
+                </button>
+
+                <button type="button" class="control-btn secondary" id="btnVerifyDatabase" 
+                        >
+                    <div class="btn-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">Verificar Status</span>
+                        <small class="btn-description">Validar sistema</small>
+                    </div>
+                </button>
+
+                <button type="button" class="control-btn tertiary" id="btnClearCache">
+                    <div class="btn-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M3 6H5H21M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">Limpar Cache</span>
+                        <small class="btn-description">Reset temporário</small>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Visualizações -->
+        <div class="control-section visualizations">
+            <div class="section-header">
+                <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M22 12H18L15 21L9 3L6 12H2" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Visualizações
+                </h3>
+                <span class="section-badge">
+                    Bloqueado                </span>
+            </div>
+            
+            <div class="control-actions">
+                <button type="button" class="control-btn primary" id="btnLoadCharts" 
+                        disabled>
+                    <div class="btn-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M22 12H18L15 21L9 3L6 12H2" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">Carregar Gráficos</span>
+                        <small class="btn-description">Gerar visualizações</small>
+                    </div>
+                </button>
+
+                <button type="button" class="control-btn secondary" id="btnLoadStats" 
+                        disabled>
+                    <div class="btn-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M9 11H15M9 15H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17Z" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">Carregar Estatísticas</span>
+                        <small class="btn-description">Atualizar métricas</small>
+                    </div>
+                </button>
+
+                <button type="button" class="control-btn primary" id="btnRefreshAll" 
+                        disabled>
+                    <div class="btn-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <path d="M1 4V10H7M23 20V14H17M20.49 9C19.9828 7.56678 19.1209 6.28593 17.9845 5.27394C16.8482 4.26195 15.4745 3.55663 13.9917 3.21958C12.5089 2.88254 10.9652 2.92346 9.50481 3.33851C8.04439 3.75356 6.71475 4.52769 5.64 5.58L1 10M23 14L18.36 18.42C17.2853 19.4723 15.9556 20.2464 14.4952 20.6615C13.0348 21.0765 11.4911 21.1175 10.0083 20.7804C8.52547 20.4434 7.1518 19.738 6.01547 18.7261C4.87913 17.7141 4.01717 16.4332 3.51 15" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">Atualizar Tudo</span>
+                        <small class="btn-description">Sincronizar sistema</small>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Configurações -->
+        <div class="control-section settings">
+            <div class="section-header">
+                <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
+                        <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.2582 9.77251 19.9887C9.5799 19.7193 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.74178 9.96512 4.01127 9.77251C4.28075 9.5799 4.48571 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15V15Z" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    Configurações
+                </h3>
+                <span class="section-badge auto-refresh inactive">
+                    Auto-refresh: OFF                </span>
+            </div>
+            
+            <div class="control-actions">
+                <div class="settings-row">
+                    <label class="toggle-container">
+                        <input type="checkbox" id="autoRefreshToggle" >
+                        <span class="toggle-slider"></span>
+                        <span class="toggle-label">Auto-refresh</span>
+                    </label>
+                    
+                    <div class="interval-control" style="opacity: 0.5; pointer-events: none;">
+                        <label for="refreshInterval">Intervalo (segundos):</label>
+                        <input type="range" id="refreshInterval" min="10" max="300" value="60" step="10">
+                        <span class="interval-value">60s</span>
+                    </div>
+                </div>
+
+                <div class="settings-actions">
+                    <button type="button" class="control-btn secondary" id="btnAdvancedSettings">
+                        <div class="btn-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <span class="btn-title">Configurações Avançadas</span>
+                    </button>
+
+                    <a href="/docs/" class="control-btn tertiary" target="_blank">
+                        <div class="btn-icon">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                                <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
+                                <path d="M14 2V8H20" stroke="currentColor" stroke-width="2"/>
+                                <path d="M16 13H8" stroke="currentColor" stroke-width="2"/>
+                                <path d="M16 17H8" stroke="currentColor" stroke-width="2"/>
+                                <path d="M10 9H8" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <span class="btn-title">Documentação</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Progresso de Ações -->
+    <div class="action-progress" id="actionProgress" style="display: none;">
+        <div class="progress-content">
+            <div class="progress-spinner">
+                <div class="spinner"></div>
+            </div>
+            <div class="progress-info">
+                <h4 id="progressTitle">Processando...</h4>
+                <p id="progressDescription">Aguarde enquanto a operação é executada</p>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <span class="progress-percent" id="progressPercent">0%</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Indicadores de Feedback Visual -->
+<div class="control-feedback" id="controlFeedback">
+    <!-- Será preenchido dinamicamente pelo JavaScript -->
+</div>            
+            <!-- Upload Zone -->
+            <section class="upload-section card animate-fade-in">
+                <div class="upload-zone" id="uploadZone">
+                    <div class="upload-icon">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
+                            <path d="M7 18C3.68629 18 1 15.3137 1 12C1 8.68629 3.68629 6 7 6C7.36312 6 7.71308 6.04264 8.04907 6.12166C9.15004 3.31397 11.8844 1.5 15 1.5C19.1421 1.5 22.5 4.85786 22.5 9C22.5 9.78632 22.3489 10.5371 22.0748 11.2273C22.5484 11.6946 22.8333 12.3097 22.8333 13C22.8333 14.2887 21.7887 15.3333 20.5 15.3333H18M12 8V15M9 12L12 9L15 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="upload-content">
+                        <h2>Importar XMLs de DI</h2>
+                        <p>Arraste e solte seus arquivos XML aqui ou <span class="upload-link">clique para procurar</span></p>
+                        <div class="upload-restrictions">
+                            <span>Apenas arquivos .xml | Máximo 10MB por arquivo</span>
+                        </div>
+                    </div>
+                    <input type="file" id="fileInput" multiple accept=".xml" hidden>
+                </div>
+
+                <div class="upload-progress" id="uploadProgress" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-info">
+                        <span id="progressText">Processando...</span>
+                        <span id="progressPercent">0%</span>
+                    </div>
+                </div>
+
+                <div class="file-list" id="fileList" style="display: none;">
+                    <h3>Arquivos Selecionados</h3>
+                    <div class="files-container" id="filesContainer"></div>
+                    <div class="file-actions">
+                        <button class="btn btn-primary" id="processFiles">Processar Arquivos</button>
+                        <button class="btn btn-secondary" id="clearFiles">Limpar Lista</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Cards -->
+            <section class="dashboard-cards card animate-fade-in">
+                <div class="card-grid">
+                    <div class="dashboard-card card animate-scale-in">
+                        <div class="card-icon success">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="card-content">
+                            <h3>DIs Processadas</h3>
+                            <div class="card-value">3</div>
+                            <div class="card-trend positive">
+                                <span>+12% este mês</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card card animate-scale-in">
+                        <div class="card-icon info">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M9 11H15M9 15H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L19.7071 9.70711C19.8946 9.89464 20 10.149 20 10.4142V19C20 20.1046 19.1046 21 18 21H17Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="card-content">
+                            <h3>Impostos Calculados</h3>
+                            <div class="card-value">12</div>
+                            <div class="card-trend neutral">
+                                <span>Última atualização: hoje</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card card animate-scale-in">
+                        <div class="card-icon warning">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 6V4M12 6C10.8954 6 10 6.89543 10 8C10 9.10457 10.8954 10 12 10M12 6C13.1046 6 14 6.89543 14 8C14 9.10457 13.1046 10 12 10M12 10V20M8 21H16M16 4H8M12 14C8.68629 14 6 11.3137 6 8H4C4 12.4183 7.58172 16 12 16C16.4183 16 20 12.4183 20 8H18C18 11.3137 15.3137 14 12 14Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="card-content">
+                            <h3>NCMs Catalogados</h3>
+                            <div class="card-value">0</div>
+                            <div class="card-trend positive">
+                                <span>+5 novos NCMs</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-card card animate-scale-in">
+                        <div class="card-icon error">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 8V12M12 16H12.01M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                        </div>
+                        <div class="card-content">
+                            <h3>Despesas Extras</h3>
+                            <div class="card-value">0</div>
+                            <div class="card-trend negative">
+                                <span>-2% este mês</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Status -->
+            <section class="system-status card animate-fade-in">
+                <div class="status-card card animate-scale-in">
+                    <h3>Status do Sistema</h3>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <div class="status-indicator online"></div>
+                            <span>Banco de Dados</span>
+                            <div class="status-label">Online</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator offline"></div>
+                            <span>Schema</span>
+                            <div class="status-label">Pendente</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator online"></div>
+                            <span>Upload</span>
+                            <div class="status-label">OK</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-indicator online"></div>
+                            <span>Processados</span>
+                            <div class="status-label">OK</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gerenciamento do Banco de Dados -->
+            <section class="database-management card animate-fade-in">
+                <div class="management-card card animate-scale-in">
+                    <h3>
+                        <i class="icon-database"></i>
+                        Gerenciamento do Banco de Dados
+                    </h3>
+                    <p>Ferramentas para limpeza e exportação dos dados processados</p>
+                    
+                    <div class="management-actions">
+                        <button type="button" class="btn btn-secondary" data-action="database-export">
+                            <i class="icon-download"></i>
+                            <span>Exportar JSON</span>
+                            <small>Exportar dados para validação</small>
+                        </button>
+                        
+                        <button type="button" class="btn btn-warning" data-action="database-cleanup">
+                            <i class="icon-cleanup"></i>
+                            <span>Limpeza de Dados</span>
+                            <small>Limpar dados de teste ou antigos</small>
+                        </button>
+                    </div>
+                    
+                    <div class="management-info">
+                        <div class="info-item">
+                            <span class="info-label">Última Exportação:</span>
+                            <span class="info-value">Nunca</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Última Limpeza:</span>
+                            <span class="info-value">Nunca</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Painel de Controle Manual -->
+            <br />
+<b>Fatal error</b>:  Cannot redeclare getControlPanelStatus() (previously declared in /Users/ceciliodaher/Documents/git/importaco-sistema/sistema/dashboard/components/manual-control-panel.php:11) in <b>/Users/ceciliodaher/Documents/git/importaco-sistema/sistema/dashboard/components/manual-control-panel.php</b> on line <b>11</b><br />

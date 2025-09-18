@@ -1,0 +1,165 @@
+{
+  "testName": "dashboard-load",
+  "timestamp": "2025-09-17T23:58:06.092Z",
+  "performanceMetrics": {
+    "loadTime": 39,
+    "domContentLoaded": 39,
+    "networkRequests": 0,
+    "jsErrors": [],
+    "timestamp": "2025-09-17T23:57:06.013Z"
+  },
+  "networkLogs": [
+    {
+      "url": "http://localhost:8000/sistema/dashboard/index.php",
+      "method": "GET",
+      "status": 200,
+      "responseTime": 8,
+      "timestamp": "2025-09-17T23:57:06.027Z",
+      "headers": {
+        "accept-language": "pt-BR",
+        "upgrade-insecure-requests": "1",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.7339.16 Safari/537.36",
+        "x-test-environment": "Development",
+        "x-test-source": "Playwright-E2E",
+        "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"HeadlessChrome\";v=\"140\"",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\"Windows\""
+      },
+      "isAPI": false
+    },
+    {
+      "url": "http://localhost:8000/assets/css/expertzy-theme.css",
+      "method": "GET",
+      "status": 200,
+      "responseTime": 2,
+      "timestamp": "2025-09-17T23:57:06.031Z",
+      "headers": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "http://localhost:8000/sistema/dashboard/index.php",
+        "accept-language": "pt-BR",
+        "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"HeadlessChrome\";v=\"140\"",
+        "x-test-environment": "Development",
+        "x-test-source": "Playwright-E2E",
+        "sec-ch-ua-mobile": "?0",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.7339.16 Safari/537.36"
+      },
+      "isAPI": false
+    },
+    {
+      "url": "http://localhost:8000/sistema/shared/assets/css/system-navigation.css",
+      "method": "GET",
+      "status": 200,
+      "responseTime": 2,
+      "timestamp": "2025-09-17T23:57:06.031Z",
+      "headers": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "http://localhost:8000/sistema/dashboard/index.php",
+        "accept-language": "pt-BR",
+        "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"HeadlessChrome\";v=\"140\"",
+        "x-test-environment": "Development",
+        "x-test-source": "Playwright-E2E",
+        "sec-ch-ua-mobile": "?0",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.7339.16 Safari/537.36"
+      },
+      "isAPI": false
+    },
+    {
+      "url": "http://localhost:8000/sistema/dashboard/assets/css/dashboard.css",
+      "method": "GET",
+      "status": 200,
+      "responseTime": 2,
+      "timestamp": "2025-09-17T23:57:06.031Z",
+      "headers": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "http://localhost:8000/sistema/dashboard/index.php",
+        "accept-language": "pt-BR",
+        "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"HeadlessChrome\";v=\"140\"",
+        "x-test-environment": "Development",
+        "x-test-source": "Playwright-E2E",
+        "sec-ch-ua-mobile": "?0",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.7339.16 Safari/537.36"
+      },
+      "isAPI": false
+    },
+    {
+      "url": "http://localhost:8000/sistema/dashboard/assets/css/charts.css",
+      "method": "GET",
+      "status": 200,
+      "responseTime": 2,
+      "timestamp": "2025-09-17T23:57:06.031Z",
+      "headers": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "http://localhost:8000/sistema/dashboard/index.php",
+        "accept-language": "pt-BR",
+        "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"HeadlessChrome\";v=\"140\"",
+        "x-test-environment": "Development",
+        "x-test-source": "Playwright-E2E",
+        "sec-ch-ua-mobile": "?0",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.7339.16 Safari/537.36"
+      },
+      "isAPI": false
+    },
+    {
+      "url": "http://localhost:8000/sistema/dashboard/assets/css/manual-control.css",
+      "method": "GET",
+      "status": 200,
+      "responseTime": 2,
+      "timestamp": "2025-09-17T23:57:06.031Z",
+      "headers": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "http://localhost:8000/sistema/dashboard/index.php",
+        "accept-language": "pt-BR",
+        "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"HeadlessChrome\";v=\"140\"",
+        "x-test-environment": "Development",
+        "x-test-source": "Playwright-E2E",
+        "sec-ch-ua-mobile": "?0",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.7339.16 Safari/537.36"
+      },
+      "isAPI": false
+    },
+    {
+      "url": "http://localhost:8000/images/logo-expertzy.png",
+      "method": "GET",
+      "status": 200,
+      "responseTime": 1,
+      "timestamp": "2025-09-17T23:57:06.031Z",
+      "headers": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "http://localhost:8000/sistema/dashboard/index.php",
+        "accept-language": "pt-BR",
+        "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"HeadlessChrome\";v=\"140\"",
+        "x-test-environment": "Development",
+        "x-test-source": "Playwright-E2E",
+        "sec-ch-ua-mobile": "?0",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.7339.16 Safari/537.36"
+      },
+      "isAPI": false
+    },
+    {
+      "url": "http://localhost:8000/sistema/shared/assets/js/navigation.js",
+      "method": "GET",
+      "status": 200,
+      "responseTime": 3,
+      "timestamp": "2025-09-17T23:57:06.032Z",
+      "headers": {
+        "sec-ch-ua-platform": "\"Windows\"",
+        "referer": "http://localhost:8000/sistema/dashboard/index.php",
+        "accept-language": "pt-BR",
+        "sec-ch-ua": "\"Chromium\";v=\"140\", \"Not=A?Brand\";v=\"24\", \"HeadlessChrome\";v=\"140\"",
+        "x-test-environment": "Development",
+        "x-test-source": "Playwright-E2E",
+        "sec-ch-ua-mobile": "?0",
+        "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/140.0.7339.16 Safari/537.36"
+      },
+      "isAPI": false
+    }
+  ],
+  "screenshots": [],
+  "summary": {
+    "totalRequests": 8,
+    "apiCalls": 0,
+    "failedRequests": 0,
+    "averageResponseTime": 0,
+    "jsErrorCount": 0
+  }
+}

@@ -1,0 +1,303 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - link "Pular para o conteúdo principal" [ref=e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=e3]:
+    - generic [ref=e6]:
+      - link "Expertzy Dashboard Principal 1.0.0" [ref=e8] [cursor=pointer]:
+        - /url: /index.html
+        - img "Expertzy" [ref=e9] [cursor=pointer]
+        - generic [ref=e10] [cursor=pointer]:
+          - heading "Dashboard Principal" [level=1] [ref=e11] [cursor=pointer]
+          - generic [ref=e12] [cursor=pointer]: 1.0.0
+      - navigation [ref=e13]:
+        - list [ref=e14]:
+          - listitem [ref=e15]:
+            - link "Dashboard" [ref=e16] [cursor=pointer]:
+              - /url: /sistema/dashboard/
+              - img [ref=e18] [cursor=pointer]
+              - generic [ref=e20] [cursor=pointer]: Dashboard
+          - listitem [ref=e21]:
+            - link "Módulos" [ref=e22] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e24] [cursor=pointer]
+              - generic [ref=e26] [cursor=pointer]: Módulos
+              - img [ref=e28] [cursor=pointer]
+          - listitem [ref=e30]:
+            - link "Relatórios" [ref=e31] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e33] [cursor=pointer]
+              - generic [ref=e35] [cursor=pointer]: Relatórios
+              - img [ref=e37] [cursor=pointer]
+          - listitem [ref=e39]:
+            - link "Configurações" [ref=e40] [cursor=pointer]:
+              - /url: /sistema/config/
+              - img [ref=e42] [cursor=pointer]
+              - generic [ref=e45] [cursor=pointer]: Configurações
+    - navigation "Navegação estrutural" [ref=e52]:
+      - list [ref=e53]:
+        - listitem [ref=e54]:
+          - link "Início" [ref=e55] [cursor=pointer]:
+            - /url: /index.html
+          - img [ref=e57]
+        - listitem [ref=e59]:
+          - generic [ref=e60]: Dashboard
+  - main [ref=e61]:
+    - generic [ref=e63]:
+      - complementary [ref=e64]:
+        - generic [ref=e65]:
+          - heading "Módulos do Sistema" [level=3] [ref=e66]
+          - generic [ref=e67] [cursor=pointer]:
+            - img [ref=e69] [cursor=pointer]
+            - generic [ref=e71] [cursor=pointer]:
+              - heading "Fiscal" [level=4] [ref=e72] [cursor=pointer]
+              - paragraph [ref=e73] [cursor=pointer]: Cálculos tributários e nomenclatura
+          - generic [ref=e75] [cursor=pointer]:
+            - img [ref=e77] [cursor=pointer]
+            - generic [ref=e79] [cursor=pointer]:
+              - heading "Comercial" [level=4] [ref=e80] [cursor=pointer]
+              - paragraph [ref=e81] [cursor=pointer]: Precificação B2B/B2C
+          - generic [ref=e83] [cursor=pointer]:
+            - img [ref=e85] [cursor=pointer]
+            - generic [ref=e87] [cursor=pointer]:
+              - heading "Contábil" [level=4] [ref=e88] [cursor=pointer]
+              - paragraph [ref=e89] [cursor=pointer]: Custeio e rateio de despesas
+          - generic [ref=e91] [cursor=pointer]:
+            - img [ref=e93] [cursor=pointer]
+            - generic [ref=e95] [cursor=pointer]:
+              - heading "Faturamento" [level=4] [ref=e96] [cursor=pointer]
+              - paragraph [ref=e97] [cursor=pointer]: Emissão de documentos fiscais
+        - generic [ref=e99]:
+          - heading "Estatísticas Rápidas" [level=3] [ref=e100]
+          - generic [ref=e101]:
+            - generic [ref=e102]: DIs Processadas
+            - generic [ref=e103]: "3"
+          - generic [ref=e104]:
+            - generic [ref=e105]: Adições
+            - generic [ref=e106]: "3"
+          - generic [ref=e107]:
+            - generic [ref=e108]: Impostos Calculados
+            - generic [ref=e109]: "12"
+          - generic [ref=e110]:
+            - generic [ref=e111]: Despesas Extras
+            - generic [ref=e112]: "0"
+          - generic [ref=e113]:
+            - generic [ref=e114]: NCMs Catalogados
+            - generic [ref=e115]: "0"
+          - generic [ref=e116]:
+            - generic [ref=e117]: Moedas Configuradas
+            - generic [ref=e118]: "17"
+      - main [ref=e119]:
+        - generic [ref=e120]:
+          - generic [ref=e121]:
+            - generic [ref=e122]:
+              - heading "Painel de Controle ETL" [level=2] [ref=e123]:
+                - img [ref=e124]
+                - text: Painel de Controle ETL
+              - generic [ref=e126]: Controle total do workflow manual
+            - generic [ref=e129]: Aguardando Dados
+          - generic [ref=e131]:
+            - generic [ref=e132]:
+              - generic [ref=e133]:
+                - img [ref=e135]
+                - generic [ref=e138]:
+                  - generic [ref=e139]: Banco de Dados
+                  - generic [ref=e140]: Online
+              - generic [ref=e141]:
+                - img [ref=e143]
+                - generic [ref=e146]:
+                  - generic [ref=e147]: DIs Importadas
+                  - generic [ref=e148]: "0"
+              - generic [ref=e149]:
+                - img [ref=e151]
+                - generic [ref=e153]:
+                  - generic [ref=e154]: Última Atualização
+                  - generic [ref=e155]: Nunca
+            - generic [ref=e156]:
+              - generic [ref=e157]:
+                - heading "Como Começar" [level=3] [ref=e158]:
+                  - img [ref=e159]
+                  - text: Como Começar
+                - generic [ref=e161]: Guia Rápido
+              - generic [ref=e162]:
+                - paragraph [ref=e163]: "Siga estes passos para usar o sistema ETL de DI's pela primeira vez:"
+                - generic [ref=e164]:
+                  - generic [ref=e165]:
+                    - generic [ref=e166]: "1"
+                    - generic [ref=e167]:
+                      - heading "Verificar Sistema" [level=4] [ref=e168]
+                      - paragraph [ref=e169]: Clique em "Verificar Status" para confirmar que o banco de dados está funcionando.
+                      - button "Verificar Agora" [ref=e171] [cursor=pointer]
+                  - generic [ref=e172]:
+                    - generic [ref=e173]: "2"
+                    - generic [ref=e174]:
+                      - heading "Importar Dados" [level=4] [ref=e175]
+                      - paragraph [ref=e176]: Faça upload de arquivos XML de Declaração de Importação para processar.
+                      - button "Importar XML" [ref=e178] [cursor=pointer]
+                  - generic [ref=e179]:
+                    - generic [ref=e180]: "3"
+                    - generic [ref=e181]:
+                      - heading "Visualizar Dados" [level=4] [ref=e182]
+                      - paragraph [ref=e183]: Após importar, carregue os gráficos e estatísticas para análise.
+                      - button "Carregar Gráficos" [disabled] [ref=e185]
+                - generic [ref=e186]:
+                  - heading "Dicas Rápidas" [level=4] [ref=e187]
+                  - list [ref=e188]:
+                    - listitem [ref=e189]:
+                      - strong [ref=e190]: "Atalhos de Teclado:"
+                      - text: Ctrl+Shift+I (Importar), Ctrl+Shift+R (Atualizar)
+                    - listitem [ref=e191]:
+                      - strong [ref=e192]: "Auto-refresh:"
+                      - text: Ative nas configurações para atualizações automáticas
+                    - listitem [ref=e193]:
+                      - strong [ref=e194]: "Suporte:"
+                      - text: Consulte a documentação para instruções detalhadas
+            - generic [ref=e196]:
+              - img [ref=e198]
+              - generic [ref=e200]:
+                - heading "Próximo Passo" [level=3] [ref=e201]
+                - heading "Configurar Schema" [level=4] [ref=e202]
+                - paragraph [ref=e203]: Instalar estrutura do banco
+          - generic [ref=e204]:
+            - generic [ref=e205]:
+              - generic [ref=e206]:
+                - heading "Gestão de Dados" [level=3] [ref=e207]:
+                  - img [ref=e208]
+                  - text: Gestão de Dados
+                - generic [ref=e211]: 0 DIs
+              - generic [ref=e212]:
+                - button "Importar XML DI Carregar novos dados" [ref=e213] [cursor=pointer]:
+                  - img [ref=e215] [cursor=pointer]
+                  - generic [ref=e217] [cursor=pointer]:
+                    - generic [ref=e218] [cursor=pointer]: Importar XML DI
+                    - generic [ref=e219] [cursor=pointer]: Carregar novos dados
+                - button "Verificar Status Validar sistema" [ref=e220] [cursor=pointer]:
+                  - img [ref=e222] [cursor=pointer]
+                  - generic [ref=e224] [cursor=pointer]:
+                    - generic [ref=e225] [cursor=pointer]: Verificar Status
+                    - generic [ref=e226] [cursor=pointer]: Validar sistema
+                - button "Limpar Cache Reset temporário" [ref=e227] [cursor=pointer]:
+                  - img [ref=e229] [cursor=pointer]
+                  - generic [ref=e231] [cursor=pointer]:
+                    - generic [ref=e232] [cursor=pointer]: Limpar Cache
+                    - generic [ref=e233] [cursor=pointer]: Reset temporário
+            - generic [ref=e234]:
+              - generic [ref=e235]:
+                - heading "Visualizações" [level=3] [ref=e236]:
+                  - img [ref=e237]
+                  - text: Visualizações
+                - generic [ref=e239]: Bloqueado
+              - generic [ref=e240]:
+                - button "Carregar Gráficos Gerar visualizações" [disabled] [ref=e241]:
+                  - img [ref=e243]
+                  - generic [ref=e245]:
+                    - generic [ref=e246]: Carregar Gráficos
+                    - generic [ref=e247]: Gerar visualizações
+                - button "Carregar Estatísticas Atualizar métricas" [disabled] [ref=e248]:
+                  - img [ref=e250]
+                  - generic [ref=e252]:
+                    - generic [ref=e253]: Carregar Estatísticas
+                    - generic [ref=e254]: Atualizar métricas
+                - button "Atualizar Tudo Sincronizar sistema" [disabled] [ref=e255]:
+                  - img [ref=e257]
+                  - generic [ref=e259]:
+                    - generic [ref=e260]: Atualizar Tudo
+                    - generic [ref=e261]: Sincronizar sistema
+            - generic [ref=e262]:
+              - generic [ref=e263]:
+                - heading "Configurações" [level=3] [ref=e264]:
+                  - img [ref=e265]
+                  - text: Configurações
+                - generic [ref=e268]: "Auto-refresh: OFF"
+              - generic [ref=e269]:
+                - generic [ref=e270]:
+                  - generic [ref=e273] [cursor=pointer]: Auto-refresh
+                  - generic:
+                    - generic: "Intervalo (segundos):"
+                    - slider "Intervalo (segundos):": "60"
+                    - generic: 60s
+                - generic [ref=e274]:
+                  - button "Configurações Avançadas" [ref=e275] [cursor=pointer]:
+                    - img [ref=e277] [cursor=pointer]
+                    - generic [ref=e279] [cursor=pointer]: Configurações Avançadas
+                  - link "Documentação" [ref=e280] [cursor=pointer]:
+                    - /url: /docs/
+                    - img [ref=e282] [cursor=pointer]
+                    - generic [ref=e285] [cursor=pointer]: Documentação
+        - generic [ref=e287] [cursor=pointer]:
+          - img [ref=e289] [cursor=pointer]
+          - generic [ref=e291] [cursor=pointer]:
+            - heading "Importar XMLs de DI" [level=2] [ref=e292] [cursor=pointer]
+            - paragraph [ref=e293] [cursor=pointer]:
+              - text: Arraste e solte seus arquivos XML aqui ou
+              - generic [ref=e294] [cursor=pointer]: clique para procurar
+            - generic [ref=e296] [cursor=pointer]: Apenas arquivos .xml | Máximo 10MB por arquivo
+        - generic [ref=e298]:
+          - generic [ref=e299]:
+            - img [ref=e301]
+            - generic [ref=e303]:
+              - heading "DIs Processadas" [level=3] [ref=e304]
+              - generic [ref=e305]: "3"
+              - generic [ref=e307]: +12% este mês
+          - generic [ref=e308]:
+            - img [ref=e310]
+            - generic [ref=e312]:
+              - heading "Impostos Calculados" [level=3] [ref=e313]
+              - generic [ref=e314]: "12"
+              - generic [ref=e316]: "Última atualização: hoje"
+          - generic [ref=e317]:
+            - img [ref=e319]
+            - generic [ref=e321]:
+              - heading "NCMs Catalogados" [level=3] [ref=e322]
+              - generic [ref=e323]: "0"
+              - generic [ref=e325]: +5 novos NCMs
+          - generic [ref=e326]:
+            - img [ref=e328]
+            - generic [ref=e330]:
+              - heading "Despesas Extras" [level=3] [ref=e331]
+              - generic [ref=e332]: "0"
+              - generic [ref=e334]: "-2% este mês"
+        - generic [ref=e336]:
+          - heading "Status do Sistema" [level=3] [ref=e337]
+          - generic [ref=e338]:
+            - generic [ref=e339]:
+              - generic [ref=e341]: Banco de Dados
+              - generic [ref=e342]: Online
+            - generic [ref=e343]:
+              - generic [ref=e345]: Schema
+              - generic [ref=e346]: Pendente
+            - generic [ref=e347]:
+              - generic [ref=e349]: Upload
+              - generic [ref=e350]: OK
+            - generic [ref=e351]:
+              - generic [ref=e353]: Processados
+              - generic [ref=e354]: OK
+        - generic [ref=e356]:
+          - heading "🗃️ Gerenciamento do Banco de Dados" [level=3] [ref=e357]:
+            - generic [ref=e358]: 🗃️
+            - text: Gerenciamento do Banco de Dados
+          - paragraph [ref=e359]: Ferramentas para limpeza e exportação dos dados processados
+          - generic [ref=e360]:
+            - button "⬇️ Exportar JSON Exportar dados para validação" [ref=e361] [cursor=pointer]:
+              - generic [ref=e362] [cursor=pointer]: ⬇️
+              - generic [ref=e363] [cursor=pointer]: Exportar JSON
+              - generic [ref=e364] [cursor=pointer]: Exportar dados para validação
+            - button "🧹 Limpeza de Dados Limpar dados de teste ou antigos" [ref=e365] [cursor=pointer]:
+              - generic [ref=e366] [cursor=pointer]: 🧹
+              - generic [ref=e367] [cursor=pointer]: Limpeza de Dados
+              - generic [ref=e368] [cursor=pointer]: Limpar dados de teste ou antigos
+          - generic [ref=e369]:
+            - generic [ref=e370]:
+              - generic [ref=e371]: "Última Exportação:"
+              - generic [ref=e372]: Nunca
+            - generic [ref=e373]:
+              - generic [ref=e374]: "Última Limpeza:"
+              - generic [ref=e375]: Nunca
+        - generic [ref=e376]: Fatal error
+        - text: ": Cannot redeclare getControlPanelStatus() (previously declared in /Users/ceciliodaher/Documents/git/importaco-sistema/sistema/dashboard/components/manual-control-panel.php:11) in"
+        - generic [ref=e377]: /Users/ceciliodaher/Documents/git/importaco-sistema/sistema/dashboard/components/manual-control-panel.php
+        - text: on line
+        - generic [ref=e378]: "11"
+```
