@@ -7,9 +7,9 @@
  * ================================================================================
  */
 
-require_once '../common/response.php';
-require_once '../common/cache.php';
-require_once '../../../config/database.php';
+require_once dirname(__DIR__) . '/common/response.php';
+require_once dirname(__DIR__) . '/common/cache.php';
+require_once dirname(__DIR__, 3) . '/config/database.php';
 
 // Middleware de inicialização
 apiMiddleware();

@@ -19,8 +19,8 @@ ini_set('output_buffering', 'off');
 ini_set('zlib.output_compression', false);
 if (ob_get_level()) ob_end_clean();
 
-require_once '../common/cache.php';
-require_once '../../../config/database.php';
+require_once dirname(__DIR__) . '/common/cache.php';
+require_once dirname(__DIR__, 3) . '/config/database.php';
 
 // Desabilitar timeout para conexão longa
 set_time_limit(0);

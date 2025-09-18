@@ -7,9 +7,14 @@
  * ================================================================================
  */
 
-require_once '../common/response.php';
-require_once '../common/cache.php';
-require_once '../../../config/database.php';
+require_once dirname(__DIR__) . '/common/response.php';
+require_once dirname(__DIR__) . '/common/cache.php';
+require_once dirname(__DIR__) . '/common/cache-headers.php';
+require_once dirname(__DIR__, 3) . '/config/database.php';
+
+// Headers de performance e cache
+CacheHeaders::enableCompression();
+CacheHeaders::setAPIHeaders(300); // 5 minutos de cache
 
 // Middleware de inicialização
 apiMiddleware();
@@ -18,6 +23,29 @@ try {
     // Verificar se é GET
     if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
         apiError('Método não permitido. Use GET.', 405)->send();
+    }
+
+    // Verificar se há dados mínimos no banco antes de processar
+    $dataValidation = validateMinimumData();
+    
+    if (!$dataValidation['has_data']) {
+        // Retornar estrutura vazia mas válida quando não há dados
+        $response = apiSuccess([
+            'overview' => getEmptyOverview(),
+            'performance' => getEmptyPerformance(),
+            'trends' => [],
+            'alerts' => getEmptyAlerts(),
+            'system_health' => $dataValidation['system_health'],
+            'data_status' => [
+                'has_data' => false,
+                'reason' => $dataValidation['reason'],
+                'recommendations' => $dataValidation['recommendations']
+            ]
+        ]);
+        
+        $response->addMeta('data_available', false);
+        $response->addMeta('total_records', 0);
+        $response->send();
     }
 
     // Inicializar cache do dashboard
@@ -31,7 +59,8 @@ try {
     
     // Adicionar informações de cache à resposta
     $response->setCacheStats($stats !== null, 'L1+L2');
-    $response->addMeta('total_records', $stats['total_dis_processadas'] ?? 0);
+    $response->addMeta('data_available', true);
+    $response->addMeta('total_records', $stats['overview']['total_dis_processadas'] ?? 0);
     
     // Enviar resposta
     $response->setData([
@@ -39,12 +68,42 @@ try {
         'performance' => $stats['performance'], 
         'trends' => $stats['trends'],
         'alerts' => $stats['alerts'],
-        'system_health' => $stats['system_health']
+        'system_health' => $stats['system_health'],
+        'data_status' => [
+            'has_data' => true,
+            'last_updated' => date('Y-m-d H:i:s')
+        ]
     ])->send();
     
 } catch (Exception $e) {
     error_log("API Stats Error: " . $e->getMessage());
-    apiError('Erro interno do servidor', 500)->send();
+    
+    // Em caso de erro, tentar retornar dados básicos ao invés de falhar
+    $fallbackResponse = apiSuccess([
+        'overview' => getEmptyOverview(),
+        'performance' => getEmptyPerformance(),
+        'trends' => [],
+        'alerts' => getEmptyAlerts(),
+        'system_health' => [
+            'status' => 'error',
+            'database' => 'error',
+            'cache' => 'disabled',
+            'error_message' => $e->getMessage()
+        ],
+        'data_status' => [
+            'has_data' => false,
+            'reason' => 'Erro no sistema: ' . $e->getMessage(),
+            'recommendations' => [
+                'Verifique a conexão com o banco de dados',
+                'Consulte os logs do sistema',
+                'Entre em contato com o suporte se o problema persistir'
+            ]
+        ]
+    ]);
+    
+    $fallbackResponse->addMeta('error_occurred', true);
+    $fallbackResponse->addMeta('data_available', false);
+    $fallbackResponse->send();
 }
 
 /**
@@ -441,5 +500,140 @@ function getPerformanceStats() {
         'peak_memory' => formatFileSize(memory_get_peak_usage(true)),
         'execution_time' => microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"],
         'server_load' => function_exists('sys_getloadavg') ? sys_getloadavg()[0] : 'N/A'
+    ];
+}
+
+/**
+ * Validar se há dados mínimos no banco
+ */
+function validateMinimumData(): array 
+{
+    try {
+        $db = getDatabase();
+        
+        // Verificar se o banco está acessível
+        if (!$db->testConnection()) {
+            return [
+                'has_data' => false,
+                'reason' => 'Banco de dados não acessível',
+                'recommendations' => [
+                    'Verifique a configuração do banco de dados',
+                    'Certifique-se de que o MySQL está rodando',
+                    'Confirme as credenciais de acesso'
+                ],
+                'system_health' => [
+                    'status' => 'critical',
+                    'database' => 'offline',
+                    'cache' => 'disabled'
+                ]
+            ];
+        }
+        
+        // Verificar se o schema está pronto
+        if (!$db->isDatabaseReady()) {
+            return [
+                'has_data' => false,
+                'reason' => 'Schema do banco não está completo',
+                'recommendations' => [
+                    'Execute o setup do banco de dados',
+                    'Verifique se todas as tabelas foram criadas',
+                    'Consulte a documentação de instalação'
+                ],
+                'system_health' => [
+                    'status' => 'warning',
+                    'database' => 'online',
+                    'cache' => 'disabled'
+                ]
+            ];
+        }
+        
+        $pdo = $db->getConnection();
+        
+        // Verificar se há pelo menos uma DI
+        $stmt = $pdo->query("SELECT COUNT(*) as count FROM declaracoes_importacao");
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($result['count'] == 0) {
+            return [
+                'has_data' => false,
+                'reason' => 'Nenhuma Declaração de Importação encontrada',
+                'recommendations' => [
+                    'Faça upload de arquivos XML de DI',
+                    'Use a funcionalidade de importação do sistema',
+                    'Verifique se os arquivos XML estão no formato correto'
+                ],
+                'system_health' => [
+                    'status' => 'healthy',
+                    'database' => 'online',
+                    'cache' => 'enabled'
+                ]
+            ];
+        }
+        
+        return [
+            'has_data' => true,
+            'total_dis' => (int)$result['count']
+        ];
+        
+    } catch (Exception $e) {
+        return [
+            'has_data' => false,
+            'reason' => 'Erro ao validar dados: ' . $e->getMessage(),
+            'recommendations' => [
+                'Verifique os logs do sistema',
+                'Confirme se o banco está funcionando',
+                'Entre em contato com o suporte técnico'
+            ],
+            'system_health' => [
+                'status' => 'error',
+                'database' => 'unknown',
+                'cache' => 'disabled',
+                'error' => $e->getMessage()
+            ]
+        ];
+    }
+}
+
+/**
+ * Estrutura vazia para overview
+ */
+function getEmptyOverview(): array 
+{
+    return [
+        'dis_periodo_atual' => 0,
+        'dis_variacao_pct' => 0,
+        'cif_periodo_atual' => 0.0,
+        'cif_variacao_pct' => 0,
+        'total_dis_processadas' => 0,
+        'total_importadores' => 0,
+        'taxa_usd_media' => 0.0
+    ];
+}
+
+/**
+ * Estrutura vazia para performance
+ */
+function getEmptyPerformance(): array 
+{
+    return [
+        'dis_completas' => 0,
+        'dis_pendentes' => 0,
+        'dis_erro' => 0,
+        'taxa_sucesso' => 0,
+        'tempo_medio_processamento' => 0
+    ];
+}
+
+/**
+ * Estrutura vazia para alertas
+ */
+function getEmptyAlerts(): array 
+{
+    return [
+        'total_alertas' => 0,
+        'afrmm_nao_validados' => 0,
+        'afrmm_divergencia_alta' => 0,
+        'dis_pendentes' => 0,
+        'dis_erro' => 0
     ];
 }

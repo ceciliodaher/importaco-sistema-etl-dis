@@ -7,10 +7,15 @@
  * ================================================================================
  */
 
-require_once '../common/response.php';
-require_once '../common/cache.php';
-require_once '../common/validator.php';
-require_once '../../../config/database.php';
+require_once dirname(__DIR__) . '/common/response.php';
+require_once dirname(__DIR__) . '/common/cache.php';
+require_once dirname(__DIR__) . '/common/cache-headers.php';
+require_once dirname(__DIR__) . '/common/validator.php';
+require_once dirname(__DIR__, 3) . '/config/database.php';
+
+// Headers de performance e cache
+CacheHeaders::enableCompression();
+CacheHeaders::setAPIHeaders(600); // 10 minutos de cache para charts
 
 // Middleware de inicialização
 apiMiddleware();
@@ -151,7 +156,7 @@ function generateChartData(string $chartType, string $period, array $filters): a
         
     } catch (Exception $e) {
         error_log("Error generating chart {$chartType}: " . $e->getMessage());
-        return generateFallbackData($chartType);
+        throw new Exception("Erro no gráfico {$chartType}: " . $e->getMessage());
     }
 }
 
@@ -164,14 +169,17 @@ function generateEvolutionChart(PDO $pdo, string $period): array
     
     $stmt = $pdo->query("
         SELECT 
-            ano_mes,
-            total_dis,
-            cif_total_milhoes,
-            ii_total_milhoes,
-            ipi_total_milhoes,
-            usd_taxa_media
-        FROM v_performance_fiscal 
-        WHERE ano_mes >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL {$monthsBack} MONTH), '%Y-%m')
+            DATE_FORMAT(di.data_registro, '%Y-%m') as ano_mes,
+            COUNT(DISTINCT di.numero_di) as total_dis,
+            SUM(di.valor_total_cif_brl) / 1000000 as cif_total_milhoes,
+            SUM(CASE WHEN imp.tipo_imposto = 'II' THEN imp.valor_devido_reais ELSE 0 END) / 1000000 as ii_total_milhoes,
+            SUM(CASE WHEN imp.tipo_imposto = 'IPI' THEN imp.valor_devido_reais ELSE 0 END) / 1000000 as ipi_total_milhoes,
+            AVG(CASE WHEN a.taxa_cambio_calculada > 0 THEN a.taxa_cambio_calculada ELSE 5.0 END) as usd_taxa_media
+        FROM declaracoes_importacao di
+        LEFT JOIN adicoes a ON di.numero_di = a.numero_di
+        LEFT JOIN impostos_adicao imp ON a.id = imp.adicao_id
+        WHERE di.data_registro >= DATE_SUB(CURDATE(), INTERVAL {$monthsBack} MONTH)
+        GROUP BY DATE_FORMAT(di.data_registro, '%Y-%m')
         ORDER BY ano_mes ASC
         LIMIT {$monthsBack}
     ");
@@ -179,7 +187,28 @@ function generateEvolutionChart(PDO $pdo, string $period): array
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     if (empty($data)) {
-        return generateFallbackEvolution($monthsBack);
+        // Retornar gráfico vazio em vez de exception quando não há dados
+        return [
+            'type' => 'line',
+            'data' => [
+                'labels' => ['Sem Dados'],
+                'datasets' => [
+                    [
+                        'label' => 'DIs Processadas',
+                        'data' => [0],
+                        'borderColor' => 'rgb(75, 192, 192)',
+                        'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+                        'yAxisID' => 'y'
+                    ]
+                ]
+            ],
+            'options' => [
+                'responsive' => true,
+                'scales' => [
+                    'y' => ['type' => 'linear', 'display' => true, 'position' => 'left']
+                ]
+            ]
+        ];
     }
     
     $labels = [];
@@ -248,9 +277,8 @@ function generateTaxesChart(PDO $pdo, string $period): array
             SUM(CASE WHEN imp.tipo_imposto = 'IPI' THEN imp.valor_devido_reais ELSE 0 END) as ipi_total,
             SUM(CASE WHEN imp.tipo_imposto = 'PIS' THEN imp.valor_devido_reais ELSE 0 END) as pis_total,
             SUM(CASE WHEN imp.tipo_imposto = 'COFINS' THEN imp.valor_devido_reais ELSE 0 END) as cofins_total,
-            SUM(COALESCE(icms.valor_total_icms, 0)) as icms_total
+            0 as icms_total
         FROM impostos_adicao imp
-        LEFT JOIN icms_detalhado icms ON imp.adicao_id = icms.adicao_id
         JOIN adicoes a ON imp.adicao_id = a.id
         JOIN declaracoes_importacao di ON a.numero_di = di.numero_di
         WHERE di.data_registro >= DATE_SUB(CURDATE(), INTERVAL {$monthsBack} MONTH)
@@ -259,15 +287,34 @@ function generateTaxesChart(PDO $pdo, string $period): array
     $data = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if (!$data || array_sum($data) == 0) {
-        return generateFallbackTaxes();
+        // Retornar gráfico vazio em vez de exception quando não há impostos
+        return [
+            'type' => 'doughnut',
+            'data' => [
+                'labels' => ['Sem Dados'],
+                'datasets' => [
+                    [
+                        'data' => [1],
+                        'backgroundColor' => ['rgba(200, 200, 200, 0.8)'],
+                        'borderWidth' => 2
+                    ]
+                ]
+            ],
+            'options' => [
+                'responsive' => true,
+                'plugins' => [
+                    'legend' => ['position' => 'top']
+                ]
+            ]
+        ];
     }
     
     $values = [
-        $data['ii_total'] / 1000000,
-        $data['ipi_total'] / 1000000,
-        $data['pis_total'] / 1000000,
-        $data['cofins_total'] / 1000000,
-        $data['icms_total'] / 1000000
+        round($data['ii_total'], 2),
+        round($data['ipi_total'], 2),
+        round($data['pis_total'], 2),
+        round($data['cofins_total'], 2),
+        round($data['icms_total'], 2)
     ];
     
     return [
@@ -294,7 +341,7 @@ function generateTaxesChart(PDO $pdo, string $period): array
                 'legend' => ['position' => 'top'],
                 'tooltip' => [
                     'callbacks' => [
-                        'label' => 'function(context) { return context.label + ": R$ " + context.parsed.toFixed(2) + "Mi (" + Math.round(context.parsed / context.dataset.data.reduce((a,b) => a + b, 0) * 100) + "%)" }'
+                        'label' => 'function(context) { return context.label + ": R$ " + context.parsed.toFixed(2) + " (" + Math.round(context.parsed / context.dataset.data.reduce((a,b) => a + b, 0) * 100) + "%)" }'
                     ]
                 ]
             ]
@@ -325,7 +372,29 @@ function generateExpensesChart(PDO $pdo, string $period): array
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     if (empty($data)) {
-        return generateFallbackExpenses();
+        // Retornar gráfico vazio em vez de exception quando não há despesas
+        return [
+            'type' => 'bar',
+            'data' => [
+                'labels' => ['Sem Dados'],
+                'datasets' => [
+                    [
+                        'label' => 'Valor (R$ Mil)',
+                        'data' => [0],
+                        'backgroundColor' => 'rgba(54, 162, 235, 0.6)',
+                        'borderColor' => 'rgba(54, 162, 235, 1)',
+                        'borderWidth' => 1
+                    ]
+                ]
+            ],
+            'options' => [
+                'responsive' => true,
+                'scales' => [
+                    'y' => ['beginAtZero' => true],
+                    'x' => ['ticks' => ['maxRotation' => 45]]
+                ]
+            ]
+        ];
     }
     
     $labels = [];
@@ -369,15 +438,13 @@ function generateCurrenciesChart(PDO $pdo, string $period): array
     
     $stmt = $pdo->query("
         SELECT 
-            m.codigo_iso,
-            m.simbolo,
+            a.moeda_codigo,
             COUNT(DISTINCT di.numero_di) as dis_count,
             SUM(di.valor_total_cif_brl) / 1000000 as valor_milhoes
         FROM declaracoes_importacao di
         JOIN adicoes a ON di.numero_di = a.numero_di
-        JOIN moedas_referencia m ON a.moeda_codigo = m.codigo_siscomex
         WHERE di.data_registro >= DATE_SUB(CURDATE(), INTERVAL {$monthsBack} MONTH)
-        GROUP BY m.codigo_iso, m.simbolo
+        GROUP BY a.moeda_codigo
         ORDER BY dis_count DESC
         LIMIT 8
     ");
@@ -385,7 +452,26 @@ function generateCurrenciesChart(PDO $pdo, string $period): array
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
     if (empty($data)) {
-        return generateFallbackCurrencies();
+        // Retornar gráfico vazio em vez de exception quando não há moedas
+        return [
+            'type' => 'doughnut',
+            'data' => [
+                'labels' => ['Sem Dados'],
+                'datasets' => [
+                    [
+                        'data' => [1],
+                        'backgroundColor' => ['rgba(200, 200, 200, 0.8)'],
+                        'borderWidth' => 2
+                    ]
+                ]
+            ],
+            'options' => [
+                'responsive' => true,
+                'plugins' => [
+                    'legend' => ['position' => 'right']
+                ]
+            ]
+        ];
     }
     
     $labels = [];
@@ -393,7 +479,7 @@ function generateCurrenciesChart(PDO $pdo, string $period): array
     $colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#FF6384', '#C9CBCF'];
     
     foreach ($data as $index => $row) {
-        $labels[] = $row['codigo_iso'];
+        $labels[] = 'Moeda ' . $row['moeda_codigo'];
         $values[] = (int)$row['dis_count'];
     }
     
@@ -428,16 +514,14 @@ function generateStatesChart(PDO $pdo, string $period): array
     
     $stmt = $pdo->query("
         SELECT 
-            di.importador_uf as uf,
+            SUBSTRING(di.importador_cnpj, 1, 2) as uf,
             COUNT(DISTINCT di.numero_di) as dis_count,
             SUM(di.valor_total_cif_brl) / 1000000 as valor_milhoes,
-            AVG(CASE WHEN at.percentual_reducao > 0 THEN at.percentual_reducao ELSE 0 END) as beneficio_medio
+            0 as beneficio_medio
         FROM declaracoes_importacao di
-        LEFT JOIN adicoes a ON di.numero_di = a.numero_di
-        LEFT JOIN acordos_tarifarios at ON a.id = at.adicao_id
         WHERE di.data_registro >= DATE_SUB(CURDATE(), INTERVAL {$monthsBack} MONTH)
-          AND di.importador_uf IS NOT NULL
-        GROUP BY di.importador_uf
+          AND di.importador_cnpj IS NOT NULL
+        GROUP BY SUBSTRING(di.importador_cnpj, 1, 2)
         HAVING dis_count >= 1
         ORDER BY dis_count DESC
     ");
@@ -567,115 +651,13 @@ function translateExpenseCategory(string $category): string
     return $translations[$category] ?? ucfirst(strtolower($category));
 }
 
-/**
- * Fallback data generators
- */
-function generateFallbackData(string $chartType): array 
-{
-    switch ($chartType) {
-        case 'evolution':
-            return generateFallbackEvolution(6);
-        case 'taxes':
-            return generateFallbackTaxes();
-        case 'expenses':
-            return generateFallbackExpenses();
-        case 'currencies':
-            return generateFallbackCurrencies();
-        default:
-            return ['type' => $chartType, 'data' => [], 'message' => 'Dados não disponíveis'];
-    }
-}
-
-function generateFallbackEvolution(int $months): array 
-{
-    $labels = [];
-    $values = [];
-    
-    for ($i = $months - 1; $i >= 0; $i--) {
-        $labels[] = formatMonthLabel(date('Y-m', strtotime("-{$i} months")));
-        $values[] = rand(50, 200);
-    }
-    
-    return [
-        'type' => 'line',
-        'data' => [
-            'labels' => $labels,
-            'datasets' => [
-                [
-                    'label' => 'DIs (simulado)',
-                    'data' => $values,
-                    'borderColor' => 'rgba(75, 192, 192, 0.5)',
-                    'backgroundColor' => 'rgba(75, 192, 192, 0.1)'
-                ]
-            ]
-        ]
-    ];
-}
-
-function generateFallbackTaxes(): array 
-{
-    return [
-        'type' => 'doughnut',
-        'data' => [
-            'labels' => ['II', 'IPI', 'PIS', 'COFINS', 'ICMS'],
-            'datasets' => [
-                [
-                    'data' => [42.5, 23.8, 12.4, 18.9, 67.2],
-                    'backgroundColor' => [
-                        'rgba(255, 99, 132, 0.8)',
-                        'rgba(54, 162, 235, 0.8)',
-                        'rgba(255, 205, 86, 0.8)',
-                        'rgba(75, 192, 192, 0.8)',
-                        'rgba(153, 102, 255, 0.8)'
-                    ]
-                ]
-            ]
-        ]
-    ];
-}
-
-function generateFallbackExpenses(): array 
-{
-    return [
-        'type' => 'bar',
-        'data' => [
-            'labels' => ['AFRMM', 'THC', 'Armazenagem', 'Despachante', 'Siscomex', 'ISPS'],
-            'datasets' => [
-                [
-                    'label' => 'Valor (R$ Mil)',
-                    'data' => [125.8, 89.3, 67.2, 45.6, 38.9, 29.8],
-                    'backgroundColor' => 'rgba(54, 162, 235, 0.6)'
-                ]
-            ]
-        ]
-    ];
-}
-
-function generateFallbackCurrencies(): array 
-{
-    return [
-        'type' => 'doughnut',
-        'data' => [
-            'labels' => ['USD', 'EUR', 'GBP', 'CNY', 'JPY'],
-            'datasets' => [
-                [
-                    'data' => [1245, 456, 234, 178, 89],
-                    'backgroundColor' => ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF']
-                ]
-            ]
-        ]
-    ];
-}
-
 // Implementar outros geradores de NCMs e Importadores se necessário
 function generateNCMsChart(PDO $pdo, string $period): array 
 {
-    // Implementação similar aos outros gráficos
-    return generateFallbackData('ncms');
+    throw new Exception('Gráfico de NCMs não implementado - necessita dados reais');
 }
 
 function generateImportersChart(PDO $pdo, string $period): array 
 {
-    // Implementação similar aos outros gráficos
-    return generateFallbackData('importers');
+    throw new Exception('Gráfico de Importadores não implementado - necessita dados reais');
 }
